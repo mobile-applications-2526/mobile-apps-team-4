@@ -1,0 +1,48 @@
+### BACKEND ###
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.nar
+backend/*.ear
+backend/*.zip
+backend/*.tar.gz
+backend/*.rar
+
+### FRONTEND ###
+frontend/.expo
+frontend/__generated__
+frontend/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+frontend/pids
+frontend/*.pid
+frontend/*.seed
+frontend/*.pid.lock
+frontend/lib-cov
+frontend/bower_components
+frontend/.lock-wscript
+frontend/build/Release
+frontend/node_modules/
+frontend/*.tsbuildinfo
+frontend/.npm
+frontend/.eslintcache
+frontend/.cache/
+frontend/*.jks
+frontend/*.keystore
+
+# Android Studio
+frontend/captures/
+frontend/.externalNativeBuild/
+frontend/.cxx/
+frontend/*.apk
+frontend/output.json
+
+# Xcode
+frontend/xcuserdata/
+frontend/*.xcscmblueprint
+frontend/*.xccheckout
+
+### GENERAL
+*.log
+*.env*
+.DS_Store
+.AppleDouble
+.LSOverride
