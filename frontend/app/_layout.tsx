@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
 
-import SessionProvider, { useSession } from '../context/AuthContext';
+import SessionProvider, { useSession } from '../src/context/AuthContext';
 import SplashScreenController from './splash';
 
 export const unstable_settings = {

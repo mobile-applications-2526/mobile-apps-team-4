@@ -1,4 +1,4 @@
-import Login from '@/components/auth/Login';
+import Login from '@/src/components/auth/Login';
 
 export default function SignIn() {
 

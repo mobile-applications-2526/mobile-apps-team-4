@@ -4,7 +4,7 @@ import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingV
 import { Image } from 'expo-image';
 import { images } from "@/assets/images";
 import { useRouter } from "expo-router";
-import isValidEmail from "@/utils/isValidEmail";
+import isValidEmail from "@/src/utils/isValidEmail";
 
 export default function Signup() {
   const { signIn } = useSession();
