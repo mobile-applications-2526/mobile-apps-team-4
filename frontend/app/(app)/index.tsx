@@ -1,15 +1,75 @@
-import { Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import useGlobalStyles from '@/styles/global';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PageHeading from '@/components/ui/PageHeading';
+import Map from '@/components/ui/Map';
+import { MapPin } from '@/types';
+import { router } from 'expo-router';
 
 export default function Index() {
   const styles = useGlobalStyles();
 
+  const markers: MapPin[] = [
+    {
+      title: 'Coffee Break',
+      coordinates: { lat: 50.879, lon: 4.700 },
+      icon: { name: 'cup.and.saucer.fill', color: '#D2691E' },
+    },
+    {
+      title: 'Library Visit',
+      coordinates: { lat: 50.8795, lon: 4.703 },
+      icon: { name: 'books.vertical.fill', color: '#1E90FF' },
+    },
+    {
+      title: 'Bike Ride',
+      coordinates: { lat: 50.875, lon: 4.709 },
+      icon: { name: 'bicycle', color: '#32CD32' },
+    },
+    {
+      title: 'Concert',
+      coordinates: { lat: 50.872, lon: 4.705 },
+      icon: { name: 'music.note.house.fill', color: '#FF1493' },
+    },
+    {
+      title: 'Picnic',
+      coordinates: { lat: 50.876, lon: 4.710 },
+      icon: { name: 'leaf.fill', color: '#228B22' },
+    },
+    {
+      title: 'Art Exhibition',
+      coordinates: { lat: 50.878, lon: 4.707 },
+      icon: { name: 'paintpalette.fill', color: '#FF8C00' },
+    },
+    {
+      title: 'Movie Night',
+      coordinates: { lat: 50.874, lon: 4.704 },
+      icon: { name: 'film.fill', color: '#8A2BE2' },
+    },
+    {
+      title: 'Yoga Class',
+      coordinates: { lat: 50.877, lon: 4.708 },
+      icon: { name: 'figure.walk', color: '#00CED1' },
+    },
+    {
+      title: 'Farmers Market',
+      coordinates: { lat: 50.873, lon: 4.702 },
+      icon: { name: 'cart.fill', color: '#FFA500' },
+    },
+    {
+      title: 'Tech Meetup',
+      coordinates: { lat: 50.8755, lon: 4.7065 },
+      icon: { name: 'desktopcomputer', color: '#4682B4' },
+    },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
-      <PageHeading name='Home' />
+      <PageHeading name='Home' onAdd={() => router.push('/(modals)/createActivity')} />
+
+      <ScrollView style={{ flex: 1 }}>
+        <Map markers={markers} />
+      </ScrollView>
       
     </SafeAreaView>
   );

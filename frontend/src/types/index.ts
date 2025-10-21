@@ -1,4 +1,4 @@
-
+import { IconSymbolName } from "@/components/ui/icon-symbol";
 
 export type User = {
   id: number,
@@ -17,4 +17,17 @@ export type Group = {
   name: string,
   groupLeader: User,
   members: User[],
+};
+
+export type MapPin = {
+  title: string,
+  description?: string,
+  icon?: {
+    name: IconSymbolName,
+    color: string,
+  },
+  coordinates: {
+    lat: number, 
+    lon: number,
+  },
 };
