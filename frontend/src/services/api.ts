@@ -11,7 +11,7 @@ export const getToken = async (): Promise<string | null> => {
 
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',

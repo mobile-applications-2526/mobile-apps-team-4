@@ -11,7 +11,8 @@ export default function useGlobalStyles() {
     container: {
       backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
       flex: 1,
-      padding: 8,
+      borderColor: 'red',
+      padding: 12,
     },
     containerCenter: {
       backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
@@ -21,9 +22,16 @@ export default function useGlobalStyles() {
     },
     heading: {
       color,
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: 'bold',
       marginVertical: 8,
+    },
+    pageHeading: {
+      color,
+      fontSize: 32,
+      fontWeight: 'bold',
+      // marginTop: 28,
+      // marginBottom: 8,
     },
     text: {
       color,
@@ -67,7 +75,7 @@ export default function useGlobalStyles() {
     },
     input: {
       color,
-      borderColor: isDark ? '#555' : '#ccc',
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
       borderWidth: 1,
       padding: 8,
       marginBottom: 12,
@@ -77,5 +85,13 @@ export default function useGlobalStyles() {
       color: 'red',
       marginBottom: 8,
     },
+    listItem: {
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
+      flexDirection: 'row',
+      flex: 1,
+    }
   });
 }

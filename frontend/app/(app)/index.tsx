@@ -1,20 +1,16 @@
 import { Text, View } from 'react-native';
 
-import { useSession } from '../../src/context/AuthContext';
+import useGlobalStyles from '@/styles/global';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import PageHeading from '@/components/ui/PageHeading';
 
 export default function Index() {
-  const { signOut } = useSession();
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text
-        onPress={() => {
-          // The `app/(app)/_layout.tsx` redirects to the sign-in screen.
-          signOut();
-        }}>
-        Sign Out
-      </Text>
+  const styles = useGlobalStyles();
 
-      <Text>Home Page</Text>
-    </View>
+  return (
+    <SafeAreaView style={styles.container}>
+      <PageHeading name='Home' />
+      
+    </SafeAreaView>
   );
 }
