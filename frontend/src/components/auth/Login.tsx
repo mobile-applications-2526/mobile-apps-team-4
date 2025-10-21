@@ -5,6 +5,7 @@ import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 import useGlobalStyles from "@/styles/global";
+import UserService from "@/services/UserService";
 
 export default function Login() {
   const { signIn } = useSession();
@@ -17,7 +18,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setLoading(true);
 
     if (!email || !email.includes('@')) {
@@ -33,10 +34,15 @@ export default function Login() {
     }
 
     // sign in api request
-
-    setError('');
-    signIn();
-    setLoading(false);
+    try {
+      const res = await UserService.loginUser(email, password);
+      if (res && res.name) signIn();
+      else setError('Email or password not correct');
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
   }
   
   return (
