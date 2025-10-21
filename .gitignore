@@ -7,7 +7,7 @@ backend/*.ear
 backend/*.zip
 backend/*.tar.gz
 backend/*.rar
-
+backend/target
 ### FRONTEND ###
 frontend/.expo
 frontend/__generated__
