@@ -1,87 +1,32 @@
+import { Colors } from '@/constants/theme';
 import { StyleSheet, useColorScheme } from 'react-native';
+import { baseButton } from './base';
 
 
 export default function useGlobalStyles() {
   const isDark = useColorScheme() === 'dark';
+  const color = isDark ? Colors.dark.text : Colors.light.text;
 
   return StyleSheet.create({
     container: {
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
       flex: 1,
       padding: 8,
-      backgroundColor: isDark ? '#000' : '#fff',
     },
     containerCenter: {
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
       flex: 1,
       padding: 8,
-      backgroundColor: isDark ? '#000' : '#fff',
       justifyContent: 'center',  
     },
     heading: {
-      color: isDark ? '#fff' : '#000',
+      color,
       fontSize: 24,
       fontWeight: 'bold',
       marginVertical: 8,
     },
     text: {
-      color: isDark ? '#fff' : '#000',
-    },
-    courseTitle: {
-      color: isDark ? '#fff' : '#000',
-      fontWeight: 'bold',
-      fontSize: 20,
-      flexShrink: 1,
-      paddingLeft: 6,
-    },
-    courseItem: {
-      padding: 12,
-      borderBottomWidth: 1,
-      borderColor: isDark ? '#555' : '#ccc',
-      flexDirection: 'row',
-      flex: 1,
-    },
-    courseItemImage: {
-      width: 80,
-      height: 80,
-      borderRadius: 8,
-    },
-    courseNavigation: {
-      color: isDark ? '#fff' : '#000',
-      backgroundColor: isDark ? '#111' : '#eee',
-      padding: 14,
-    },
-    courseNavigationPart: {
-      color: isDark ? '#fff' : '#000',
-      fontWeight: 'bold',
-      paddingVertical: 4,
-      fontSize: 24,
-    },
-    courseNavigationChapter: {
-      color: isDark ? '#fff' : '#000',
-      paddingVertical: 4,
-      paddingLeft: 8,
-      fontSize: 20,
-    },
-    paragraph: {
-      color: isDark ? '#fff' : '#000',
-      fontSize: 16,
-      lineHeight: 22,
-      marginVertical: 4,
-    },
-    link: {
-      color: isDark ? '#63ABF8' : '#0965C8',
-      textDecorationLine: 'underline',
-    },
-    listItem: {
-      color: isDark ? '#fff' : '#000',
-      marginVertical: 2,
-      paddingLeft: 16,
-    },
-    quote: {
-      color: isDark ? '#fff' : '#000',
-      borderLeftWidth: 4,
-      borderLeftColor: '#ccc',
-      paddingLeft: 8,
-      marginVertical: 8,
+      color,
     },
     image: {
       width: 200,
@@ -94,41 +39,36 @@ export default function useGlobalStyles() {
       borderBottomColor: '#eee',
     },
     button: {
-      backgroundColor: '#4cb43c',
-      borderRadius: 4,
+      ...baseButton,
+      borderColor: isDark ? Colors.dark.tint : Colors.light.tint,
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
+    },
+    buttonHighlight: {
+      ...baseButton,
+      borderColor: isDark ? Colors.dark.tint : Colors.light.tint,
+      backgroundColor: isDark ? Colors.dark.tint : Colors.light.tint,
     },
     buttonText: {
-      padding: 14,
-      fontSize: 16,
-      color: isDark ? '#000' : '#fff',
-      fontWeight: 'bold',
+      color: isDark ? Colors.dark.tint : Colors.light.tint,
       textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
     },
-    fab: {
-      position: 'absolute',
-      bottom: 24,
-      right: 24,
-      backgroundColor: '#4cb43c',
-      width: 54,
-      height: 54,
-      borderRadius: 30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      elevation: 5, // shadow for Android
-      shadowColor: '#000', // shadow for iOS
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 3,
+    buttonHighlightText: {
+      color: isDark ? Colors.light.text : Colors.dark.text,
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
     },
     label: {
-      color: isDark ? '#fff' : '#000',
+      color,
       fontWeight: 'bold',
       marginBottom: 4,
     },
     input: {
-      color: isDark ? '#fff' : '#000',
+      color,
+      borderColor: isDark ? '#555' : '#ccc',
       borderWidth: 1,
-      borderColor: '#ccc',
       padding: 8,
       marginBottom: 12,
       borderRadius: 6,
