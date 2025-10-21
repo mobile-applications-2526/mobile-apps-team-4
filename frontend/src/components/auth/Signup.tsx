@@ -8,6 +8,7 @@ import isValidEmail from "@/utils/isValidEmail";
 import useGlobalStyles from "@/styles/global";
 import Button from "../inputs/Button";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import UserService from "@/services/UserService";
 
 export default function Signup() {
   const { signIn } = useSession();
@@ -26,7 +27,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSignup = () => {
+  const handleRegister = async () => {
     setLoading(true);
 
     try {
@@ -55,8 +56,21 @@ export default function Signup() {
         return;
       }
 
-      setError('');
-      signIn();
+      if (password.length < 8) {
+        setError('Your password should contain at least 8 characters');
+        return;
+      }
+
+      // sign in api request
+      try {
+        const res = await UserService.register(email, password, name);
+        if (res && res.name) signIn();
+        else setError(JSON.stringify(res));
+      } catch (err) {
+        setError(String(err));
+      } finally {
+        setLoading(false);
+      }
 
     } finally {
       setLoading(false);
@@ -134,7 +148,7 @@ export default function Signup() {
         <ActivityIndicator />
       ) : (
         <>
-          <Button label="Sign up" onPress={handleSignup} />
+          <Button label="Sign up" onPress={handleRegister} />
           <Button label="Log in" onPress={() => router.push('/(auth)/signIn')} highlight={false} />
         </>
       )}

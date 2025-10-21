@@ -36,7 +36,7 @@ export default function Login() {
 
     // sign in api request
     try {
-      const res = await UserService.loginUser(email, password);
+      const res = await UserService.login(email, password);
       if (res && res.name) signIn();
       else setError('Email or password not correct');
     } catch (err) {

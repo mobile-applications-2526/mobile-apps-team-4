@@ -15,6 +15,6 @@ export type Activity = {
 export type Group = {
   id: number,
   name: string,
-  owner: number,
-  members: number[],
+  groupLeader: User,
+  members: User[],
 };
