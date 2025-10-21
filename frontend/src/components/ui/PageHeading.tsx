@@ -1,5 +1,5 @@
 import useGlobalStyles from "@/styles/global";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { IconSymbol } from "./icon-symbol";
 import { Colors } from "@/constants/theme";
 
@@ -11,6 +11,8 @@ interface Props {
 
 const PageHeading = ({ name, onAdd, onExtraOptions }: Props) => {
   const styles = useGlobalStyles();
+  const isDark = useColorScheme() === 'dark';
+  
   const hasButtons = !!onAdd || !!onExtraOptions;
   
   return (
@@ -18,14 +20,33 @@ const PageHeading = ({ name, onAdd, onExtraOptions }: Props) => {
 
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         {onExtraOptions && (
-          <TouchableOpacity onPress={onExtraOptions} style={{ padding: 4, backgroundColor: 'lightgrey', borderRadius: 50, width: 26, height: 26 }}>
+          <TouchableOpacity
+            onPress={onExtraOptions}
+            style={{
+              padding: 4,
+              backgroundColor: 'lightgrey',
+              borderRadius: 50,
+              width: 26,
+              height: 26,
+            }}
+          >
             <IconSymbol size={18} name="ellipsis" color={Colors.light.text} />
           </TouchableOpacity>
         )}
 
         {onAdd && (
-          <TouchableOpacity onPress={onAdd} style={{ padding: 4, backgroundColor: Colors.light.tint, borderRadius: 50, marginLeft: 'auto', width: 26, height: 26 }}>
-            <IconSymbol size={18} name="plus" color={Colors.dark.text} />
+          <TouchableOpacity
+            onPress={onAdd}
+            style={{
+              padding: 4,
+              backgroundColor: isDark ? Colors.dark.tint : Colors.light.tint, 
+              borderRadius: 50,
+              marginLeft: 'auto',
+              width: 26,
+              height: 26,
+            }}
+          >
+            <IconSymbol size={18} name="plus" color={isDark ? Colors.light.text : Colors.dark.text} />
           </TouchableOpacity>
         )}
       </View>

@@ -11,7 +11,6 @@ export default function useGlobalStyles() {
     container: {
       backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
       flex: 1,
-      borderColor: 'red',
       padding: 12,
     },
     containerCenter: {
@@ -19,6 +18,10 @@ export default function useGlobalStyles() {
       flex: 1,
       padding: 8,
       justifyContent: 'center',  
+    },
+    containerNoPadding: {
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
+      flex: 1,
     },
     heading: {
       color,
@@ -92,6 +95,11 @@ export default function useGlobalStyles() {
       borderColor: isDark ? Colors.dark.border : Colors.light.border,
       flexDirection: 'row',
       flex: 1,
-    }
+    },
+    map: {
+      flex: 1,
+      borderRadius: 12,
+      height: 500,
+    },
   });
-}
+};
