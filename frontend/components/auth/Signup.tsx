@@ -1,39 +1,68 @@
 import { useSession } from "../../context/AuthContext";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View } from "react-native";
 import { Image } from 'expo-image';
 import { images } from "@/assets/images";
 import { useRouter } from "expo-router";
+import isValidEmail from "@/utils/isValidEmail";
 
 export default function Signup() {
   const { signIn } = useSession();
   const router = useRouter();
 
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+  const passwordConfirmInputRef = useRef<TextInput>(null);
+  
+
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSignup = () => {
     setLoading(true);
 
-    if (!email || !email.includes('@')) {
-      setError('No valid email given');
+    try {
+      if (!name) {
+        setError('');
+        return;
+      }
+  
+      if (!email || !isValidEmail(email)) {
+        setError('No valid email given');
+        return;
+      }
+  
+      if (!password) {
+        setError('No password given');
+        return;
+      }
+  
+      if (!passwordConfirm) {
+        setError('Please repeat your password');
+        return;
+      }
+  
+      if (password !== passwordConfirm) {
+        setError('Passwords do not match');
+        return;
+      }
+
+      setError('');
+      signIn();
+
+    } finally {
       setLoading(false);
-      return;
     }
 
-    if (!password) {
-      setError('No password given');
-      setLoading(false);
-      return;
-    }
 
     // sign in api request
 
-    setError('');
-    signIn();
-    setLoading(false);
+    
   }
   
   return (
@@ -46,13 +75,34 @@ export default function Signup() {
         />
       </View>
 
+      <Text style={{ fontWeight: 'bold' }}>Name</Text>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        autoCapitalize="none"
+        keyboardType="default"
+        placeholder='Name'
+        returnKeyType="next"
+        onSubmitEditing={() => emailInputRef.current?.focus()}
+        style={{
+          borderWidth: 1,
+          borderColor: '#ccc',
+          padding: 8,
+          marginBottom: 12,
+          borderRadius: 6,
+        }}
+      />
+
       <Text style={{ fontWeight: 'bold' }}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
+        ref={emailInputRef}
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder='Email'
+        returnKeyType="next"
+        onSubmitEditing={() => passwordInputRef.current?.focus()}
         style={{
           borderWidth: 1,
           borderColor: '#ccc',
@@ -66,8 +116,27 @@ export default function Signup() {
       <TextInput
         value={password}
         onChangeText={setPassword}
+        ref={passwordInputRef}
         secureTextEntry
         placeholder='Password'
+        returnKeyType="next"
+        onSubmitEditing={() => passwordConfirmInputRef.current?.focus()}
+        style={{
+          borderWidth: 1,
+          borderColor: '#ccc',
+          padding: 8,
+          marginBottom: 20,
+          borderRadius: 6,
+        }}
+      />
+
+      <Text style={{ fontWeight: 'bold' }}>Confirm password</Text>
+      <TextInput
+        value={passwordConfirm}
+        onChangeText={setPasswordConfirm}
+        ref={passwordConfirmInputRef}
+        secureTextEntry
+        placeholder='Confirm password'
         style={{
           borderWidth: 1,
           borderColor: '#ccc',
