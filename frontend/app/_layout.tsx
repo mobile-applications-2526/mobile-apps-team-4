@@ -1,7 +1,7 @@
 import { SplashScreen, Stack } from 'expo-router';
 import 'react-native-reanimated';
 
-import SessionProvider, { useSession } from '../src/context/AuthContext';
+import SessionProvider, { useSession } from '@/context/AuthContext';
 import SplashScreenController from './splash';
 
 SplashScreen.preventAutoHideAsync();

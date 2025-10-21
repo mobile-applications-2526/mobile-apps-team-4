@@ -5,16 +5,18 @@ import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 import isValidEmail from "@/utils/isValidEmail";
+import useGlobalStyles from "@/styles/global";
+import Button from "../inputs/Button";
 
 export default function Signup() {
   const { signIn } = useSession();
   const router = useRouter();
+  const styles = useGlobalStyles();
 
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const passwordConfirmInputRef = useRef<TextInput>(null);
   
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,11 +60,6 @@ export default function Signup() {
     } finally {
       setLoading(false);
     }
-
-
-    // sign in api request
-
-    
   }
   
   return (
@@ -84,13 +81,7 @@ export default function Signup() {
         placeholder='Name'
         returnKeyType="next"
         onSubmitEditing={() => emailInputRef.current?.focus()}
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 8,
-          marginBottom: 12,
-          borderRadius: 6,
-        }}
+        style={styles.input}
       />
 
       <Text style={{ fontWeight: 'bold' }}>Email</Text>
@@ -103,13 +94,7 @@ export default function Signup() {
         placeholder='Email'
         returnKeyType="next"
         onSubmitEditing={() => passwordInputRef.current?.focus()}
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 8,
-          marginBottom: 12,
-          borderRadius: 6,
-        }}
+        style={styles.input}
       />
 
       <Text style={{ fontWeight: 'bold' }}>Password</Text>
@@ -121,13 +106,7 @@ export default function Signup() {
         placeholder='Password'
         returnKeyType="next"
         onSubmitEditing={() => passwordConfirmInputRef.current?.focus()}
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 8,
-          marginBottom: 20,
-          borderRadius: 6,
-        }}
+        style={styles.input}
       />
 
       <Text style={{ fontWeight: 'bold' }}>Confirm password</Text>
@@ -137,13 +116,7 @@ export default function Signup() {
         ref={passwordConfirmInputRef}
         secureTextEntry
         placeholder='Confirm password'
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 8,
-          marginBottom: 20,
-          borderRadius: 6,
-        }}
+        style={styles.input}
       />
 
       {error ? <Text style={{ color: 'red', paddingBottom: 8 }}>{error}</Text> : null}
@@ -152,23 +125,8 @@ export default function Signup() {
         <ActivityIndicator />
       ) : (
         <>
-          <TouchableOpacity
-            onPress={handleSignup}
-            style={{ width: '100%', backgroundColor: 'black', borderWidth: 1, padding: 8, borderRadius: 8, alignItems: 'center', marginBottom: 4 }}
-          >
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
-              Sign up
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => router.push('/(auth)/sign-in')}
-            style={{ width: '100%', backgroundColor: 'white', borderWidth: 1, padding: 8, borderRadius: 8, alignItems: 'center', marginBottom: 4 }}
-          >
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}>
-              Log in
-            </Text>
-          </TouchableOpacity>
+          <Button label="Sign up" onPress={handleSignup} />
+          <Button label="Log in" onPress={() => router.push('/(auth)/signIn')} highlight={false} />
         </>
       )}
 
