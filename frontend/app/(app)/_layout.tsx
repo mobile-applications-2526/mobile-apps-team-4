@@ -1,16 +1,22 @@
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
 import { Tabs } from 'expo-router';
+import { useColorScheme } from 'react-native';
 
 export default function AppLayout() {
-  // This renders the navigation stack for all authenticated app routes.
+  const isDark = useColorScheme() === 'dark';
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: isDark ? Colors.dark.tabIconSelected : Colors.light.tabIconSelected,
+        tabBarInactiveTintColor: isDark ? Colors.dark.tabIconDefault : Colors.light.tabIconDefault,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarStyle: {
+          backgroundColor: isDark ? Colors.dark.tabBackground : Colors.light.tabBackground,
+        },
       }}>
       <Tabs.Screen
         name="index"
