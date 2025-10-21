@@ -6,6 +6,7 @@ import Button from '@/components/inputs/Button';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PageHeading from '@/components/ui/PageHeading';
+import { router } from 'expo-router';
 
 export default function Index() {
   const { signOut } = useSession();
@@ -15,7 +16,8 @@ export default function Index() {
 
   useEffect(() => {
     const getUser = async () => {
-      setUser(JSON.parse(await AsyncStorage.getItem('user') || ''));
+      const savedUser = await AsyncStorage.getItem('user');
+      setUser(savedUser ? JSON.parse(savedUser) : undefined);
     };
 
     getUser();
@@ -24,7 +26,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
 
-      <PageHeading name='Account' onExtraOptions={() => {}} />
+      <PageHeading name='Account' onExtraOptions={() => router.push('/(modals)/logout')} />
 
       <View style={{ marginBottom: 20 }}>
 
@@ -37,12 +39,6 @@ export default function Index() {
         </Text>
 
       </View>
-
-      <Button
-        onPress={signOut}
-        label='Sign out'
-        highlight={false}
-      />
 
     </SafeAreaView>
   );

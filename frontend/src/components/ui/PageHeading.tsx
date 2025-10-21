@@ -18,13 +18,13 @@ const PageHeading = ({ name, onAdd, onExtraOptions }: Props) => {
 
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         {onExtraOptions && (
-          <TouchableOpacity style={{ padding: 4, backgroundColor: 'lightgrey', borderRadius: 50 }}>
+          <TouchableOpacity onPress={onExtraOptions} style={{ padding: 4, backgroundColor: 'lightgrey', borderRadius: 50, width: 26, height: 26 }}>
             <IconSymbol size={18} name="ellipsis" color={Colors.light.text} />
           </TouchableOpacity>
         )}
 
         {onAdd && (
-          <TouchableOpacity style={{ padding: 4, backgroundColor: Colors.light.tint, borderRadius: 50, marginLeft: 'auto' }}>
+          <TouchableOpacity onPress={onAdd} style={{ padding: 4, backgroundColor: Colors.light.tint, borderRadius: 50, marginLeft: 'auto', width: 26, height: 26 }}>
             <IconSymbol size={18} name="plus" color={Colors.dark.text} />
           </TouchableOpacity>
         )}

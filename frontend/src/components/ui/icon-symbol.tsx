@@ -19,6 +19,7 @@ const MAPPING = {
   'person.fill': 'person',
   'ellipsis': 'more-horiz',
   'plus': 'add',
+  'xmark': 'close',
 } as IconMapping;
 
 /**

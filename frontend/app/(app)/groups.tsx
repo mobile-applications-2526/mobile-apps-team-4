@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import GroupsList from '@/components/ui/GroupsList';
 import { Group } from '@/types';
 import PageHeading from '@/components/ui/PageHeading';
+import { router } from 'expo-router';
 
 export default function Groups() {
   const styles = useGlobalStyles();
@@ -26,7 +27,7 @@ export default function Groups() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <PageHeading name='Groups' onAdd={() => {}} onExtraOptions={() => {}} />
+      <PageHeading name='Groups' onAdd={() => router.push('/(modals)/createGroup')} onExtraOptions={() => {}} />
       
       <GroupsList groups={groups} />
     </SafeAreaView>
