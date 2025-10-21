@@ -1,0 +1,81 @@
+import { Colors } from '@/constants/theme';
+import { StyleSheet, useColorScheme } from 'react-native';
+import { baseButton } from './base';
+
+
+export default function useGlobalStyles() {
+  const isDark = useColorScheme() === 'dark';
+  const color = isDark ? Colors.dark.text : Colors.light.text;
+
+  return StyleSheet.create({
+    container: {
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
+      flex: 1,
+      padding: 8,
+    },
+    containerCenter: {
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
+      flex: 1,
+      padding: 8,
+      justifyContent: 'center',  
+    },
+    heading: {
+      color,
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginVertical: 8,
+    },
+    text: {
+      color,
+    },
+    image: {
+      width: 200,
+      height: 200,
+      marginVertical: 8,
+    },
+    part: {
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: '#eee',
+    },
+    button: {
+      ...baseButton,
+      borderColor: isDark ? Colors.dark.tint : Colors.light.tint,
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
+    },
+    buttonHighlight: {
+      ...baseButton,
+      borderColor: isDark ? Colors.dark.tint : Colors.light.tint,
+      backgroundColor: isDark ? Colors.dark.tint : Colors.light.tint,
+    },
+    buttonText: {
+      color: isDark ? Colors.dark.tint : Colors.light.tint,
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    buttonHighlightText: {
+      color: isDark ? Colors.light.text : Colors.dark.text,
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    label: {
+      color,
+      fontWeight: 'bold',
+      marginBottom: 4,
+    },
+    input: {
+      color,
+      borderColor: isDark ? '#555' : '#ccc',
+      borderWidth: 1,
+      padding: 8,
+      marginBottom: 12,
+      borderRadius: 6,
+    },
+    error: {
+      color: 'red',
+      marginBottom: 8,
+    },
+  });
+}

@@ -6,5 +6,13 @@ module.exports = defineConfig([
   expoConfig,
   {
     ignores: ['dist/*'],
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser,
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: path.resolve(),
+      },
+    },
   },
 ]);

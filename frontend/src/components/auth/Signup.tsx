@@ -2,9 +2,9 @@ import { useSession } from "../../context/AuthContext";
 import { useRef, useState } from "react";
 import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View } from "react-native";
 import { Image } from 'expo-image';
-import { images } from "@/assets/images";
+import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
-import isValidEmail from "@/src/utils/isValidEmail";
+import isValidEmail from "@/utils/isValidEmail";
 
 export default function Signup() {
   const { signIn } = useSession();
