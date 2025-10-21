@@ -21,6 +21,7 @@ export type Group = {
 
 export type MapPin = {
   title: string,
+  activityId: number,
   description?: string,
   icon?: {
     name: IconSymbolName,

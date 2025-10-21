@@ -20,6 +20,7 @@ const MAPPING = {
   'ellipsis': 'more-horiz',
   'plus': 'add',
   'xmark': 'close',
+  'figure.walk': 'directions-walk',
 } as IconMapping;
 
 /**
