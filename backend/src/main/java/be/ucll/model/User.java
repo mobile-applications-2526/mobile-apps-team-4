@@ -1,9 +1,15 @@
 package be.ucll.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +30,12 @@ public class User {
     private String email;
 
     @NotNull(message = "Password is required")
+    @JsonIgnore
     private String password;
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    private List<Group> groups = new ArrayList<>();
 
     protected User() {}
 
@@ -47,7 +58,15 @@ public class User {
         this.password = password;
     }
 
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
     // Getters
+    public Long getId() {
+        return this.id;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -60,7 +79,8 @@ public class User {
         return this.password;
     }
 
-
-
+    public List<Group> getGroups() {
+        return this.groups;
+    }
 
 }

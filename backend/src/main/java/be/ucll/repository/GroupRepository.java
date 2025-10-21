@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import be.ucll.model.User;
+import be.ucll.model.Group;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
-    Optional<User> findByEmailIgnoreCase(String email);
+public interface GroupRepository extends JpaRepository<Group,Long> {
+Optional<Group> findByNameIgnoreCase(String name);
 }

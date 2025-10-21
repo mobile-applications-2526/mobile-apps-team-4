@@ -1,43 +1,46 @@
 package be.ucll.service;
-
-import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import be.ucll.dto.LoginDTO;
+import be.ucll.dto.RegisterDTO;
+import be.ucll.dto.UserDTO;
 import be.ucll.model.User;
 import be.ucll.repository.UserRepository;
 
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+    public UserDTO register(RegisterDTO registerDTO) {
+        if (userRepository.findByEmailIgnoreCase(registerDTO.email()).isPresent()) {
             throw new RuntimeException("User with this email already exists");
         }
-        // Hash the password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+
+        User user = new User(
+            registerDTO.name(),
+            registerDTO.email(),
+            passwordEncoder.encode(registerDTO.password())
+        );
+        User saved = userRepository.save(user);
+        return new UserDTO(saved.getId(), saved.getName(), saved.getEmail());
     }
 
-    public User login(LoginDTO loginDTO) {
-        User user = userRepository.findByEmail(loginDTO.getEmail())
+    public UserDTO login(LoginDTO loginDTO) {
+        User user = userRepository.findByEmailIgnoreCase(loginDTO.email())
             .orElseThrow(() -> new RuntimeException("This user does not exist"));
-        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+
+        if (!passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
+            throw new RuntimeException("Password is not correct");
         }
-        return user;
+        return new UserDTO(user.getId(), user.getName(), user.getEmail());
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
 }

@@ -2,7 +2,8 @@ package be.ucll.controller;
 import org.springframework.web.bind.annotation.*;
 
 import be.ucll.dto.LoginDTO;
-import be.ucll.model.User;
+import be.ucll.dto.RegisterDTO;
+import be.ucll.dto.UserDTO;
 import be.ucll.service.UserService;
 
 @RestController
@@ -16,12 +17,12 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public UserDTO register(@RequestBody RegisterDTO registerDTO) {
+        return userService.register(registerDTO);
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody LoginDTO loginDTO) {
+    public UserDTO login(@RequestBody LoginDTO loginDTO) {
         return userService.login(loginDTO);
     }
 }
