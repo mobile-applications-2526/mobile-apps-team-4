@@ -2,7 +2,7 @@ import { useSession } from "../../context/AuthContext";
 import { useRef, useState } from "react";
 import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View, ScrollView } from "react-native";
 import { Image } from 'expo-image';
-import { images } from "@/assets/images";
+import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 
 export default function Login() {

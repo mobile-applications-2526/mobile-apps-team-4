@@ -1,5 +1,5 @@
-import { HapticTab } from '@/src/components/haptic-tab';
-import { IconSymbol } from '@/src/components/ui/icon-symbol';
+import { HapticTab } from '@/components/haptic-tab';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Tabs } from 'expo-router';
 
 export default function AppLayout() {

@@ -1,6 +1,6 @@
 import { SplashScreen } from 'expo-router';
 // eslint-disable-next-line import/no-unresolved
-import { useSession } from '@/src/context/AuthContext';
+import { useSession } from '@/context/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
