@@ -6,6 +6,7 @@ import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 import useGlobalStyles from "@/styles/global";
 import UserService from "@/services/UserService";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Login() {
   const { signIn } = useSession();
@@ -46,11 +47,15 @@ export default function Login() {
   }
   
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 8 }}
-        keyboardShouldPersistTaps="handled"
-      >
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps='handled'
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.containerCenter}
+      bounces={false}
+      enableOnAndroid
+      extraHeight={15}
+      extraScrollHeight={15}
+    >
 
       <View style={{ padding: 8, alignItems: 'center' }}>
         <Image
@@ -109,7 +114,6 @@ export default function Login() {
         </>
       )}
 
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };

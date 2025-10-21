@@ -1,12 +1,13 @@
 import { useSession } from "../../context/AuthContext";
 import { useRef, useState } from "react";
-import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View } from "react-native";
+import { TextInput, Text, ActivityIndicator, View } from "react-native";
 import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 import isValidEmail from "@/utils/isValidEmail";
 import useGlobalStyles from "@/styles/global";
 import Button from "../inputs/Button";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function Signup() {
   const { signIn } = useSession();
@@ -63,7 +64,15 @@ export default function Signup() {
   }
   
   return (
-    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', padding: 8 }}>
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps='handled'
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.containerCenter}
+      bounces={false}
+      enableOnAndroid
+      extraHeight={15}
+      extraScrollHeight={15}
+    >
 
       <View style={{ alignItems: 'center', marginBottom: 32 }}>
         <Image
@@ -129,7 +138,6 @@ export default function Signup() {
           <Button label="Log in" onPress={() => router.push('/(auth)/signIn')} highlight={false} />
         </>
       )}
-
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
