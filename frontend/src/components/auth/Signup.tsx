@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 import isValidEmail from "@/utils/isValidEmail";
-import useGlobalStyles from "@/styles/global";
+import useGlobalStyles, { useColor } from "@/styles/global";
 import Button from "../inputs/Button";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserService from "@/services/UserService";
@@ -14,6 +14,7 @@ export default function Signup() {
   const { signIn } = useSession();
   const router = useRouter();
   const styles = useGlobalStyles();
+  const color = useColor();
 
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
@@ -99,9 +100,10 @@ export default function Signup() {
       <TextInput
         value={name}
         onChangeText={setName}
-        autoCapitalize="none"
+        autoCapitalize="words"
         keyboardType="default"
         placeholder='Name'
+        placeholderTextColor={color}
         returnKeyType="next"
         onSubmitEditing={() => emailInputRef.current?.focus()}
         style={styles.input}
@@ -115,6 +117,7 @@ export default function Signup() {
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder='Email'
+        placeholderTextColor={color}
         returnKeyType="next"
         onSubmitEditing={() => passwordInputRef.current?.focus()}
         style={styles.input}
@@ -124,9 +127,11 @@ export default function Signup() {
       <TextInput
         value={password}
         onChangeText={setPassword}
+        autoCapitalize="none"
         ref={passwordInputRef}
         secureTextEntry
         placeholder='Password'
+        placeholderTextColor={color}
         returnKeyType="next"
         onSubmitEditing={() => passwordConfirmInputRef.current?.focus()}
         style={styles.input}
@@ -136,9 +141,11 @@ export default function Signup() {
       <TextInput
         value={passwordConfirm}
         onChangeText={setPasswordConfirm}
+        autoCapitalize="none"
         ref={passwordConfirmInputRef}
         secureTextEntry
         placeholder='Confirm password'
+        placeholderTextColor={color}
         style={styles.input}
       />
 

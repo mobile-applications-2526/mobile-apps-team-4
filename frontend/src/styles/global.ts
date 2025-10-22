@@ -2,6 +2,10 @@ import { Colors } from '@/constants/theme';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { baseButton } from './base';
 
+export const useColor = () => {
+  const isDark = useColorScheme() === 'dark';
+  return isDark ? Colors.dark.text : Colors.light.text;
+}
 
 export default function useGlobalStyles() {
   const isDark = useColorScheme() === 'dark';

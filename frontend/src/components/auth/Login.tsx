@@ -4,15 +4,17 @@ import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingV
 import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
-import useGlobalStyles from "@/styles/global";
+import useGlobalStyles, { useColor } from "@/styles/global";
 import UserService from "@/services/UserService";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Login() {
   const { signIn } = useSession();
   const router = useRouter();
-  const passwordInputRef = useRef<TextInput>(null);
   const styles = useGlobalStyles();
+  const color = useColor();
+  
+  const passwordInputRef = useRef<TextInput>(null);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +38,7 @@ export default function Login() {
 
     // sign in api request
     try {
-      const res = await UserService.login(email, password);
+      const res = await UserService.login(email.trim(), password);
       if (res && res.name) signIn();
       else setError('Email or password not correct');
     } catch (err) {
@@ -71,6 +73,7 @@ export default function Login() {
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder='Email'
+        placeholderTextColor={color}
         returnKeyType="next"
         onSubmitEditing={() => passwordInputRef.current?.focus()} 
         style={styles.input}
@@ -81,8 +84,10 @@ export default function Login() {
         value={password}
         ref={passwordInputRef}
         onChangeText={setPassword}
+        autoCapitalize="none"
         secureTextEntry
         placeholder="Password"
+        placeholderTextColor={color}
         returnKeyType="done"
         onSubmitEditing={handleLogin}
         style={styles.input}

@@ -16,6 +16,7 @@ export default function AppLayout() {
         tabBarButton: HapticTab,
         tabBarStyle: {
           backgroundColor: isDark ? Colors.dark.tabBackground : Colors.light.tabBackground,
+          borderColor: isDark ? Colors.dark.border : Colors.light.border,
         },
         
       }}>
