@@ -8,15 +8,18 @@ import Button from "../inputs/Button";
 
 interface Props {
   activities: Activity[],
+  showGrabber?: boolean,
 };
 
-const ActivityList = ({ activities }: Props) => {
+const ActivityList = ({ activities, showGrabber = true }: Props) => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
 
   return (
     <>
-      <View style={{ height: 4, width: 50, borderRadius: 50, backgroundColor: isDark ? Colors.dark.border : Colors.light.border, marginHorizontal: 'auto', marginTop: 8 }} />
+      {showGrabber && (
+        <View style={{ height: 4, width: 50, borderRadius: 50, backgroundColor: isDark ? Colors.dark.border : Colors.light.border, marginHorizontal: 'auto', marginTop: 8 }} />
+      )}
 
       <FlatList
         data={activities}

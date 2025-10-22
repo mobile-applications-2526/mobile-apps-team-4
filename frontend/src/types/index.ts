@@ -28,4 +28,5 @@ export type Group = {
   name: string,
   owner: User,
   members: User[],
+  description?: string,
 };

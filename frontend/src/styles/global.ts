@@ -36,6 +36,9 @@ export default function useGlobalStyles() {
     text: {
       color,
     },
+    tint: {
+      color: isDark ? Colors.dark.tint : Colors.light.tint,
+    },
     placeholderText: {
       color: isDark ? Colors.dark.placeholderText : Colors.light.placeholderText,
     },
