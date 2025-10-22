@@ -2,6 +2,10 @@ import { Colors } from '@/constants/theme';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { baseButton } from './base';
 
+export const useColor = () => {
+  const isDark = useColorScheme() === 'dark';
+  return isDark ? Colors.dark.text : Colors.light.text;
+}
 
 export default function useGlobalStyles() {
   const isDark = useColorScheme() === 'dark';
@@ -11,7 +15,7 @@ export default function useGlobalStyles() {
     container: {
       backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
       flex: 1,
-      padding: 8,
+      padding: 12,
     },
     containerCenter: {
       backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
@@ -19,14 +23,26 @@ export default function useGlobalStyles() {
       padding: 8,
       justifyContent: 'center',  
     },
+    containerNoPadding: {
+      backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
+      flex: 1,
+    },
     heading: {
       color,
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: 'bold',
       marginVertical: 8,
     },
+    pageHeading: {
+      color,
+      fontSize: 32,
+      fontWeight: 'bold',
+    },
     text: {
       color,
+    },
+    borderColor: {
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
     },
     image: {
       width: 200,
@@ -67,7 +83,7 @@ export default function useGlobalStyles() {
     },
     input: {
       color,
-      borderColor: isDark ? '#555' : '#ccc',
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
       borderWidth: 1,
       padding: 8,
       marginBottom: 12,
@@ -77,5 +93,30 @@ export default function useGlobalStyles() {
       color: 'red',
       marginBottom: 8,
     },
+    listItem: {
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      gap: 8,
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    listItemSmall: {
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      gap: 8,
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    map: {
+      flex: 1,
+      borderRadius: 12,
+      height: 500,
+    },
   });
-}
+};

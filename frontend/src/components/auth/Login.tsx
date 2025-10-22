@@ -4,20 +4,24 @@ import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingV
 import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
-import useGlobalStyles from "@/styles/global";
+import useGlobalStyles, { useColor } from "@/styles/global";
+import UserService from "@/services/UserService";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Login() {
   const { signIn } = useSession();
   const router = useRouter();
-  const passwordInputRef = useRef<TextInput>(null);
   const styles = useGlobalStyles();
+  const color = useColor();
+  
+  const passwordInputRef = useRef<TextInput>(null);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setLoading(true);
 
     if (!email || !email.includes('@')) {
@@ -33,18 +37,27 @@ export default function Login() {
     }
 
     // sign in api request
-
-    setError('');
-    signIn();
-    setLoading(false);
+    try {
+      const res = await UserService.login(email.trim(), password);
+      if (res && res.name) signIn();
+      else setError('Email or password not correct');
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
   }
   
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 8 }}
-        keyboardShouldPersistTaps="handled"
-      >
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps='handled'
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.containerCenter}
+      bounces={false}
+      enableOnAndroid
+      extraHeight={15}
+      extraScrollHeight={15}
+    >
 
       <View style={{ padding: 8, alignItems: 'center' }}>
         <Image
@@ -60,6 +73,7 @@ export default function Login() {
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder='Email'
+        placeholderTextColor={color}
         returnKeyType="next"
         onSubmitEditing={() => passwordInputRef.current?.focus()} 
         style={styles.input}
@@ -70,8 +84,10 @@ export default function Login() {
         value={password}
         ref={passwordInputRef}
         onChangeText={setPassword}
+        autoCapitalize="none"
         secureTextEntry
         placeholder="Password"
+        placeholderTextColor={color}
         returnKeyType="done"
         onSubmitEditing={handleLogin}
         style={styles.input}
@@ -93,7 +109,7 @@ export default function Login() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => router.push('/(auth)/sign-up')}
+            onPress={() => router.push('/(auth)/signUp')}
             style={styles.button}
           >
             <Text style={styles.buttonText}>
@@ -103,7 +119,6 @@ export default function Login() {
         </>
       )}
 
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };

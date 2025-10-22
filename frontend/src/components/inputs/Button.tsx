@@ -1,20 +1,21 @@
 import useGlobalStyles from "@/styles/global";
-import { TouchableOpacity } from "react-native";
+import { StyleProp, TouchableOpacity, ViewStyle } from "react-native";
 import { Text } from "react-native";
 
 interface Props {
   onPress: () => void,
   label: string,
   highlight?: boolean,
+  style?: StyleProp<ViewStyle>,
 };
 
-const Button = ({ onPress, label, highlight = true }: Props) => {
+const Button = ({ onPress, label, highlight = true, style }: Props) => {
   const styles = useGlobalStyles();
 
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={highlight ? styles.buttonHighlight : styles.button}
+      style={[highlight ? styles.buttonHighlight : styles.button, style]}
     >
       <Text style={highlight ? styles.buttonHighlightText : styles.buttonText}>
         {label}
