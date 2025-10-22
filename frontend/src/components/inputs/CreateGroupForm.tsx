@@ -1,7 +1,7 @@
 import useGlobalStyles from "@/styles/global"
 import Button from "./Button"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput, Text, FlatList, TouchableOpacity, useColorScheme } from "react-native";
+import { TextInput, Text, FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { router } from "expo-router";
 import { User } from "@/types";
@@ -65,6 +65,7 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
       enableOnAndroid
       extraHeight={15}
       extraScrollHeight={15}
+      style={{ marginBottom: 20 }}
     >
       <Text style={styles.label}>Group name</Text>
       <TextInput
@@ -111,14 +112,16 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
           onPress={() => setMembers(prev => [...prev, item])}
           >
             <IconSymbol size={20} name="plus" color={isDark ? Colors.dark.tint : Colors.light.tint} />
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-            <Text style={{ fontSize: 14, marginLeft: 'auto' }}>{item.email}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', ...styles.text }}>{item.name}</Text>
+            <Text style={{ fontSize: 14, marginLeft: 'auto', ...styles.text }}>{item.email}</Text>
           </TouchableOpacity>
         )}
       />
 
       {search !== '' && addMemberUsers.length === 0 && (
-        <Text style={{ fontWeight: 'bold', marginHorizontal: 'auto', marginBottom: 20 }}>No users found</Text>
+        <Text style={{ fontWeight: 'bold', marginHorizontal: 'auto', marginBottom: 20, ...styles.text }}>
+          No users found
+        </Text>
       )}
 
       <Text style={styles.label}>Members</Text>
@@ -133,11 +136,15 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
           onPress={() => setMembers(prev => prev.filter(m => m.id !== item.id))}
           >
             <IconSymbol size={20} name="xmark" color={isDark ? Colors.dark.tint : Colors.light.tint} />
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-            <Text style={{ fontSize: 14, marginLeft: 'auto' }}>{item.email}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', ...styles.text }}>{item.name}</Text>
+            <Text style={{ fontSize: 14, marginLeft: 'auto', ...styles.text }}>{item.email}</Text>
           </TouchableOpacity>
         )}
-        ListEmptyComponent={<Text style={{ fontWeight: 'bold', marginHorizontal: 'auto', marginBottom: 8 }}>No members added yet</Text>}
+        ListEmptyComponent={(
+          <Text style={{ fontWeight: 'bold', marginHorizontal: 'auto', marginBottom: 8, ...styles.text }}>
+            No members added yet
+          </Text>
+        )}
       />
 
       <Button

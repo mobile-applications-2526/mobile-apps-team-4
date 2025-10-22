@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const A = () => {
+const JoinActivity = () => {
   const params = useLocalSearchParams();
   const styles = useGlobalStyles();
   const activityId = params.activityId;
@@ -16,8 +16,10 @@ const A = () => {
 
       <Text style={styles.heading}>{activityId}</Text>
 
+
+
     </SafeAreaView>
   );
 };
 
-export default A;
+export default JoinActivity;

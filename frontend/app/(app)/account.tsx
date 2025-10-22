@@ -24,7 +24,7 @@ export default function Index() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
 
       <PageHeading name='Account' onExtraOptions={() => router.push('/(modals)/logout')} />
 

@@ -3,6 +3,7 @@ import ModalHeading from "@/components/ui/ModalHeading";
 import { useSession } from "@/context/AuthContext";
 import useGlobalStyles from "@/styles/global";
 import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const CreateGroup = () => {
   const { signOut } = useSession();
@@ -13,11 +14,11 @@ const CreateGroup = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ModalHeading name="Create group" />
 
       <CreateGroupForm onCreateGroup={() => {}} />
-    </View>
+    </SafeAreaView>
   );
 };
 

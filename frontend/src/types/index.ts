@@ -8,20 +8,9 @@ export type User = {
 
 export type Activity = {
   id: number,
+  title: string,
   date: Date,
   group: number,
-};
-
-export type Group = {
-  id: number,
-  name: string,
-  groupLeader: User,
-  members: User[],
-};
-
-export type MapPin = {
-  title: string,
-  activityId: number,
   description?: string,
   icon?: {
     name: IconSymbolName,
@@ -31,4 +20,11 @@ export type MapPin = {
     lat: number, 
     lon: number,
   },
+};
+
+export type Group = {
+  id: number,
+  name: string,
+  owner: User,
+  members: User[],
 };
