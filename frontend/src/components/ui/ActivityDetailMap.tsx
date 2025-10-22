@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { IconSymbol } from "./icon-symbol";
+import useMapStyle from "@/styles/map";
 
 interface Props {
   activity: Activity,
@@ -13,6 +14,7 @@ interface Props {
 const ActivityDetailMap = ({ activity }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
+  const mapStyle = useMapStyle();
   const isAndroid = process.env.EXPO_OS !== 'ios';
 
   return (
@@ -32,6 +34,7 @@ const ActivityDetailMap = ({ activity }: Props) => {
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
           }}
+          customMapStyle={mapStyle}
           onMapReady={() => setLoading(false)}
           scrollEnabled={false}
           zoomEnabled={false}

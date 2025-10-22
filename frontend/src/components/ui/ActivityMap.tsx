@@ -6,6 +6,7 @@ import { Activity } from "@/types";
 import { router } from "expo-router";
 import { BlurView } from 'expo-blur';
 import { useState } from "react";
+import useMapStyle from "@/styles/map";
 
 interface Props {
   activities?: Activity[],
@@ -15,6 +16,7 @@ const ActivityMap = ({ activities }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const styles = useGlobalStyles();
+  const mapStyle = useMapStyle();
   const isAndroid = process.env.EXPO_OS !== 'ios';
 
   return (
@@ -30,10 +32,8 @@ const ActivityMap = ({ activities }: Props) => {
             latitudeDelta: 0.05,
             longitudeDelta: 0.05,
           }}
-          customMapStyle={[
-            { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-            { featureType: 'administrative', stylers: [{ visibility: 'off' }] },
-          ]}
+          
+          customMapStyle={mapStyle}
           onMapReady={() => setLoading(false)}
           rotateEnabled={false}
           pitchEnabled={false}
