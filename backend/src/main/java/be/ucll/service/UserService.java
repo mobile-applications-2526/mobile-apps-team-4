@@ -2,21 +2,24 @@ package be.ucll.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import be.ucll.dto.AuthResponse;
 import be.ucll.dto.LoginDTO;
 import be.ucll.dto.RegisterDTO;
 import be.ucll.dto.UserDTO;
 import be.ucll.model.User;
 import be.ucll.repository.UserRepository;
+import be.ucll.util.security.JwtUtils;
 
 @Service
 public class UserService {
+    private JwtUtils jwtUtils;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
     }
 
     public UserDTO register(RegisterDTO registerDTO) {
@@ -30,17 +33,19 @@ public class UserService {
             passwordEncoder.encode(registerDTO.password())
         );
         User saved = userRepository.save(user);
-        return new UserDTO(saved.getId(), saved.getName(), saved.getEmail());
+        return new UserDTO(saved.getName(), saved.getEmail());
     }
 
-    public UserDTO login(LoginDTO loginDTO) {
+    public AuthResponse login(LoginDTO loginDTO) {
         User user = userRepository.findByEmailIgnoreCase(loginDTO.email())
             .orElseThrow(() -> new RuntimeException("This user does not exist"));
 
         if (!passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
             throw new RuntimeException("Password is not correct");
         }
-        return new UserDTO(user.getId(), user.getName(), user.getEmail());
+        UserDTO userDTO = new UserDTO(user.getName(), user.getEmail());
+        String token = jwtUtils.generateJwtToken(user.getEmail());
+        return new AuthResponse(token,userDTO);
     }
 
 }

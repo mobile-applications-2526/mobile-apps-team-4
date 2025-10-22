@@ -2,9 +2,7 @@ package be.ucll.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +14,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,5 +80,4 @@ public class User {
     public List<Group> getGroups() {
         return this.groups;
     }
-
 }
