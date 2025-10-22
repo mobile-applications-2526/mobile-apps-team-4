@@ -33,8 +33,6 @@ export default function useGlobalStyles() {
       color,
       fontSize: 32,
       fontWeight: 'bold',
-      // marginTop: 28,
-      // marginBottom: 8,
     },
     text: {
       color,
@@ -95,8 +93,10 @@ export default function useGlobalStyles() {
       paddingHorizontal: 12,
       paddingVertical: 8,
       borderBottomWidth: 1,
+      gap: 8,
       borderColor: isDark ? Colors.dark.border : Colors.light.border,
       flexDirection: 'row',
+      alignItems: 'center',
       flex: 1,
     },
     listItemSmall: {
