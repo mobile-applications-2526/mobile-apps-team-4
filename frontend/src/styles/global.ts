@@ -39,6 +39,9 @@ export default function useGlobalStyles() {
     text: {
       color,
     },
+    borderColor: {
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
+    },
     image: {
       width: 200,
       height: 200,
@@ -94,6 +97,16 @@ export default function useGlobalStyles() {
       borderBottomWidth: 1,
       borderColor: isDark ? Colors.dark.border : Colors.light.border,
       flexDirection: 'row',
+      flex: 1,
+    },
+    listItemSmall: {
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      borderBottomWidth: 1,
+      gap: 8,
+      borderColor: isDark ? Colors.dark.border : Colors.light.border,
+      flexDirection: 'row',
+      alignItems: 'center',
       flex: 1,
     },
     map: {

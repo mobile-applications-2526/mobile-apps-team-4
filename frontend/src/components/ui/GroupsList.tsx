@@ -22,7 +22,7 @@ const GroupsList = ({ groups }: Props) => {
           <Text style={styles.heading}>{item.name}</Text>
         </TouchableOpacity>
       )}
-      ListEmptyComponent={<Text>No courses available</Text>}
+      ListEmptyComponent={<Text>No groups available</Text>}
     />
   );
 };

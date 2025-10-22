@@ -14,15 +14,15 @@ const ModalHeading = ({ name, showClose = true }: Props) => {
   
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-      {process.env.EXPO_OS === 'ios' && (
+      {process.env.EXPO_OS === 'ios' && showClose && (
         <View style={{ width: 26, height: 26 }} />
       )}
 
-      <Text style={{...styles.text, fontWeight: 'bold', fontSize: 20, textAlign: 'center', flexShrink: 1 }}>
+      <Text style={{...styles.text, fontWeight: 'bold', fontSize: 20, textAlign: 'center', flex: 1 }}>
         {name}
       </Text>
 
-      {process.env.EXPO_OS === 'ios' && (
+      {process.env.EXPO_OS === 'ios' && showClose && (
         <TouchableOpacity onPress={router.back} style={{ padding: 4, backgroundColor: 'lightgrey', borderRadius: 50, height: 26 }}>
           <IconSymbol size={18} name="xmark" color={Colors.light.text} />
         </TouchableOpacity>
