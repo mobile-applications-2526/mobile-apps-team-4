@@ -2,14 +2,15 @@ import { User } from "@/types";
 import api from "./api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const login = async (email: string, password: string): Promise<User | undefined> => {
+const login = async (email: string, password: string): Promise<{ token: string, user: { name: string, email: string } } | undefined> => {
   try {
-    const res = await api.post<User>('/users/login', {
+    const res = await api.post<{ token: string, user: { name: string, email: string } }>('/users/login', {
       email,
       password,
     });
 
-    const { name: userName, email: userEmail } = res.data;
+    const userName = res.data.user.name;
+    const userEmail = res.data.user.email;
     await AsyncStorage.setItem('user', JSON.stringify({ name: userName, email: userEmail }));
 
     return res.data;

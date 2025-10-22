@@ -3,12 +3,12 @@ import { use, createContext, type PropsWithChildren } from 'react';
 import { useStorageState } from '@/hooks/useStorageState';
 
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (token: string) => void;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
 }>({
-  signIn: () => null,
+  signIn: (token: string) => null,
   signOut: () => null,
   session: null,
   isLoading: false,
@@ -30,10 +30,8 @@ export default function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext
       value={{
-        signIn: () => {
-          // return <Text>Log in</Text>
-          // Perform sign-in logic here
-          setSession('xxx');
+        signIn: (token) => {
+          setSession(token);
         },
         signOut: () => {
           setSession(null);
