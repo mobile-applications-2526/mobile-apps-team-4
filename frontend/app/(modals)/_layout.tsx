@@ -6,6 +6,7 @@ export default function StackLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name='logout' />
       <Stack.Screen name='createGroup' />
+      <Stack.Screen name='createActivity' />
       <Stack.Screen name='joinActivity' />
     </Stack>
   )

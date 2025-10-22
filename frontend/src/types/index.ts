@@ -20,6 +20,7 @@ export type Activity = {
     lat: number, 
     lon: number,
   },
+  peopleGoing?: User[],
 };
 
 export type Group = {

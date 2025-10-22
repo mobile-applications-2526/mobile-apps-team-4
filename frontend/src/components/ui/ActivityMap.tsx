@@ -35,6 +35,8 @@ const ActivityMap = ({ activities }: Props) => {
             { featureType: 'administrative', stylers: [{ visibility: 'off' }] },
           ]}
           onMapReady={() => setLoading(false)}
+          rotateEnabled={false}
+          pitchEnabled={false}
         >
 
           {activities && activities.map((a, i) => (
@@ -63,7 +65,7 @@ const ActivityMap = ({ activities }: Props) => {
                     style={StyleSheet.absoluteFill}
                   />
 
-                    <IconSymbol size={isAndroid ? 25 : 30} name={a.icon.name} color={a.icon.color} />
+                    <IconSymbol size={isAndroid ? 22 : 30} name={a.icon.name} color={a.icon.color} />
                 </View>
               )}
 
