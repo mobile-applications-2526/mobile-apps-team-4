@@ -1,7 +1,6 @@
 import { TouchableOpacity, useColorScheme, View } from "react-native";
 import { IconSymbol, IconSymbolName } from "../ui/icon-symbol";
 import selectableIcons from "@/constants/selectableIcons";
-import { useColor } from "@/styles/global";
 import { Colors } from "@/constants/theme";
 
 interface Props {
@@ -11,7 +10,6 @@ interface Props {
 };
 
 const IconSelector = ({ color, setIcon, selectedIcon }: Props) => {
-  const selectedColor = useColor();
   const isDark = useColorScheme() === 'dark';
 
   return (

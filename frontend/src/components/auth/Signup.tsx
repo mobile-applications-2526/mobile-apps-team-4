@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
 import isValidEmail from "@/utils/isValidEmail";
-import useGlobalStyles, { useColor } from "@/styles/global";
+import useGlobalStyles from "@/styles/global";
 import Button from "../inputs/Button";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserService from "@/services/UserService";
@@ -14,7 +14,6 @@ export default function Signup() {
   const { signIn } = useSession();
   const router = useRouter();
   const styles = useGlobalStyles();
-  const color = useColor();
 
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
@@ -65,7 +64,7 @@ export default function Signup() {
       // sign in api request
       try {
         const res = await UserService.register(email, password, name);
-        if (res && res.name) signIn();
+        if (res && res.name) signIn(res.name); // change later to token
         else setError(JSON.stringify(res));
       } catch (err) {
         setError(String(err));
@@ -103,7 +102,7 @@ export default function Signup() {
         autoCapitalize="words"
         keyboardType="default"
         placeholder='Name'
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="next"
         onSubmitEditing={() => emailInputRef.current?.focus()}
         style={styles.input}
@@ -117,7 +116,7 @@ export default function Signup() {
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder='Email'
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="next"
         onSubmitEditing={() => passwordInputRef.current?.focus()}
         style={styles.input}
@@ -131,7 +130,7 @@ export default function Signup() {
         ref={passwordInputRef}
         secureTextEntry
         placeholder='Password'
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="next"
         onSubmitEditing={() => passwordConfirmInputRef.current?.focus()}
         style={styles.input}
@@ -145,7 +144,7 @@ export default function Signup() {
         ref={passwordConfirmInputRef}
         secureTextEntry
         placeholder='Confirm password'
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         style={styles.input}
       />
 

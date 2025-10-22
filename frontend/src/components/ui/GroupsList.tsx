@@ -17,7 +17,7 @@ const GroupsList = ({ groups }: Props) => {
       renderItem={({ item }) => (
         <TouchableOpacity
           style={styles.listItem}
-          // onPress={() => router.push(`/(groups)/group/${item.id}`)}
+          onPress={() => router.push(`/(app)/groups/${item.id}`)}
         >
           <Text style={styles.heading}>{item.name}</Text>
         </TouchableOpacity>

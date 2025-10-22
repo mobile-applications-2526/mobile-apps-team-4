@@ -1,4 +1,4 @@
-import useGlobalStyles, { useColor } from "@/styles/global"
+import useGlobalStyles from "@/styles/global"
 import Button from "./Button"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput, Text, FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
@@ -15,7 +15,6 @@ interface Props {
 const CreateGroupForm = ({ onCreateGroup }: Props) => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
-  const color = useColor();
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -73,7 +72,7 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
         value={name}
         onChangeText={setName}
         placeholder="Group name"
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="next"
         onSubmitEditing={() => descriptionRef.current?.focus()}
         style={styles.input}
@@ -84,7 +83,7 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
         value={description}
         onChangeText={setDescription}
         placeholder="Description"
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="next"
         multiline={true}
         textAlignVertical="top"
@@ -98,7 +97,7 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
         value={search}
         onChangeText={setSearch}
         placeholder="Search by name or email"
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="done"
         ref={membersRef}
         onSubmitEditing={handleGroupCreate}

@@ -1,10 +1,10 @@
 import { useSession } from "../../context/AuthContext";
 import { useRef, useState } from "react";
-import { TextInput, Text, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View, ScrollView } from "react-native";
+import { TextInput, Text, ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Image } from 'expo-image';
 import { images } from "@/../assets/images";
 import { useRouter } from "expo-router";
-import useGlobalStyles, { useColor } from "@/styles/global";
+import useGlobalStyles from "@/styles/global";
 import UserService from "@/services/UserService";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -12,7 +12,6 @@ export default function Login() {
   const { signIn } = useSession();
   const router = useRouter();
   const styles = useGlobalStyles();
-  const color = useColor();
   
   const passwordInputRef = useRef<TextInput>(null);
 
@@ -73,7 +72,7 @@ export default function Login() {
         autoCapitalize="none"
         keyboardType="email-address"
         placeholder='Email'
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="next"
         onSubmitEditing={() => passwordInputRef.current?.focus()} 
         style={styles.input}
@@ -87,7 +86,7 @@ export default function Login() {
         autoCapitalize="none"
         secureTextEntry
         placeholder="Password"
-        placeholderTextColor={color}
+        placeholderTextColor={styles.placeholderText.color}
         returnKeyType="done"
         onSubmitEditing={handleLogin}
         style={styles.input}
