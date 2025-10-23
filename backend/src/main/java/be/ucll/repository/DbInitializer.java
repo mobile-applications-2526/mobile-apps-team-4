@@ -7,7 +7,11 @@ import org.springframework.stereotype.Component;
 
 import be.ucll.model.Activity;
 import be.ucll.model.Group;
+import be.ucll.model.Icon;
+import be.ucll.model.Location;
 import be.ucll.model.User;
+import be.ucll.model.Icon.IconColor;
+import be.ucll.model.Icon.IconSymbolName;
 import jakarta.annotation.PostConstruct;
 
 @Component
@@ -42,7 +46,8 @@ public class DbInitializer {
         // Activities
         Activity activity1 = new Activity(
             "Bowling with the presidents",
-            "White house bowling room",
+            new Location(12.5, 20.5),
+            new Icon(IconSymbolName.airplane,IconColor.HEX_1A535C ),
             LocalDateTime.of(2025, 10, 21, 20, 30, 0),
             LocalDateTime.of(2025, 10, 21, 23, 30, 0)
         );

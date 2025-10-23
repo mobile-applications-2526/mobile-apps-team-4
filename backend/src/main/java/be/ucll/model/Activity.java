@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +28,14 @@ public class Activity {
     private String name;
 
     @NotNull(message = "Activity must have a location")
-    private String location;
+    @Embedded
+    private Location location;
 
-    @NotNull(message = "Activity must have an startDate")
+    @NotNull(message = "Activity must have an icon")
+    @Embedded
+    private Icon icon;
+
+    @NotNull(message = "Activity must have a startDate")
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
@@ -54,30 +60,34 @@ public class Activity {
 
     protected Activity() {}
 
-    public Activity(String name, String location, LocalDateTime startDate, LocalDateTime endDate) {
+    public Activity(String name, Location location, Icon icon, LocalDateTime startDate, LocalDateTime endDate) {
         setName(name);
         setLocation(location);
+        setIcon(icon);
         setStartDate(startDate);
         setEndDate(endDate);
     }
 
-    public Activity(String name, String location, LocalDateTime startDate, LocalDateTime endDate, Integer maxAmountOfParticipants) {
+    public Activity(String name, Location location, Icon icon, LocalDateTime startDate, LocalDateTime endDate, Integer maxAmountOfParticipants) {
         setName(name);
         setLocation(location);
+        setIcon(icon);
         setStartDate(startDate);
         setEndDate(endDate);
         setMaxAmountOfParticipants(maxAmountOfParticipants);
     }
 
-
     // Setters
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 
     public void setStartDate(LocalDateTime startDate) {
@@ -111,13 +121,16 @@ public class Activity {
     }
 
     // Getters
-
     public String getName() {
         return this.name;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return this.location;
+    }
+
+    public Icon getIcon() {
+        return this.icon;
     }
 
     public LocalDateTime getStartDate() {
@@ -143,6 +156,4 @@ public class Activity {
     public Long getId() {
         return this.id;
     }
-
-
 }

@@ -21,13 +21,17 @@ CREATE TABLE groups (
 CREATE TABLE activities (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NOT NULL,
+    latitude DOUBLE NOT NULL,
+    longitude DOUBLE NOT NULL,
+    icon_symbol_name VARCHAR(255) NOT NULL,
+    icon_color VARCHAR(255) NOT NULL,
     start_date TIMESTAMP NOT NULL,
     end_date TIMESTAMP NOT NULL,
     max_amount_of_participants INT DEFAULT NULL,
     hosted_by_group_id BIGINT NULL,
     CONSTRAINT fk_activities_hosted_by FOREIGN KEY (hosted_by_group_id) REFERENCES groups(id) ON DELETE SET NULL
 );
+
 
 CREATE TABLE user_groups (
     user_id BIGINT NOT NULL,

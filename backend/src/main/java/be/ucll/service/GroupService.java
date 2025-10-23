@@ -28,7 +28,7 @@ public class GroupService {
 
     public Optional<Group> getGroupInfo(String groupName) {
         if (!groupRepository.findByNameIgnoreCase(groupName).isPresent()) {
-            throw new RuntimeException("Group with this name already exists");
+            throw new RuntimeException("Could not find group with this name");
         } 
         return groupRepository.findByNameIgnoreCase(groupName);
     }

@@ -38,10 +38,10 @@ public class UserService {
 
     public AuthResponse login(LoginDTO loginDTO) {
         User user = userRepository.findByEmailIgnoreCase(loginDTO.email())
-            .orElseThrow(() -> new RuntimeException("This user does not exist"));
+            .orElseThrow(() -> new RuntimeException("User details are not correct"));
 
         if (!passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
-            throw new RuntimeException("Password is not correct");
+            throw new RuntimeException("User details are not correct");
         }
         UserDTO userDTO = new UserDTO(user.getName(), user.getEmail());
         String token = jwtUtils.generateJwtToken(user.getEmail());
