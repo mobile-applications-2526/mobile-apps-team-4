@@ -3,7 +3,7 @@ package be.ucll.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +24,7 @@ public class Group {
     private Long id;
 
     @NotNull(message = "Group name is required")
+    @Schema(example = "Presidents of the USA")
     private String name;
 
     @ManyToMany

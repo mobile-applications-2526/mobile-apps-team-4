@@ -1,5 +1,6 @@
 package be.ucll.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 
@@ -7,9 +8,11 @@ import jakarta.validation.constraints.NotNull;
 public class Location {
 
     @NotNull(message = "Latitude cannot be null")
+    @Schema(example = "50.8778745")
     private Double latitude;
 
     @NotNull(message = "Longitude cannot be null")
+    @Schema(example = "4.6994948")
     private Double longitude;
 
     protected Location() {}

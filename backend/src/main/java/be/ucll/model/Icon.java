@@ -1,5 +1,6 @@
 package be.ucll.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -81,9 +82,11 @@ public class Icon {
     }
 
     @Enumerated(EnumType.STRING)
+    @Schema(description = "currently still like figure_walk, should be changed to figure.walk", example = "figure_walk")
     private IconSymbolName iconSymbolName;
 
     @Enumerated(EnumType.STRING)
+    @Schema(description = "currently still like HEX_E71D36, should be changed to #E71D36", example = "HEX_E71D36")
     private IconColor iconColor;
 
     protected Icon() {}

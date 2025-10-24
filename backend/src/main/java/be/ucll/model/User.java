@@ -3,6 +3,8 @@ package be.ucll.model;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,14 +23,17 @@ public class User{
     private Long id;
 
     @NotNull(message = "Name is required")
+    @Schema(example = "Barack Obama")
     private String name;
 
     @Email
     @NotNull(message = "User is required")
+    @Schema(example = "barack@obama.com")
     private String email;
 
     @NotNull(message = "Password is required")
     @JsonIgnore
+    @Schema(example = "TheGoat123")
     private String password;
 
     @ManyToMany(mappedBy = "members")

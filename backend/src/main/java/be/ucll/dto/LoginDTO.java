@@ -1,3 +1,11 @@
 package be.ucll.dto;
 
-public record LoginDTO(String email, String password) {}
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record LoginDTO(
+    @Schema(example = "Barack Obama")
+    String email,
+    
+    @Schema(example = "TheGoat123")
+    String password
+) {}
