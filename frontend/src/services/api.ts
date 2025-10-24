@@ -12,18 +12,10 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config: any) => {
     const token = await SecureStore.getItemAsync('token');
-    console.log('using token:', token)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    console.log('--- Axios Request ---');
-    console.log('URL:', config.baseURL + config.url);
-    console.log('Method:', config.method);
-    console.log('Headers:', config.headers);
-    console.log('Data:', config.data);
-    console.log('--------------------');
-    
     return config;
   },
   (error) => {
