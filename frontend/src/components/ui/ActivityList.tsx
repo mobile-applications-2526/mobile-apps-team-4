@@ -38,17 +38,20 @@ const ActivityList = ({ activities, showGrabber = true }: Props) => {
               flexDirection: 'column',
               borderRadius: 8,
             }}
-            onPress={() => router.push(`/(modals)/joinActivity/${item.id}`)}
           >
             <View style={{ flexDirection: 'row', gap: 8 }}>
               {item.icon && (
                 <IconSymbol size={20} name={item.icon.name} color={item.icon.color} />
               )}
 
-              <Text style={{ fontSize: 16, fontWeight: 'bold', ...styles.text }}>{item.title}</Text>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', ...styles.text }}>{item.name}</Text>
             </View>
 
-            <Text style={{ fontSize: 12, ...styles.text }}>{item.description}</Text>
+            {item.description && (
+              <Text style={{ fontSize: 12, ...styles.text }}>
+                {item.description}
+              </Text>
+            )}
 
             <Button label='Join Activity' onPress={() => router.push(`/(modals)/joinActivity/${item.id}`)} />
           </TouchableOpacity>

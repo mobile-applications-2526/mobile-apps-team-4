@@ -8,19 +8,22 @@ export type User = {
 
 export type Activity = {
   id: number,
-  title: string,
+  name: string,
   date: Date,
-  group: number,
   description?: string,
-  icon?: {
+  icon: {
     name: IconSymbolName,
     color: string,
   },
-  coordinates: {
-    lat: number, 
-    lon: number,
+  location: {
+    latitude: number, 
+    longitude: number,
   },
-  peopleGoing?: User[],
+  startDate: string, // iso string
+  endDate?: string,  // iso string
+  hostedByGroupId: number,
+  participantIds: number[],
+  maxAmountOfParticipants?: number,
 };
 
 export type Group = {
@@ -29,4 +32,9 @@ export type Group = {
   owner: User,
   members: User[],
   description?: string,
+};
+
+export type AuthResponse = {
+  token: string;
+  user: User;
 };

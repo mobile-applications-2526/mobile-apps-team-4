@@ -1,4 +1,4 @@
-import { useSession } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useRef, useState } from "react";
 import { TextInput, Text, ActivityIndicator, View } from "react-native";
 import { Image } from 'expo-image';
@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import UserService from "@/services/UserService";
 
 export default function Signup() {
-  const { signIn } = useSession();
+  const { onLogin } = useAuth();
   const router = useRouter();
   const styles = useGlobalStyles();
 
@@ -64,7 +64,8 @@ export default function Signup() {
       // sign in api request
       try {
         const res = await UserService.register(email, password, name);
-        if (res && res.name) signIn(res.name); // change later to token
+
+        if (res) onLogin && onLogin(res);
         else setError(JSON.stringify(res));
       } catch (err) {
         setError(String(err));

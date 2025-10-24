@@ -1,4 +1,4 @@
-import { useSession } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useRef, useState } from "react";
 import { TextInput, Text, ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Image } from 'expo-image';
@@ -9,7 +9,7 @@ import UserService from "@/services/UserService";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Login() {
-  const { signIn } = useSession();
+  const { onLogin } = useAuth();
   const router = useRouter();
   const styles = useGlobalStyles();
   
@@ -38,7 +38,8 @@ export default function Login() {
     // sign in api request
     try {
       const res = await UserService.login(email.trim(), password);
-      if (res && res.token) signIn(res.token);
+      
+      if (res) onLogin && onLogin(res);
       else setError('Email or password not correct');
     } catch (err) {
       setError(String(err));

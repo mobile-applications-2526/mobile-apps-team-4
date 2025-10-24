@@ -42,7 +42,7 @@ const ActivityMap = ({ activities }: Props) => {
           {activities && activities.map((a, i) => (
             <Marker
               key={i}
-              coordinate={{ latitude: a.coordinates.lat, longitude: a.coordinates.lon }}
+              coordinate={{ latitude: a.location.latitude, longitude: a.location.longitude }}
               // title={a.title} // otherwise shows pop up
               onPress={() => router.push(`/(modals)/joinActivity/${a.id}`)}
               style={{ width: 40, height: 40}}

@@ -29,8 +29,8 @@ const ActivityDetailMap = ({ activity }: Props) => {
             height: 200,
           }}
           initialRegion={{
-            latitude: activity.coordinates.lat,
-            longitude: activity.coordinates.lon,
+            latitude: activity.location.latitude,
+            longitude: activity.location.longitude,
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
           }}
@@ -43,7 +43,7 @@ const ActivityDetailMap = ({ activity }: Props) => {
         >
 
           <Marker
-            coordinate={{ latitude: activity.coordinates.lat, longitude: activity.coordinates.lon }}
+            coordinate={{ latitude: activity.location.latitude, longitude: activity.location.longitude }}
             style={{ width: 40, height: 40}}
           >
 

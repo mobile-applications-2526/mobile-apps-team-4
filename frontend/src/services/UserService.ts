@@ -1,17 +1,20 @@
-import { User } from "@/types";
+import { AuthResponse, User } from "@/types";
 import api from "./api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const login = async (email: string, password: string): Promise<{ token: string, user: { name: string, email: string } } | undefined> => {
+const login = async (email: string, password: string): Promise<AuthResponse | undefined> => {
   try {
-    const res = await api.post<{ token: string, user: { name: string, email: string } }>('/users/login', {
+    const res = await api.post<AuthResponse>('/users/login', {
       email,
       password,
     });
 
-    const userName = res.data.user.name;
-    const userEmail = res.data.user.email;
-    await AsyncStorage.setItem('user', JSON.stringify({ name: userName, email: userEmail }));
+    const authResponse = res.data;
+    await AsyncStorage.setItem('user', JSON.stringify({
+      id: authResponse.user.id,
+      name: authResponse.user.name,
+      email: authResponse.user.email,
+    }));
 
     return res.data;
   } catch (err) {
@@ -19,16 +22,20 @@ const login = async (email: string, password: string): Promise<{ token: string, 
   }
 };
 
-const register = async (email: string, password: string, name: string): Promise<User | undefined> => {
+const register = async (email: string, password: string, name: string): Promise<AuthResponse | undefined> => {
   try {
-    const res = await api.post<User>('/users/register', {
+    const res = await api.post<AuthResponse>('/users/register', {
       email,
       password,
       name,
     });
 
-    const { name: userName, email: userEmail } = res.data;
-    await AsyncStorage.setItem('user', JSON.stringify({ name: userName, email: userEmail }));
+    const authResponse = res.data;
+    await AsyncStorage.setItem('user', JSON.stringify({
+      id: authResponse.user.id,
+      name: authResponse.user.name,
+      email: authResponse.user.email,
+    }));
 
     return res.data;
   } catch (err) {

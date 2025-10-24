@@ -1,15 +1,15 @@
-import { SplashScreen } from 'expo-router';
-// eslint-disable-next-line import/no-unresolved
-import { useSession } from '@/context/AuthContext';
-
-SplashScreen.preventAutoHideAsync();
+import { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import { useAuth } from '@/context/AuthContext';
 
 export default function SplashScreenController() {
-  const { isLoading } = useSession();
+  const { authState } = useAuth();
 
-  if (!isLoading) {
-    SplashScreen.hide();
-  }
+  useEffect(() => {
+    if (authState?.authenticated !== null) {
+      SplashScreen.hideAsync();
+    }
+  }, [authState]);
 
   return null;
-};
+}

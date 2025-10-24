@@ -1,45 +1,86 @@
-import { use, createContext, type PropsWithChildren } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthResponse, User } from '@/types';
 
-import { useStorageState } from '@/hooks/useStorageState';
+type AuthContextType = {
+  authState?: { token: string | null; authenticated: boolean | null };
+  user?: User | null;
+  onLogin?: (authResponse: AuthResponse) => Promise<void>;
+  onLogout?: () => Promise<void>;
+  loadSession?: () => Promise<void>;
+};
 
-const AuthContext = createContext<{
-  signIn: (token: string) => void;
-  signOut: () => void;
-  session?: string | null;
-  isLoading: boolean;
-}>({
-  signIn: (token: string) => null,
-  signOut: () => null,
-  session: null,
-  isLoading: false,
-});
+const AuthContext = createContext<AuthContextType>({});
 
-// Use this hook to access the user info.
-export function useSession() {
-  const value = use(AuthContext);
-  if (!value) {
-    throw new Error('useSession must be wrapped in a <SessionProvider />');
-  }
+export const useAuth = () => useContext(AuthContext);
 
-  return value;
-}
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [authState, setAuthState] = useState<{ token: string | null; authenticated: boolean | null }>({
+    token: null,
+    authenticated: null,
+  });
+  const [user, setUser] = useState<User | null>(null);
 
-export default function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState('session');
+  useEffect(() => {
+    loadSession();
+  }, []);
+
+  const loadSession = async () => {
+    try {
+      const token = await SecureStore.getItemAsync('token');
+      const userData = await AsyncStorage.getItem('user');
+      
+      if (token && userData) {
+        setAuthState({ token, authenticated: true });
+        setUser(JSON.parse(userData));
+      } else {
+        setAuthState({ token: null, authenticated: false });
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('Failed to load session', error);
+      setAuthState({ token: null, authenticated: false });
+      setUser(null);
+    }
+  };
+
+  const onLogin = async (authResponse: AuthResponse) => {
+    const { token, user } = authResponse;
+    try {
+      await SecureStore.setItemAsync('token', token);
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+      setAuthState({ token, authenticated: true });
+      setUser(user);
+    } catch (error) {
+      console.error('Failed to save session', error);
+      throw error;
+    }
+  };
+
+  const onLogout = async () => {
+    try {
+      await SecureStore.deleteItemAsync('token');
+      await AsyncStorage.removeItem('user');
+      setAuthState({ token: null, authenticated: false });
+      setUser(null);
+    } catch (error) {
+      console.error('Failed to clear session', error);
+      throw error;
+    }
+  };
 
   return (
-    <AuthContext
+    <AuthContext.Provider
       value={{
-        signIn: (token) => {
-          setSession(token);
-        },
-        signOut: () => {
-          setSession(null);
-        },
-        session,
-        isLoading,
-      }}>
+        authState,
+        user,
+        onLogin,
+        onLogout,
+        loadSession,
+      }}
+    >
       {children}
-    </AuthContext>
+    </AuthContext.Provider>
   );
-}
+};

@@ -1,11 +1,11 @@
 import Button from "@/components/inputs/Button";
-import { useSession } from "@/context/AuthContext";
 import useGlobalStyles from "@/styles/global";
 import ModalHeading from "@/components/ui/ModalHeading";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "@/context/AuthContext";
 
 const Logout = () => {
-  const { signOut } = useSession();
+  const { onLogout } = useAuth();
   const style = useGlobalStyles();
 
   return (
@@ -13,7 +13,7 @@ const Logout = () => {
 
       <ModalHeading name={'Do you wish to log out?'} />
       <Button
-        onPress={signOut}
+        onPress={() => onLogout && onLogout()}
         label='Sign out'
       />
     </SafeAreaView>
