@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import be.ucll.dto.AuthResponse;
@@ -12,6 +13,7 @@ import be.ucll.dto.UserDTO;
 import be.ucll.service.UserService;
 import be.ucll.util.exceptions.DomainException;
 import be.ucll.util.exceptions.ServiceException;
+
 
 @RestController
 @RequestMapping("/users")
@@ -32,6 +34,13 @@ public class UserRestController {
     public AuthResponse login(@RequestBody LoginDTO loginDTO) {
         return userService.login(loginDTO);
     }
+
+    @GetMapping("/me")
+    public UserDTO getUserById() {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userService.getUserById(userId);
+    }
+    
 
 
     @ExceptionHandler(DomainException.class)

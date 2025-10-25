@@ -37,7 +37,7 @@ public class Group {
 
     @ManyToOne
     @JoinColumn(name = "group_leader_id")
-    private User groupLeader;
+    private User owner;
 
     protected Group() {}
 
@@ -58,8 +58,8 @@ public class Group {
         return members;
     }
 
-    public User getGroupLeader() {
-        return groupLeader;
+    public User getOwner() {
+        return owner;
     }
 
     // Setters
@@ -71,8 +71,8 @@ public class Group {
         this.members = members;
     }
 
-    public void setGroupLeader(User groupLeader) {
-        this.groupLeader = groupLeader;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public void addMember(User user) {

@@ -50,4 +50,9 @@ public class UserService {
         return new AuthResponse(token,userDTO);
     }
 
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ServiceException("User with this id does not exist", HttpStatus.NOT_FOUND));
+        return new UserDTO(user.getName(),user.getEmail());
+    }
+
 }

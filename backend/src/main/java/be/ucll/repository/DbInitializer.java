@@ -41,7 +41,7 @@ public class DbInitializer {
         // Groups
         Group group1 = new Group("Presidents of the USA");
         groupRepository.save(group1);
-        group1.setGroupLeader(barack);
+        group1.setOwner(barack);
         groupRepository.save(group1);
 
         // Activities

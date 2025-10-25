@@ -40,6 +40,10 @@ public class User{
     @JsonIgnore
     private List<Group> groups = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "participants")
+    @JsonIgnore
+    private List<Activity> activities = new ArrayList<>();
+
     protected User() {}
 
     public User(String name, String email, String password) {
@@ -65,6 +69,10 @@ public class User{
         this.groups = groups;
     }
 
+    public void setActivities(List<Activity>activities) {
+        this.activities = activities;
+    }
+
     // Getters
     public Long getId() {
         return this.id;
@@ -84,5 +92,9 @@ public class User{
 
     public List<Group> getGroups() {
         return this.groups;
+    }
+
+    public List<Activity> getActivities() {
+        return this.activities;
     }
 }

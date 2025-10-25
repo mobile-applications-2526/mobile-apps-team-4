@@ -11,6 +11,7 @@ import be.ucll.dto.ActivityDTO;
 import be.ucll.dto.CreateActivityDTO;
 import be.ucll.model.Activity;
 import be.ucll.model.Group;
+import be.ucll.model.User;
 import be.ucll.repository.ActivityRepository;
 import be.ucll.repository.GroupRepository;
 import be.ucll.repository.UserRepository;
@@ -61,7 +62,7 @@ public class ActivityService {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ServiceException("Group not found", HttpStatus.NOT_FOUND));
 
-        if (group.getGroupLeader() == null || !group.getGroupLeader().getId().equals(userId)) {
+        if (group.getOwner() == null || !group.getOwner().getId().equals(userId)) {
             throw new ServiceException("Only the group owner can create activities", HttpStatus.FORBIDDEN);
         }
 
@@ -87,4 +88,40 @@ public class ActivityService {
         activityRepository.delete(activity);
         return "Activity " + activity.getName() + " has been deleted.";
     }
+
+    public ActivityDTO joinActivityById(Long activityId, Long userId) {
+        Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new ServiceException("Activity not found", HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+
+        if (activity.getParticipants().contains(user)) {
+            throw new ServiceException("User is already part of activity : " + activity.getName(), HttpStatus.CONFLICT);
+        }
+        activity.addParticipant(user);
+        activityRepository.save(activity);
+        return new ActivityDTO(activity);
+    }
+
+    public void leaveActivityById(Long activityId, Long userId) {
+        Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new ServiceException("Activity not found", HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+
+        if (!activity.getParticipants().contains(user)) {
+            throw new ServiceException("User is not part of activity : " + activity.getName() + " , so he cannot leave it!", HttpStatus.FORBIDDEN);
+        }
+
+        activity.removeParticipant(user);
+        activityRepository.save(activity);
+    }
+
+    public List<ActivityDTO> getJoinedActivitiesByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+        List<Activity> activities = user.getActivities();
+        List<ActivityDTO> activityDTOs = new ArrayList<>();
+        for (Activity activity : activities) {
+            activityDTOs.add(new ActivityDTO(activity));
+        }
+        return activityDTOs;
+    }
+
+    
 }

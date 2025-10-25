@@ -8,7 +8,6 @@ import be.ucll.dto.CreateActivityDTO;
 import be.ucll.service.ActivityService;
 import be.ucll.util.exceptions.DomainException;
 import be.ucll.util.exceptions.ServiceException;
-import be.ucll.util.security.JwtUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -31,14 +32,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/activities")
 public class ActivityRestController {
     private ActivityService activityService;
-    private JwtUtils jwtUtils;
     
-    public ActivityRestController(ActivityService activityService, JwtUtils jwtUtils) {
+    public ActivityRestController(ActivityService activityService) {
         this.activityService = activityService;
-        this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public List<ActivityDTO> getAllActivities() {
         return activityService.getAllActivities();
     }
@@ -54,7 +53,7 @@ public class ActivityRestController {
             return activityService.getActivityInfo(activityName);
     }
 
-    @PostMapping("/{groupId}") 
+    @PostMapping("/create/{groupId}") 
         public ActivityDTO createActivity(@RequestBody CreateActivityDTO activity, @PathVariable Long groupId) {
             Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return activityService.createActivity(groupId, userId, activity);
@@ -64,6 +63,25 @@ public class ActivityRestController {
     public String deleteActivity(@PathVariable Long activityId) {
         return activityService.deleteActivityById(activityId);
     }
+
+    @PutMapping("/join/{ActivityId}")
+    public ActivityDTO joinActivityById(@PathVariable Long activityId) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return activityService.joinActivityById(activityId, userId);
+    }
+
+    @PutMapping("/leave/{activityId}")
+    public void leaveActivityById(@PathVariable Long activityId) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        activityService.leaveActivityById(activityId, userId);
+    }
+
+    @GetMapping("/joined")
+    public List<ActivityDTO> getJoinedActivitiesByUserId() {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return activityService.getJoinedActivitiesByUserId(userId);
+    }
+    
 
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<Map<String, Object>> handleDomainException(DomainException ex) {
