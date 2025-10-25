@@ -63,7 +63,7 @@ public class ActivityRestController {
         return activityService.deleteActivityById(activityId);
     }
 
-    @PutMapping("/join/{ActivityId}")
+    @PutMapping("/join/{activityId}")
     public ActivityDTO joinActivityById(@PathVariable Long activityId) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return activityService.joinActivityById(activityId, userId);
