@@ -109,11 +109,13 @@ public class Activity {
     public void addParticipant(User user) {
         if (!this.participants.contains(user)) {
             this.participants.add(user);
+            user.getActivities().add(this);
         }
     }
 
     public void removeParticipant(User user) {
         this.participants.remove(user);
+        user.getActivities().remove(this);
     }
 
     public void setHostedBy(Group hostedBy) {
