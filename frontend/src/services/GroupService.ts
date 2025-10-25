@@ -17,11 +17,25 @@ const get = async (id: number): Promise<Group | undefined> => {
   } catch (err) {
     throw err;
   }
-}
+};
+
+const create = async ({ name, members, description}: { name: string, members?: number[], description?: string }): Promise<Group> => {
+  try {
+    const res = await api.post<Group>(`/groups/create?name=${name}`, {
+      name,
+      description,
+      members,
+    });
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 const GroupService = {
   getAll,
   get,
+  create,
 };
 
 export default GroupService;

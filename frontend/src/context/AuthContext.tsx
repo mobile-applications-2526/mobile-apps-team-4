@@ -5,7 +5,7 @@ import { AuthResponse, User } from '@/types';
 
 type AuthContextType = {
   authState?: { token: string | null; authenticated: boolean | null };
-  user?: User | null;
+  user?: User;
   onLogin?: (authResponse: AuthResponse) => Promise<void>;
   onLogout?: () => Promise<void>;
   loadSession?: () => Promise<void>;
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     token: null,
     authenticated: null,
   });
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     loadSession();
@@ -36,12 +36,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(JSON.parse(userData));
       } else {
         setAuthState({ token: null, authenticated: false });
-        setUser(null);
+        setUser(undefined);
       }
     } catch (error) {
       console.error('Failed to load session', error);
       setAuthState({ token: null, authenticated: false });
-      setUser(null);
+      setUser(undefined);
     }
   };
 
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await SecureStore.deleteItemAsync('token');
       await AsyncStorage.removeItem('user');
       setAuthState({ token: null, authenticated: false });
-      setUser(null);
+      setUser(undefined);
     } catch (error) {
       console.error('Failed to clear session', error);
       throw error;

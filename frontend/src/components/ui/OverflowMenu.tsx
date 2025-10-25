@@ -47,7 +47,7 @@ const OverflowMenu = ({ options }: Props) => {
             borderRadius: 8,
             overflow: 'hidden',
             backgroundColor: '#00000000',
-            width: 230,
+            minWidth: 250,
           }
         }}
         >
@@ -64,6 +64,7 @@ const OverflowMenu = ({ options }: Props) => {
                   paddingHorizontal: 14,
                   flexDirection: 'row',
                   justifyContent: 'space-between',
+                  alignItems: 'center'
                 },
                 isAndroid && {
                   backgroundColor: isDark ? Colors.dark.background : Colors.light.background,
@@ -79,6 +80,7 @@ const OverflowMenu = ({ options }: Props) => {
                   {
                     color: styles.text.color,
                     fontSize: 16,
+                    flexWrap: 'wrap',
                   },
                   option.disabled && {
                     color: isDark ? Colors.dark.border : Colors.light.border,

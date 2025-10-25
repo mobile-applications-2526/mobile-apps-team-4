@@ -47,12 +47,22 @@ const leave = async (id: number): Promise<Activity | undefined> => {
   }
 };
 
+const getJoined = async (): Promise<Activity[] | undefined> => {
+  try {
+    const res = await api.get<Activity[]>('/activities/joined');
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const ActivityService = {
   getAll,
   get,
   getByGroup,
   join,
   leave,
+  getJoined,
 };
 
 export default ActivityService;

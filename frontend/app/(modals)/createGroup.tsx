@@ -6,15 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const CreateGroup = () => {
   const styles = useGlobalStyles();
 
-  const handleCreateGroup = async () => {
-
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <ModalHeading name="Create group" />
 
-      <CreateGroupForm onCreateGroup={() => {}} />
+      <CreateGroupForm />
     </SafeAreaView>
   );
 };

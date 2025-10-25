@@ -1,20 +1,22 @@
 import useGlobalStyles from "@/styles/global"
 import Button from "./Button"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput, Text, FlatList, TouchableOpacity, useColorScheme, View } from "react-native";
+import { TextInput, Text, FlatList, TouchableOpacity, useColorScheme } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { router } from "expo-router";
 import { User } from "@/types";
 import { IconSymbol } from "../ui/icon-symbol";
 import { Colors } from "@/constants/theme";
+import UserService from "@/services/UserService";
+import GroupService from "@/services/GroupService";
+import Toast from "react-native-toast-message";
+import showErrorToast from "@/utils/showErrorToast";
+import { useAuth } from "@/context/AuthContext";
 
-interface Props {
-  onCreateGroup: () => void;
-}
-
-const CreateGroupForm = ({ onCreateGroup }: Props) => {
+const CreateGroupForm = () => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
+  const { user } = useAuth();
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -22,6 +24,7 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
 
   const [search, setSearch] = useState<string>('');
   const [foundUsers, setFoundUsers] = useState<User[]>([]);
+  const [error, setError] = useState<string>('');
   const addMemberUsers = foundUsers.filter(u => !members.some(m => m.id === u.id));
 
   const descriptionRef = useRef<TextInput>(null);
@@ -30,20 +33,9 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
   useEffect(() => { // should debounce this
     const getUsers = async () => {
       if (search !== '') {
-        const res = [
-          {
-            id: 0,
-            name: "Barack Obama",
-            email: "barack@obama.com",
-          },
-          {
-            id: 1,
-            name: "Joe Biden",
-            email: "joe@biden.com",
-          },
-        ];
+        const res = await UserService.findByEmailOrName(search);
 
-        setFoundUsers(res);
+        setFoundUsers(res.filter(u => u.id !== user?.id)); // exclude logged in user
       } else {
         setFoundUsers([]);
       }
@@ -53,8 +45,25 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
     getUsers();
   }, [search]);
 
-  const handleGroupCreate = () => {
-    router.back();
+  const handleGroupCreate = async () => {
+    if (!name) {
+      setError('Name is required');
+      return;
+    }
+
+    try {
+      await GroupService.create({ name, description, members: members.map(m => m.id) });
+      
+      Toast.show({
+        type: 'success',
+        text1: 'Group created!',
+      });
+      
+      router.replace('/(app)/groups');
+    } catch (err) {
+      router.back(); // otherwise toast doesnt show
+      showErrorToast(err);
+    }
   };
 
   return (
@@ -149,6 +158,8 @@ const CreateGroupForm = ({ onCreateGroup }: Props) => {
           </Text>
         )}
       />
+
+      {error ? <Text style={{ color: 'red', paddingBottom: 8 }}>{error}</Text> : null}
 
       <Button
         onPress={handleGroupCreate}

@@ -1,4 +1,4 @@
-import { Activity } from "@/types";
+import { Activity, User } from "@/types";
 import { FlatList, TouchableOpacity, Text, useColorScheme, View } from "react-native";
 import { IconSymbol } from "./icon-symbol";
 import useGlobalStyles from "@/styles/global";
@@ -8,10 +8,11 @@ import Button from "../inputs/Button";
 
 interface Props {
   activities: Activity[],
+  user?: User;
   showGrabber?: boolean,
 };
 
-const ActivityList = ({ activities, showGrabber = true }: Props) => {
+const ActivityList = ({ activities, user, showGrabber = true }: Props) => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
 
@@ -53,7 +54,11 @@ const ActivityList = ({ activities, showGrabber = true }: Props) => {
               </Text>
             )}
 
-            <Button label='Join Activity' onPress={() => router.push(`/(modals)/joinActivity/${item.id}`)} />
+            <Button
+              label={user && item.participantIds.includes(user.id) ? 'Leave activity' : 'Join Activity'}
+              onPress={() => router.push(`/(modals)/joinActivity/${item.id}`)}
+              highlight={!(user && item.participantIds.includes(user.id))}
+            />
           </TouchableOpacity>
 
         )}
