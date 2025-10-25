@@ -3,6 +3,8 @@ package be.ucll.service;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import be.ucll.dto.CreateGroupDTO;
 import be.ucll.model.Group;
 import be.ucll.model.User;
 import be.ucll.repository.GroupRepository;
@@ -28,14 +30,21 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
-    public Group createGroup(String name,Long userId) {
-        if (groupRepository.findByNameIgnoreCase(name).isPresent()){
-            throw new ServiceException("Group with name: '" + name + "' Already exists", HttpStatus.CONFLICT);
+    public Group createGroup(CreateGroupDTO createGroupDTO, Long userId) {
+        if (groupRepository.findByNameIgnoreCase(createGroupDTO.name()).isPresent()){
+            throw new ServiceException("Group with name: '" + createGroupDTO.name() + "' Already exists", HttpStatus.CONFLICT);
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
-        Group group = new Group(name);
+        Group group = new Group(createGroupDTO.name());
         group.setOwner(user);
         group.addMember(user);
+
+        List<Long> memberIds = createGroupDTO.members();
+        memberIds.remove(userId);
+
+        List<User> members = userRepository.findAllById(memberIds);
+        members.forEach(group::addMember);
+
         return groupRepository.save(group);
     }
 

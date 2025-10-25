@@ -1,9 +1,9 @@
 package be.ucll.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.ucll.dto.CreateGroupDTO;
 import be.ucll.model.Group;
 import be.ucll.service.GroupService;
 import be.ucll.util.exceptions.DomainException;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/groups")
@@ -41,9 +42,9 @@ public class GroupRestController {
     }
 
     @PostMapping("/create")
-    public Group createGroup(@RequestParam String name) {
+    public Group createGroup(@RequestBody CreateGroupDTO createGroupDTO) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return groupService.createGroup(name,userId);
+        return groupService.createGroup(createGroupDTO, userId);
     }
 
     @DeleteMapping("/{groupId}")
