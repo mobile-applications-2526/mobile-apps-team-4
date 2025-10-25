@@ -1,4 +1,6 @@
 package be.ucll.service;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,6 +55,10 @@ public class UserService {
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ServiceException("User with this id does not exist", HttpStatus.NOT_FOUND));
         return new UserDTO(user.getName(),user.getEmail(), user.getId());
+    }
+
+    public List<User> getUserByEmailOrName(String emailOrName) {
+        return userRepository.findTop5ByEmailContainingIgnoreCaseOrNameContainingIgnoreCase(emailOrName, emailOrName);
     }
 
 }

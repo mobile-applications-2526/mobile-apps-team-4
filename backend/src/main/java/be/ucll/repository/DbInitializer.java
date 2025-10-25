@@ -33,13 +33,19 @@ public class DbInitializer {
         // Users
         User barack = new User("Barack Obama", "barack@obama.com", passwordEncoder.encode("TheGoat123"));
         User joe = new User("Joe Biden", "joe@biden.com", passwordEncoder.encode("iForgotMyPassword"));
-        User john = new User("John Doe", "john.doe@example.com", passwordEncoder.encode("IAmTheDoe"));
-        User jane = new User("Jane Doe", "jane.doe@example.com", passwordEncoder.encode("IAmTheOtherDoe"));
+        User john = new User("John Doe", "john.doe@example.com", passwordEncoder.encode("DOE"));
+        User jane = new User("Jane Doe", "jane.doe@example.com", passwordEncoder.encode("DOE"));
+        User june = new User("June Doe", "june.doe@example.com", passwordEncoder.encode("DOE"));
+        User jack = new User("Jack Doe", "jack.doe@example.com", passwordEncoder.encode("DOE"));
+        User james = new User("James Doe", "james.doe@example.com", passwordEncoder.encode("DOE"));
 
         userRepository.save(barack);
         userRepository.save(joe);
         userRepository.save(john);
         userRepository.save(jane);
+        userRepository.save(june);
+        userRepository.save(jack);
+        userRepository.save(james);
 
         // Groups
         Group groupPresidents = new Group("Presidents of the USA");

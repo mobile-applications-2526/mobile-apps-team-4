@@ -1,5 +1,6 @@
 package be.ucll.controller;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import be.ucll.dto.AuthResponse;
 import be.ucll.dto.LoginDTO;
 import be.ucll.dto.RegisterDTO;
 import be.ucll.dto.UserDTO;
+import be.ucll.model.User;
 import be.ucll.service.UserService;
 import be.ucll.util.exceptions.DomainException;
 import be.ucll.util.exceptions.ServiceException;
@@ -41,7 +43,10 @@ public class UserRestController {
         return userService.getUserById(userId);
     }
     
-
+    @GetMapping("emailOrName/{emailOrName}")
+    public List<User> getByEmailOrName(@PathVariable String emailOrName) {
+        return userService.getUserByEmailOrName(emailOrName);
+    }
 
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<Map<String, Object>> handleDomainException(DomainException ex) {
