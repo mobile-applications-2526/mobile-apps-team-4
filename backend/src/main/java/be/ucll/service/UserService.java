@@ -1,4 +1,5 @@
 package be.ucll.service;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import be.ucll.dto.RegisterDTO;
 import be.ucll.dto.UserDTO;
 import be.ucll.model.User;
 import be.ucll.repository.UserRepository;
+import be.ucll.util.exceptions.ServiceException;
 import be.ucll.util.security.JwtUtils;
 
 @Service
@@ -24,7 +26,7 @@ public class UserService {
 
     public UserDTO register(RegisterDTO registerDTO) {
         if (userRepository.findByEmailIgnoreCase(registerDTO.email()).isPresent()) {
-            throw new RuntimeException("User with this email already exists");
+            throw new ServiceException("User with this email already exists",HttpStatus.CONFLICT);
         }
 
         User user = new User(
@@ -38,10 +40,10 @@ public class UserService {
 
     public AuthResponse login(LoginDTO loginDTO) {
         User user = userRepository.findByEmailIgnoreCase(loginDTO.email())
-            .orElseThrow(() -> new RuntimeException("User details are not correct"));
+            .orElseThrow(() -> new ServiceException("User details are not correct",HttpStatus.UNAUTHORIZED));
 
         if (!passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
-            throw new RuntimeException("User details are not correct");
+            throw new ServiceException("User details are not correct",HttpStatus.UNAUTHORIZED);
         }
         UserDTO userDTO = new UserDTO(user.getName(), user.getEmail());
         String token = jwtUtils.generateJwtToken(user.getEmail());
