@@ -40,6 +40,17 @@ public class ActivityService {
         return activityDTOs;
     }
 
+    public List<ActivityDTO> getAllActivitiesFromGroup(Long groupId) {
+        List<Activity> activities = activityRepository.findByHostedBy_Id(groupId);
+        List<ActivityDTO> activityDTOs = new ArrayList<>();
+
+        for (Activity activity : activities) {
+            activityDTOs.add(new ActivityDTO(activity));
+        }
+
+        return activityDTOs;
+    }
+
     public Optional<ActivityDTO> getActivityById(Long id) {
         Optional<Activity> activity = activityRepository.findById(id);
 

@@ -46,6 +46,11 @@ public class ActivityRestController {
     public Optional<ActivityDTO> getActivityById(@PathVariable Long id) {
         return activityService.getActivityById(id);
     }
+
+    @GetMapping("/group/{hostedBy}")
+    public List<ActivityDTO> getAllActivitiesFromGroup(@PathVariable Long hostedBy) {
+        return activityService.getAllActivitiesFromGroup(hostedBy);
+    }
     
     @PostMapping("/create/{groupId}") 
         public ActivityDTO createActivity(@RequestBody CreateActivityDTO activity, @PathVariable Long groupId) {

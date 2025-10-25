@@ -50,7 +50,7 @@ public class DbInitializer {
 
         Group groupDoe = new Group("John Doe's group");
         groupDoe.setOwner(john);
-        groupDoe.addMember(joe);
+        groupDoe.addMember(john);
         groupDoe.addMember(jane);
         groupRepository.save(groupDoe);
 
