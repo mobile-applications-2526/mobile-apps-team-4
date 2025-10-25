@@ -4,6 +4,7 @@ import useGlobalStyles from '@/styles/global';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PageHeading from '@/components/ui/PageHeading';
 import { router } from 'expo-router';
+import React from 'react';
 
 export default function Index() {
   const { user } = useAuth();
@@ -12,7 +13,15 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
 
-      <PageHeading name='Account' onExtraOptions={() => router.push('/(modals)/logout')} />
+      <PageHeading
+        name='Account'
+        extraOptions={[
+          {
+            label: 'Logout',
+            onPress: () => router.push('/(modals)/logout'),
+          },
+        ]}
+      />
 
       <View style={{ marginBottom: 20 }}>
 

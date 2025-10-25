@@ -3,6 +3,7 @@ import 'react-native-reanimated';
 
 import SplashScreenController from './splash';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { MenuProvider } from 'react-native-popup-menu';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,7 +15,9 @@ export default function Root() {
   return (
     <AuthProvider>
       <SplashScreenController />
-      <RootNavigator />
+      <MenuProvider>
+        <RootNavigator />
+      </MenuProvider>
     </AuthProvider>
   );
 }

@@ -2,36 +2,28 @@ import useGlobalStyles from "@/styles/global";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { IconSymbol } from "./icon-symbol";
 import { Colors } from "@/constants/theme";
+import OverflowMenu from "./OverflowMenu";
 
 interface Props {
   name: string,
   onAdd?: () => void,
-  onExtraOptions?: () => void,
+  extraOptions?: {
+    label: string,
+    onPress: () => void,
+    disabled?: boolean,
+  }[],
 };
 
-const PageHeading = ({ name, onAdd, onExtraOptions }: Props) => {
+const PageHeading = ({ name, onAdd, extraOptions }: Props) => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
-  
-  const hasButtons = !!onAdd || !!onExtraOptions;
-  
+
   return (
     <View style={{...styles.pageHeading, borderWidth: 0, height: 90 }}>
 
       <View style={{ display: 'flex', flexDirection: 'row' }}>
-        {onExtraOptions && (
-          <TouchableOpacity
-            onPress={onExtraOptions}
-            style={{
-              padding: 4,
-              backgroundColor: 'lightgrey',
-              borderRadius: 50,
-              width: 26,
-              height: 26,
-            }}
-          >
-            <IconSymbol size={18} name="ellipsis" color={Colors.light.text} />
-          </TouchableOpacity>
+        {extraOptions && extraOptions.length > 0 && (
+          <OverflowMenu options={extraOptions} />
         )}
 
         {onAdd && (
