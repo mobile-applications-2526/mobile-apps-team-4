@@ -35,7 +35,7 @@ public class UserService {
             passwordEncoder.encode(registerDTO.password())
         );
         User saved = userRepository.save(user);
-        return new UserDTO(saved.getName(), saved.getEmail());
+        return new UserDTO(saved.getName(), saved.getEmail(), saved.getId());
     }
 
     public AuthResponse login(LoginDTO loginDTO) {
@@ -45,14 +45,14 @@ public class UserService {
         if (!passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
             throw new ServiceException("User details are not correct",HttpStatus.UNAUTHORIZED);
         }
-        UserDTO userDTO = new UserDTO(user.getName(), user.getEmail());
+        UserDTO userDTO = new UserDTO(user.getName(), user.getEmail(), user.getId());
         String token = jwtUtils.generateJwtToken(user.getEmail());
         return new AuthResponse(token,userDTO);
     }
 
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ServiceException("User with this id does not exist", HttpStatus.NOT_FOUND));
-        return new UserDTO(user.getName(),user.getEmail());
+        return new UserDTO(user.getName(),user.getEmail(), user.getId());
     }
 
 }
