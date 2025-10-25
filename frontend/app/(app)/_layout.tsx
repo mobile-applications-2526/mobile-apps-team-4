@@ -18,27 +18,46 @@ export default function AppLayout() {
           backgroundColor: isDark ? Colors.dark.tabBackground : Colors.light.tabBackground,
           borderColor: isDark ? Colors.dark.border : Colors.light.border,
         },
-        
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ focused, color }) => (
+            <IconSymbol
+              size={28}
+              name={focused ? "house.fill" : "house"}
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="groups"
         options={{
           title: 'Groups',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.2.fill" color={color} />,
+          tabBarIcon: ({ focused, color }) => (
+            <IconSymbol
+              size={28}
+              name={focused ? "person.2.fill" : "person.2"}
+              color={color}
+              weight={focused ? 'heavy' : 'light'}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="account"
         options={{
           title: 'Account',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+          tabBarIcon: ({ focused, color }) => (
+            <IconSymbol
+              size={28}
+              name={focused ? "person.fill" : "person"}
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>

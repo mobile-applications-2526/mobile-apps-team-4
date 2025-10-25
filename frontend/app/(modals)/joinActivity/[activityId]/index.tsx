@@ -1,11 +1,10 @@
 import Button from "@/components/inputs/Button";
 import ActivityDetailMap from "@/components/ui/ActivityDetailMap";
-import { IconSymbol } from "@/components/ui/icon-symbol";
 import ModalHeading from "@/components/ui/ModalHeading";
 import ActivityService from "@/services/ActivityService";
 import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, ScrollView, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -42,7 +41,7 @@ const JoinActivity = () => {
 
   };
 
-  if (!activity) return <ActivityIndicator size='large' />
+  if (!activity) return <ActivityIndicator size='large' style={styles.containerCenter} />
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,9 +61,14 @@ const JoinActivity = () => {
       <Text style={styles.heading}>
         Organized by
       </Text>
-      <Text>
+      {/* <Text style={styles.text}>
         {group.name}
-      </Text>
+      </Text> */}
+      <Button
+        label={group.name}
+        highlight={false}
+        onPress={() => router.push(`/(app)/groups/${group.id}`)}
+      />
 
       {activity.participantIds && activity.participantIds.length > 0 && (
         <>

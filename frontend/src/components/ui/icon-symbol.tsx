@@ -15,8 +15,11 @@ export type IconSymbolName = keyof typeof MAPPING;
  */
 const MAPPING = {
   'house.fill': 'home',
+  'house': 'home',
   'person.2.fill': 'group',
+  'person.2': 'group',
   'person.fill': 'person',
+  'person': 'person',
   'ellipsis': 'more-horiz',
   'plus': 'add',
   'xmark': 'close',

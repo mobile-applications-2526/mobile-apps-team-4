@@ -21,7 +21,10 @@ export default function GroupsLayout() {
           color: isDark
             ? Colors.dark.text
             : Colors.light.text
-        }
+        },
+        contentStyle: {
+          backgroundColor: '#ff0000ff',
+        },
       }}
     >
       <Stack.Screen

@@ -29,14 +29,16 @@ const group: Group = {
 const activities: Activity[] = [
   {
     id: 0,
-    title: "Ice cream store hangout",
+    name: "Ice cream store hangout",
     date: new Date(),
-    group: 0,
-    coordinates: { lat: 50.873, lon: 4.702 },
+    hostedByGroupId: 0,
+    location: { latitude: 50.873, longitude: 4.702 },
     icon: {
       name: 'fork.knife',
       color: '#FF6B6B',
-    }
+    },
+    startDate: new Date().toISOString(),
+    participantIds: [0, 1],
   },
 ];
 
