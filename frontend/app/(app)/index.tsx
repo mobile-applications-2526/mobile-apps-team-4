@@ -1,4 +1,4 @@
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import useGlobalStyles from '@/styles/global';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -33,6 +33,8 @@ export default function Index() {
         <ActivityMap activities={activities} />
 
         <ActivityList activities={activities} />
+
+        <View style={{ height: 12 }} />
       </ScrollView>
       
     </SafeAreaView>

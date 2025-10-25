@@ -38,3 +38,16 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+export type OverflowMenuOption = {
+  label: string,
+  onPress: () => void,
+  disabled?: boolean,
+  icon?: IconSymbolName,
+};
+
+export type ApiError = {
+  errorCode: number,
+  message: string,
+  type: string,
+}

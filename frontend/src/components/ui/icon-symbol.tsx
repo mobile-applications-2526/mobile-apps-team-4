@@ -69,6 +69,7 @@ const MAPPING = {
   "figure.run": "directions-run",
   "globe.europe.africa.fill": "public",
   "desktopcomputer": "desktop-windows",
+  "rectangle.portrait.and.arrow.right": "logout",
 } as IconMapping;
 
 /**

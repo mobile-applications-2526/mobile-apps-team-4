@@ -1,50 +1,36 @@
 import ActivityList from "@/components/ui/ActivityList";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import ActivityService from "@/services/ActivityService";
+import GroupService from "@/services/GroupService";
 import useGlobalStyles from "@/styles/global";
-import { Activity, Group, User } from "@/types";
+import { Activity, Group } from "@/types";
 import { useLocalSearchParams } from "expo-router";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
-
-const members: User[] = [
-  {
-    id: 0,
-    name: "Barack Obama",
-    email: "barack@obama.com",
-  },
-  {
-    id: 1,
-    name: "Joe Biden",
-    email: "joe@biden.com",
-  },
-];
-
-const group: Group = {
-  id: 0,
-  name: 'The Presidents of the USA',
-  owner: members[1],
-  members,
-  description: `We are the chocolate ice cream lovers. We love to stroll on a Sunday evening to the ice cream store, and get some ice cream, I love ice cream.`,
-};
-
-const activities: Activity[] = [
-  {
-    id: 0,
-    name: "Ice cream store hangout",
-    date: new Date(),
-    hostedByGroupId: 0,
-    location: { latitude: 50.873, longitude: 4.702 },
-    icon: {
-      name: 'fork.knife',
-      color: '#FF6B6B',
-    },
-    startDate: new Date().toISOString(),
-    participantIds: [0, 1],
-  },
-];
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 const GroupDetailPage = () => {
   const groupId = useLocalSearchParams().groupId;
   const styles = useGlobalStyles();
+
+  const [group, setGroup] = useState<Group | undefined>(undefined);
+  const [activities, setActivities] = useState<Activity[] | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchGroup = async () => {
+      const res = await GroupService.get(Number(groupId));
+      setGroup(res);
+    };
+    const fetchActivities = async () => {
+      const res = await ActivityService.getByGroup(Number(groupId));
+      setActivities(res);
+    }
+
+    fetchGroup();
+    fetchActivities();
+  }, []);
+
+  if (group === undefined) return <ActivityIndicator size={'large'} style={styles.containerCenter} />
+  
   
   const sortedMembers = group.members.sort((a, b) => {
     if (a.id === group.owner.id) return -1;

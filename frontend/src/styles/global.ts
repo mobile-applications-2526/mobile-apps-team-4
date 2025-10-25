@@ -119,5 +119,20 @@ export default function useGlobalStyles() {
       borderRadius: 12,
       height: 500,
     },
+    toastSuccess: {
+      borderLeftWidth: 0,
+      backgroundColor: isDark ? Colors.dark.successBackground : Colors.light.successBackground,
+      borderRadius: 16,
+    },
+    toastInfo: {
+      borderLeftWidth: 0,
+      backgroundColor: isDark ? Colors.light.backgroundContent : Colors.dark.backgroundContent,
+      borderRadius: 16,
+    },
+    toastError: {
+      borderLeftWidth: 0,
+      backgroundColor: isDark ? Colors.dark.errorBackground : Colors.light.errorBackground,
+      borderRadius: 16,
+    }
   });
 };

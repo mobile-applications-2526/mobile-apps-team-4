@@ -3,15 +3,12 @@ import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { IconSymbol } from "./icon-symbol";
 import { Colors } from "@/constants/theme";
 import OverflowMenu from "./OverflowMenu";
+import { OverflowMenuOption } from "@/types";
 
 interface Props {
   name: string,
   onAdd?: () => void,
-  extraOptions?: {
-    label: string,
-    onPress: () => void,
-    disabled?: boolean,
-  }[],
+  extraOptions?: OverflowMenuOption[],
 };
 
 const PageHeading = ({ name, onAdd, extraOptions }: Props) => {

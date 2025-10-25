@@ -28,7 +28,6 @@ const selectableIcons : IconSymbolName[] = [
   "bag.fill",
   "music.mic",
   "theatermasks.fill",
-  "soccerball",
   "basketball.fill",
   "flame.fill",
   "airplane",
