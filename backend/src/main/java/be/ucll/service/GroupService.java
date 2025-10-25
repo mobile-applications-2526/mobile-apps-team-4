@@ -1,11 +1,8 @@
 package be.ucll.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import be.ucll.model.Group;
 import be.ucll.model.User;
 import be.ucll.repository.GroupRepository;
@@ -21,13 +18,6 @@ public class GroupService {
     public GroupService(GroupRepository groupRepository,UserRepository userRepository) {
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
-    }
-
-    public Optional<Group> getGroupInfo(String groupName) {
-        if (!groupRepository.findByNameIgnoreCase(groupName).isPresent()) {
-            throw new ServiceException("Could not find group with this name",HttpStatus.NOT_FOUND);
-        } 
-        return groupRepository.findByNameIgnoreCase(groupName);
     }
 
     public Group getGroupById(Long groupId) {

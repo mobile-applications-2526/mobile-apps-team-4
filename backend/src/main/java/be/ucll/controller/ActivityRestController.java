@@ -47,12 +47,6 @@ public class ActivityRestController {
         return activityService.getActivityById(id);
     }
     
-    
-    @GetMapping("/get-info/{activityName}") 
-        public Optional<ActivityDTO> getActivityInfo(@PathVariable String activityName) {
-            return activityService.getActivityInfo(activityName);
-    }
-
     @PostMapping("/create/{groupId}") 
         public ActivityDTO createActivity(@RequestBody CreateActivityDTO activity, @PathVariable Long groupId) {
             Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

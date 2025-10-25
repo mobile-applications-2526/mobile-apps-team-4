@@ -12,7 +12,6 @@ import be.ucll.util.exceptions.ServiceException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,10 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
-
-
-
 
 @RestController
 @RequestMapping("/groups")
@@ -35,9 +30,9 @@ public class GroupRestController {
         this.groupService = groupService;
     }
 
-    @GetMapping("/get-info/{groupName}")
-    public Optional<Group> getGroupInfo(@PathVariable String groupName) {
-       return groupService.getGroupInfo(groupName);
+    @GetMapping("/{groupId}")
+    public Group getGroupById(@PathVariable Long groupId) {
+       return groupService.getGroupById(groupId);
     }
 
     @GetMapping("/all")

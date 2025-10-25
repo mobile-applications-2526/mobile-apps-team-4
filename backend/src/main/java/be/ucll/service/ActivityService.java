@@ -29,14 +29,6 @@ public class ActivityService {
         this.groupRepository = groupRepository;
     }
 
-    public Optional<ActivityDTO> getActivityInfo(String activityName) {
-        Optional<Activity> activity = activityRepository.findByNameIgnoreCase(activityName);
-        if (activity.isEmpty()) {
-            throw new ServiceException("Activity does not exist", HttpStatus.NOT_FOUND);
-        }
-        return activity.map(ActivityDTO::new);
-    }
-
     public List<ActivityDTO> getAllActivities() {
         List<Activity> activities = activityRepository.findAll();
         List<ActivityDTO> activityDTOs = new ArrayList<>();
