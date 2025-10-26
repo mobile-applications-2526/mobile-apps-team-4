@@ -64,7 +64,7 @@ const GroupDetailPage = () => {
             Planned activities
           </Text>
 
-          <ActivityList activities={activities} showGrabber={false} />
+          <ActivityList activities={activities} showGrabber={false} emptyMessage="No activities yet" />
         </>
       )}
 

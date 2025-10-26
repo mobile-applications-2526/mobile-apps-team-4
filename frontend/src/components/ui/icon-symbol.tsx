@@ -70,6 +70,8 @@ const MAPPING = {
   "globe.europe.africa.fill": "public",
   "desktopcomputer": "desktop-windows",
   "rectangle.portrait.and.arrow.right": "logout",
+  "checkmark": "check",
+  "arrow.clockwise": "refresh",
 } as IconMapping;
 
 /**

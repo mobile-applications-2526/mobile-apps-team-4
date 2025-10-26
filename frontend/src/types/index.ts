@@ -26,6 +26,22 @@ export type Activity = {
   maxAmountOfParticipants?: number,
 };
 
+export type ActivityCreate = {
+  name: string,
+  group: number,
+  location: {
+    latitude: number, 
+    longitude: number,
+  },
+  icon: {
+    iconSymbolName: string,
+    iconColor: string,
+  },
+  startDate: string, // iso string
+  endDate?: string,  // iso string
+  maxAmountOfParticipants?: number,
+};
+
 export type Group = {
   id: number,
   name: string,

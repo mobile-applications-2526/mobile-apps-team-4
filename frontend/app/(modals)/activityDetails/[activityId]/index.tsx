@@ -1,6 +1,7 @@
 import Button from "@/components/inputs/Button";
 import ActivityDetailMap from "@/components/ui/ActivityDetailMap";
 import ModalHeading from "@/components/ui/ModalHeading";
+import { useAuth } from "@/context/AuthContext";
 import ActivityService from "@/services/ActivityService";
 import GroupService from "@/services/GroupService";
 import useGlobalStyles from "@/styles/global";
@@ -17,9 +18,13 @@ import Toast from 'react-native-toast-message';
 const JoinActivity = () => {
   const activityId = useLocalSearchParams().activityId;
   const styles = useGlobalStyles();
+  const { user } = useAuth();
 
   const [activity, setActivity] = useState<Activity | undefined>(undefined);
   const [group, setGroup] = useState<Group | undefined>(undefined);
+
+  const joined = activity?.participantIds.includes(user!.id);
+  const activityOwner = group?.owner.id === user?.id;
 
   useEffect(() => {
     const getActivity = async () => {
@@ -43,19 +48,29 @@ const JoinActivity = () => {
   if (!activity) return <ActivityIndicator size='large' style={styles.containerCenter} />
 
 
-  const handleJoinActivity = async () => {
+  const handleJoinOrLeave = async () => {
     router.back();
 
     try {
-      await ActivityService.join(activity.id);
+      if (joined) {
+        await ActivityService.leave(activity.id);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Left',
+          text2: `You left ${activity.name}`,
+        });
+      } else {
+        await ActivityService.join(activity.id);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Joined',
+          text2: `You joined ${activity.name}`,
+        });
+      }
       
-      Toast.show({
-        type: 'success',
-        text1: 'Joined',
-        text2: `You joined ${activity.name}`,
-      });
     } catch (err) {
-      console.log('ERROR:', err)
       showErrorToast(err);
     }
   };
@@ -119,8 +134,9 @@ const JoinActivity = () => {
       </ScrollView>
 
       <Button
-        label="Join activity"
-        onPress={handleJoinActivity}
+        label={joined ? "Leave activity" : "Join activity"}
+        onPress={handleJoinOrLeave}
+        highlight={joined}
       />
 
     </SafeAreaView>

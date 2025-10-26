@@ -44,7 +44,7 @@ const ActivityMap = ({ activities }: Props) => {
               key={i}
               coordinate={{ latitude: a.location.latitude, longitude: a.location.longitude }}
               // title={a.title} // otherwise shows pop up
-              onPress={() => router.push(`/(modals)/joinActivity/${a.id}`)}
+              onPress={() => router.push(`/(modals)/activityDetails/${a.id}`)}
               style={{ width: 40, height: 40}}
             >
 

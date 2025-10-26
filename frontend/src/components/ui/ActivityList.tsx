@@ -10,9 +10,10 @@ interface Props {
   activities: Activity[],
   user?: User;
   showGrabber?: boolean,
+  emptyMessage?: string,
 };
 
-const ActivityList = ({ activities, user, showGrabber = true }: Props) => {
+const ActivityList = ({ activities, user, showGrabber = true, emptyMessage = 'No activities found' }: Props) => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
 
@@ -27,6 +28,9 @@ const ActivityList = ({ activities, user, showGrabber = true }: Props) => {
         keyExtractor={item => item.id.toString()}
         scrollEnabled={false}
         style={{ borderRadius: 8 }}
+        ListEmptyComponent={
+          <Text style={{ ...styles.text, textAlign: 'center', paddingVertical: 8 }}>{emptyMessage}</Text>
+        }
         renderItem={({ item }) => (
 
           <TouchableOpacity
@@ -56,7 +60,7 @@ const ActivityList = ({ activities, user, showGrabber = true }: Props) => {
 
             <Button
               label={user && item.participantIds.includes(user.id) ? 'Leave activity' : 'Join Activity'}
-              onPress={() => router.push(`/(modals)/joinActivity/${item.id}`)}
+              onPress={() => router.push(`/(modals)/activityDetails/${item.id}`)}
               highlight={!(user && item.participantIds.includes(user.id))}
             />
           </TouchableOpacity>

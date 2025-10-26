@@ -1,4 +1,4 @@
-import { Activity } from "@/types";
+import { Activity, ActivityCreate } from "@/types";
 import api from "./api";
 
 const getAll = async (): Promise<Activity[] | undefined> => {
@@ -56,6 +56,15 @@ const getJoined = async (): Promise<Activity[] | undefined> => {
   }
 };
 
+const create = async (activity: ActivityCreate): Promise<Activity | undefined> => {
+  try {
+    const res = await api.post<Activity>(`/activities/create/${activity.group}`, activity);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const ActivityService = {
   getAll,
   get,
@@ -63,6 +72,7 @@ const ActivityService = {
   join,
   leave,
   getJoined,
+  create,
 };
 
 export default ActivityService;

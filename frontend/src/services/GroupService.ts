@@ -19,6 +19,15 @@ const get = async (id: number): Promise<Group | undefined> => {
   }
 };
 
+const getJoined = async (): Promise<Group[] | undefined> => {
+  try {
+    const res = await api.get<Group[]>('/groups/joined');
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const create = async ({ name, members, description}: { name: string, members?: number[], description?: string }): Promise<Group> => {
   try {
     const res = await api.post<Group>(`/groups/create?name=${name}`, {
@@ -35,6 +44,7 @@ const create = async ({ name, members, description}: { name: string, members?: n
 const GroupService = {
   getAll,
   get,
+  getJoined,
   create,
 };
 
