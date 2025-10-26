@@ -11,6 +11,7 @@ import be.ucll.dto.ActivityDTO;
 import be.ucll.dto.CreateActivityDTO;
 import be.ucll.model.Activity;
 import be.ucll.model.Group;
+import be.ucll.model.Icon;
 import be.ucll.model.User;
 import be.ucll.repository.ActivityRepository;
 import be.ucll.repository.GroupRepository;
@@ -69,10 +70,12 @@ public class ActivityService {
             throw new ServiceException("Only the group owner can create activities", HttpStatus.FORBIDDEN);
         }
 
+        Icon icon = new Icon(activityDTO.icon().getIconSymbolName(), activityDTO.icon().getIconColor());
+
         Activity activity = new Activity(
                 activityDTO.name(),
                 activityDTO.location(),
-                activityDTO.icon(),
+                icon,
                 activityDTO.startDate(),
                 activityDTO.endDate(),
                 activityDTO.maxAmountOfParticipants()
