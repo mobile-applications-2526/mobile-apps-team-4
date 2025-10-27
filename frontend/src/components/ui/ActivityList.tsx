@@ -5,15 +5,19 @@ import useGlobalStyles from "@/styles/global";
 import { router } from "expo-router";
 import { Colors } from "@/constants/theme";
 import Button from "../inputs/Button";
+import { LocationObject } from "expo-location";
+import { calculateAndFormatDistance } from "@/utils/distanceUtils";
+import { formatDate } from "@/utils/dateUtils";
 
 interface Props {
   activities: Activity[],
   user?: User;
   showGrabber?: boolean,
   emptyMessage?: string,
+  location?: LocationObject,
 };
 
-const ActivityList = ({ activities, user, showGrabber = true, emptyMessage = 'No activities found' }: Props) => {
+const ActivityList = ({ activities, user, showGrabber = true, emptyMessage = 'No activities found', location }: Props) => {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
 
@@ -56,6 +60,24 @@ const ActivityList = ({ activities, user, showGrabber = true, emptyMessage = 'No
             {item.description && (
               <Text style={{ fontSize: 12, ...styles.text }}>
                 {item.description}
+              </Text>
+            )}
+
+            {location && (
+              <Text style={styles.text}>
+                {calculateAndFormatDistance({
+                  coordinate1: {
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                  },
+                  coordinate2: {
+                    latitude: item.location.latitude,
+                    longitude: item.location.longitude,
+                  },
+                })}
+
+                {' '}—{' '}
+                {formatDate(new Date(item.startDate))}
               </Text>
             )}
 

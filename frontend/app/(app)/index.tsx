@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import ActivityService from '@/services/ActivityService';
 import { useAuth } from '@/context/AuthContext';
 import showErrorToast from '@/utils/showErrorToast';
+import * as Location from 'expo-location';
 
 export default function Index() {
   const { user } = useAuth();
@@ -19,6 +20,20 @@ export default function Index() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [onlyJoined, setOnlyJoined] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [location, setLocation] = useState<Location.LocationObject | undefined>(undefined);
+
+  useEffect(() => {
+    async function getCurrentLocation() {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') return;
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    }
+
+    getCurrentLocation();
+  }, []);
 
   useEffect(() => {
     const getActivities = async () => {
@@ -68,9 +83,9 @@ export default function Index() {
           <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
         }
       >
-        <ActivityMap activities={activities} />
+        <ActivityMap activities={activities} location={location} />
 
-        <ActivityList activities={activities} user={user} />
+        <ActivityList activities={activities} user={user} location={location} />
 
         <View style={{ height: 12 }} />
       </ScrollView>

@@ -38,6 +38,12 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Please share your location so we can give you the nearest activities."
+        }
       ]
     ],
     "experiments": {

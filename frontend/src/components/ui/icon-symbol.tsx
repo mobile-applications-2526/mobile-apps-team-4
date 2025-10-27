@@ -72,6 +72,8 @@ const MAPPING = {
   "rectangle.portrait.and.arrow.right": "logout",
   "checkmark": "check",
   "arrow.clockwise": "refresh",
+  "location": "location-searching",
+  "location.fill": "my-location",
 } as IconMapping;
 
 /**
