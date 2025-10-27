@@ -6,7 +6,7 @@ import ActivityService from "@/services/ActivityService";
 import GroupService from "@/services/GroupService";
 import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
-import isApiError from "@/utils/isApiError";
+import pushWithHistory from "@/utils/pushWithHistory";
 import showErrorToast from "@/utils/showErrorToast";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -95,13 +95,10 @@ const JoinActivity = () => {
         <Text style={styles.heading}>
           Organized by
         </Text>
-        {/* <Text style={styles.text}>
-          {group.name}
-        </Text> */}
         <Button
           label={group.name}
           highlight={false}
-          onPress={() => router.push(`/(app)/groups/${group.id}`)}
+          onPress={() => pushWithHistory('/(app)/groups', `/(app)/groups/${group.id}`)}
         />
   
         {activity.participantIds && activity.participantIds.length > 0 && (
