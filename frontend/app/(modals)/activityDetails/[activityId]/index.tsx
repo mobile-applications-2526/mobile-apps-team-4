@@ -136,7 +136,6 @@ const JoinActivity = () => {
       <Button
         label={joined ? "Leave activity" : "Join activity"}
         onPress={handleJoinOrLeave}
-        highlight={joined}
       />
 
     </SafeAreaView>

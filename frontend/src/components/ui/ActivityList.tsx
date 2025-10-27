@@ -43,6 +43,7 @@ const ActivityList = ({ activities, user, showGrabber = true, emptyMessage = 'No
               flexDirection: 'column',
               borderRadius: 8,
             }}
+            onPress={() => router.push(`/(modals)/activityDetails/${item.id}`)}
           >
             <View style={{ flexDirection: 'row', gap: 8 }}>
               {item.icon && (
