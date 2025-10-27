@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthResponse, User } from '@/types';
+import { jwtDecode } from 'jwt-decode';
 
 type AuthContextType = {
   authState?: { token: string | null; authenticated: boolean | null };
@@ -21,6 +22,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     authenticated: null,
   });
   const [user, setUser] = useState<User | undefined>(undefined);
+  const [expiryTimeout, setExpiryTimeout] = useState<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (expiryTimeout) clearTimeout(expiryTimeout);
+    };
+  }, [expiryTimeout]);
 
   useEffect(() => {
     loadSession();
@@ -30,10 +38,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const token = await SecureStore.getItemAsync('token');
       const userData = await AsyncStorage.getItem('user');
-      
+
       if (token && userData) {
+        const decoded = jwtDecode<{ exp: number }>(token);
+        const now = Math.floor(Date.now() / 1000);
+        if (decoded.exp && decoded.exp < now) {
+          await onLogout();
+          return;
+        }
         setAuthState({ token, authenticated: true });
         setUser(JSON.parse(userData));
+        scheduleLogout(token);
       } else {
         setAuthState({ token: null, authenticated: false });
         setUser(undefined);
@@ -45,6 +60,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const scheduleLogout = (token: string) => {
+    const decoded = jwtDecode<{ exp: number }>(token);
+    if (!decoded.exp) return;
+
+    const now = Math.floor(Date.now() / 1000);
+    const delay = (decoded.exp - now) * 1000;
+
+    // console.log('logs out in:', delay / 1000 / 60, 'min')
+
+    if (delay > 0) {
+      const timeout = setTimeout(() => {
+        onLogout();
+      }, delay);
+      setExpiryTimeout(timeout);
+    } else {
+      onLogout();
+    }
+  };
+
   const onLogin = async (authResponse: AuthResponse) => {
     const { token, user } = authResponse;
     try {
@@ -52,6 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await AsyncStorage.setItem('user', JSON.stringify(user));
       setAuthState({ token, authenticated: true });
       setUser(user);
+      scheduleLogout(token);
     } catch (error) {
       console.error('Failed to save session', error);
       throw error;
@@ -60,6 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const onLogout = async () => {
     try {
+      if (expiryTimeout) clearTimeout(expiryTimeout);
       await SecureStore.deleteItemAsync('token');
       await AsyncStorage.removeItem('user');
       setAuthState({ token: null, authenticated: false });

@@ -45,7 +45,16 @@ const register = async (email: string, password: string, name: string): Promise<
 
 const findByEmailOrName = async (emailOrName: string): Promise<User[]> => {
   try {
-    const res = await api.get<User[]>(`/users/emailOrName/${emailOrName}`)
+    const res = await api.get<User[]>(`/users/emailOrName/${emailOrName}`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const getMe = async (): Promise<User | undefined> => {
+  try {
+    const res = await api.get<User>('/users/me');
     return res.data;
   } catch (err) {
     throw err;
@@ -56,6 +65,7 @@ const UserService = {
   login,
   register,
   findByEmailOrName,
+  getMe,
 };
 
 export default UserService;
