@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import useMapStyle from "@/styles/map";
 import * as Location from "expo-location";
 import { Colors } from "@/constants/theme";
+import useMapStore from "@/stores/mapStore";
 
 interface Props {
   activities?: Activity[],
@@ -21,6 +22,8 @@ const ActivityMap = ({ activities, location }: Props) => {
   const isAndroid = process.env.EXPO_OS !== 'ios';
   const mapStyle = useMapStyle();
   const mapRef = useRef<MapView>(null);
+  const mapMode = useMapStore((state) => state.mode);
+  const setMapMode = useMapStore((state) => state.setMode);
   
   const [loading, setLoading] = useState<boolean>(true);
   const [isAtMyLocation, setIsAtMyLocation] = useState<boolean>(true);
@@ -69,6 +72,8 @@ const ActivityMap = ({ activities, location }: Props) => {
           pitchEnabled={false}
           showsMyLocationButton={false}
           onPanDrag={() => setIsAtMyLocation(false)}
+          toolbarEnabled={false}
+          mapType={mapMode}
           ref={mapRef}
         >
 
@@ -107,30 +112,49 @@ const ActivityMap = ({ activities, location }: Props) => {
 
         </MapView>
 
-        <TouchableOpacity
-          onPress={handleGoToLocation}
-          style={[
-            {
-              position: 'absolute',
-              right: 5,
-              borderRadius: 8,
-              overflow: 'hidden',
-              padding: 8,
-              backgroundColor: styles.container.backgroundColor,
-            },
-            isAndroid ? {
-              bottom: 5,
-            } : {
-              top: 5,
-            },
-          ]}
-        >
-          <IconSymbol
-            name={isAtMyLocation ? "location.fill" : "location"}
-            size={28}
-            color={isDark ? Colors.dark.icon : Colors.light.icon}
-          />
-        </TouchableOpacity>
+        <View style={[
+          styles.shadow,
+          {
+            position: 'absolute',
+            right: 5,
+            borderRadius: 8,
+            backgroundColor: styles.container.backgroundColor,
+          },
+          isAndroid ? {
+            flexDirection: 'column-reverse',
+            bottom: 5,
+          } : {
+            top: 5,
+          },
+        ]}>
+          <TouchableOpacity
+            onPress={handleGoToLocation}
+            style={{ padding: 8 }}
+          >
+            <IconSymbol
+              name={isAtMyLocation ? "location.fill" : "location"}
+              size={28}
+              color={isAtMyLocation 
+                ? isDark ? Colors.dark.tint : Colors.light.tint
+                : (isDark ? Colors.dark.icon : Colors.light.icon)
+              }
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setMapMode(mapMode === 'standard' ? 'hybrid' : 'standard')}
+            style={[
+              { padding: 8, borderColor: styles.borderColor.borderColor },
+              isAndroid ? { borderBottomWidth: 1 } : { borderTopWidth: 1 },
+            ]}
+          >
+            <IconSymbol
+              name={"map.fill"}
+              size={28}
+              color={isDark ? Colors.dark.icon : Colors.light.icon}
+            />
+          </TouchableOpacity>
+        </View>
 
       </View>
     </>

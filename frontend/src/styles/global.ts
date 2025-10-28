@@ -5,6 +5,7 @@ import { baseButton } from './base';
 export default function useGlobalStyles() {
   const isDark = useColorScheme() === 'dark';
   const color = isDark ? Colors.dark.text : Colors.light.text;
+  const isAndroid = process.env.EXPO_OS !== 'ios';
 
   return StyleSheet.create({
     container: {
@@ -133,6 +134,14 @@ export default function useGlobalStyles() {
       borderLeftWidth: 0,
       backgroundColor: isDark ? Colors.dark.errorBackground : Colors.light.errorBackground,
       borderRadius: 16,
-    }
+    },
+    shadow: isAndroid ? {
+      elevation: 3,
+    } : {
+      shadowColor: '#191919ff',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    },
   });
 };

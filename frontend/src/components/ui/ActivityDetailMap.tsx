@@ -1,4 +1,3 @@
-import useGlobalStyles from "@/styles/global";
 import { Activity } from "@/types";
 import { BlurView } from "expo-blur";
 import { useState } from "react";
@@ -6,16 +5,18 @@ import { ActivityIndicator, View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { IconSymbol } from "./icon-symbol";
 import useMapStyle from "@/styles/map";
+import useMapStore from "@/stores/mapStore";
 
 interface Props {
   activity: Activity,
 };
 
 const ActivityDetailMap = ({ activity }: Props) => {
-  const [loading, setLoading] = useState<boolean>(true);
-
+  const mapMode = useMapStore((state) => state.mode);
   const mapStyle = useMapStyle();
   const isAndroid = process.env.EXPO_OS !== 'ios';
+  
+  const [loading, setLoading] = useState<boolean>(true);
 
   return (
     <>
@@ -40,6 +41,8 @@ const ActivityDetailMap = ({ activity }: Props) => {
           zoomEnabled={false}
           rotateEnabled={false}
           pitchEnabled={false}
+          mapType={mapMode}
+          toolbarEnabled={false}
         >
 
           <Marker

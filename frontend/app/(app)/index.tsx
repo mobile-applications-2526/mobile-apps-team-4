@@ -16,6 +16,7 @@ import * as Location from 'expo-location';
 export default function Index() {
   const { user } = useAuth();
   const styles = useGlobalStyles();
+  const isAndroid = process.env.EXPO_OS !== 'ios';
 
   const [activities, setActivities] = useState<Activity[]>([]);
   const [onlyJoined, setOnlyJoined] = useState<boolean>(false);
@@ -79,8 +80,9 @@ export default function Index() {
       <ScrollView
         style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, height: 500 }}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
+        refreshControl={isAndroid
+          ? undefined
+          : <RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />
         }
       >
         <ActivityMap activities={activities} location={location} />

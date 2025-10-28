@@ -65,4 +65,6 @@ export type ApiError = {
   errorCode: number,
   message: string,
   type: string,
-}
+};
+
+export type MapMode = 'standard' | 'hybrid';
