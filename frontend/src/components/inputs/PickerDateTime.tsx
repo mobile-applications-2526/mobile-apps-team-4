@@ -9,28 +9,71 @@ interface Props {
 };
 
 const PickerDateTime = ({ date, setDate }: Props) => {
-  const isIos = process.env.EXPO_OS === 'ios';
-  const [show, setShow] = useState(false);
+  const isAndroid = process.env.EXPO_OS !== 'ios';
+  
+  const [showDate, setShowDate] = useState(false);
+  const [showTime, setShowTime] = useState(false);
+
+  const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const formattedDate = date.toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
 
   const onChange = (event: any, selectedDate?: Date) => {
-    if (!isIos) setShow(false);
-    if (selectedDate) setDate(selectedDate);
+    if (isAndroid) {
+      setShowDate(false);
+      setShowTime(false);
+    }
+
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
   };
 
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      {!isIos && (
-        <Button label="Pick a date" onPress={() => setShow(true)} />
+      
+      {isAndroid && (
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
+          <Button
+            label={formattedDate || "Pick a date"}
+            onPress={() => setShowDate(true)}
+            style={{ maxWidth: '49%', borderRadius: 16 }}
+          />
+          <Button
+            label={formattedTime || "Pick a time"}
+            onPress={() => setShowTime(true)}
+            style={{ maxWidth: '49%', borderRadius: 16 }}
+          />
+        </View>
       )}
 
-      {(show || isIos) && (
+      {/* IOS COMBINED PICKER */}
+      {!isAndroid && (
         <DateTimePicker
           value={date}
           mode='datetime'
-          display={isIos ? 'spinner' : 'default'}
+          display={'spinner'}
           onChange={onChange}
         />
       )}
+
+      {/* ANDROID DATE PICKER */}
+      {(showDate && isAndroid) && (
+        <DateTimePicker
+          value={date}
+          mode='date'
+          onChange={onChange}
+        />
+      )}
+
+      {/* ANDROID TIME PICKER */}
+      {(showTime && isAndroid) && (
+        <DateTimePicker
+          value={date}
+          mode='time'
+          onChange={onChange}
+        />
+      )}
+
     </View>
   );
 };

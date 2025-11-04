@@ -4,7 +4,7 @@ import useGlobalStyles from '@/styles/global';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PageHeading from '@/components/ui/PageHeading';
 import ActivityMap from '@/components/ui/ActivityMap';
-import { Activity } from '@/types';
+import { Activity, ActivityWithDistance } from '@/types';
 import { router } from 'expo-router';
 import ActivityList from '@/components/ui/ActivityList';
 import { useEffect, useState } from 'react';
@@ -12,13 +12,14 @@ import ActivityService from '@/services/ActivityService';
 import { useAuth } from '@/context/AuthContext';
 import showErrorToast from '@/utils/showErrorToast';
 import * as Location from 'expo-location';
+import { calculateDistance } from '@/utils/distanceUtils';
 
 export default function Index() {
   const { user } = useAuth();
   const styles = useGlobalStyles();
   const isAndroid = process.env.EXPO_OS !== 'ios';
 
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useState<ActivityWithDistance[]>([]);
   const [onlyJoined, setOnlyJoined] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [location, setLocation] = useState<Location.LocationObject | undefined>(undefined);
@@ -38,15 +39,42 @@ export default function Index() {
 
   useEffect(() => {
     const getActivities = async () => {
+      console.log('getting activities')
+
       try {
         let res;
-        if (!onlyJoined) {
-          res = await ActivityService.getAll();
+        if (onlyJoined) {
+          res = await ActivityService.getJoined() as ActivityWithDistance[];
         } else {
-          res = await ActivityService.getJoined();
+          res = await ActivityService.getAll() as ActivityWithDistance[];
         }
 
-        setActivities(res || []);
+        if (!res) return;
+        
+        if (!location) {
+          setActivities(res);
+          return;
+        }
+
+        const activitiesWithDistance = res.map((a: Activity): ActivityWithDistance => ({
+          ...a,
+          distance: calculateDistance({
+            coordinate1: {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            },
+            coordinate2: {
+              latitude: a.location.latitude,
+              longitude: a.location.longitude,
+            },
+          }),
+        }));
+
+        const sortedActivities: ActivityWithDistance[] = activitiesWithDistance.sort(
+          (a, b) => (a.distance || 0) - (b.distance || 0)
+        );
+
+        setActivities(sortedActivities);
       } catch (err) {
         showErrorToast(err);
       } finally {
@@ -55,7 +83,9 @@ export default function Index() {
     };
 
     getActivities();
-  }, [onlyJoined, refreshing]);
+  }, [onlyJoined, refreshing, location]); // TODO: right now will refresh on every position change
+
+  // console.log(activities)
 
   return (
     <SafeAreaView style={{ ...styles.container, paddingBottom: 0 }} edges={['top', 'left', 'right']}>

@@ -47,5 +47,9 @@ export const calculateAndFormatDistance = ({
 }): string => {
   const distance = calculateDistance({ coordinate1, coordinate2 });
 
-  return distance < 1500 ? `${Math.round(distance)} m` : `${parseFloat((distance / 1000).toFixed(2))} km`
+  return distance < 1500 ? `${Math.round(distance)} m` : `${Number.parseFloat((distance / 1000).toFixed(2))} km`
+};
+
+export const formatDistance = (distance: number): string => {
+  return distance < 1500 ? `${Math.round(distance)} m` : `${Number.parseFloat((distance / 1000).toFixed(2))} km`
 };

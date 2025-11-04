@@ -1,6 +1,5 @@
 import useGlobalStyles from "@/styles/global";
-import { StyleProp, TouchableOpacity, ViewStyle } from "react-native";
-import { Text } from "react-native";
+import { StyleProp, TouchableOpacity, ViewStyle, Text } from "react-native";
 
 interface Props {
   onPress: () => void,

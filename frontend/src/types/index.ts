@@ -25,6 +25,10 @@ export type Activity = {
   maxAmountOfParticipants?: number,
 };
 
+export type ActivityWithDistance = Activity & {
+  distance?: number,
+};
+
 export type ActivityCreate = {
   name: string,
   group: number,
