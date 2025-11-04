@@ -30,14 +30,14 @@ const CreateGroupForm = () => {
   const descriptionRef = useRef<TextInput>(null);
   const membersRef = useRef<TextInput>(null);
 
-  useEffect(() => { // should debounce this
+  useEffect(() => { // TODO: should debounce this
     const getUsers = async () => {
-      if (search !== '') {
+      if (search === '') {
+        setFoundUsers([]);
+      } else {
         const res = await UserService.findByEmailOrName(search);
 
         setFoundUsers(res.filter(u => u.id !== user?.id)); // exclude logged in user
-      } else {
-        setFoundUsers([]);
       }
 
     };
@@ -144,8 +144,8 @@ const CreateGroupForm = () => {
         style={{ marginBottom: 8, ...(members.length > 0 && { ...styles.borderColor, borderTopWidth: 1 }) }}
         renderItem={({ item }) => (
           <TouchableOpacity
-          style={styles.listItemSmall}
-          onPress={() => setMembers(prev => prev.filter(m => m.id !== item.id))}
+            style={styles.listItemSmall}
+            onPress={() => setMembers(prev => prev.filter(m => m.id !== item.id))}
           >
             <IconSymbol size={20} name="xmark" color={isDark ? Colors.dark.tint : Colors.light.tint} />
             <Text style={{ fontSize: 16, fontWeight: 'bold', ...styles.text }}>{item.name}</Text>

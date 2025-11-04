@@ -14,8 +14,7 @@ import { Activity, Group } from "@/types";
 import showErrorToast from "@/utils/showErrorToast";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, ScrollView, Text, TextInput } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ActivityIndicator, ScrollView, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
