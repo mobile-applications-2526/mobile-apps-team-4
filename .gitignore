@@ -27,6 +27,7 @@ frontend/.eslintcache
 frontend/.cache/
 frontend/*.jks
 frontend/*.keystore
+frontend/expo-env.d.ts
 
 # Android Studio
 frontend/captures/
