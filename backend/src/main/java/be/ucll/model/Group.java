@@ -29,6 +29,9 @@ public class Group {
     @Schema(example = "Presidents of the USA")
     private String name;
 
+    @Schema(example = "Example of description : blablablablabla")
+    private String description;
+
     @ManyToMany
     @JoinTable(
         name = "user_groups",
@@ -52,8 +55,9 @@ public class Group {
 
     protected Group() {}
 
-    public Group(String name) {
+    public Group(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 
     // Getters
@@ -116,5 +120,13 @@ public class Group {
     public void unInviteMembers(User user) {
         this.invitedMembers.remove(user);
         user.removeInvite(this);
+    }
+
+    public void setDescription(String d ) {
+        this.description = d;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }

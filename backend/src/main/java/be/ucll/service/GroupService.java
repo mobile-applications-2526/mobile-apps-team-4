@@ -35,7 +35,7 @@ public class GroupService {
             throw new ServiceException("Group with name: '" + createGroupDTO.name() + "' Already exists", HttpStatus.CONFLICT);
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
-        Group group = new Group(createGroupDTO.name());
+        Group group = new Group(createGroupDTO.name(), createGroupDTO.description());
         group.setOwner(user);
         group.addMember(user);
         return groupRepository.save(group);

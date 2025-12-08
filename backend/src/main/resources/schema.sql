@@ -15,6 +15,7 @@ CREATE TABLE users (
 CREATE TABLE groups (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
     group_leader_id BIGINT NULL,
     CONSTRAINT fk_groups_group_leader FOREIGN KEY (group_leader_id) REFERENCES users(id) ON DELETE SET NULL
 );

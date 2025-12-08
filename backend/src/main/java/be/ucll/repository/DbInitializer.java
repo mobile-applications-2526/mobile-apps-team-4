@@ -48,13 +48,13 @@ public class DbInitializer {
         userRepository.save(james);
 
         // Groups
-        Group groupPresidents = new Group("Presidents of the USA");
+        Group groupPresidents = new Group("Presidents of the USA", "Description yesyes");
         groupPresidents.addMember(barack);
         groupPresidents.addMember(joe);
         groupPresidents.setOwner(barack);
         groupRepository.save(groupPresidents);
 
-        Group groupDoe = new Group("John Doe's group");
+        Group groupDoe = new Group("John Doe's group", "John Does super cool group for his activities :)");
         groupDoe.setOwner(john);
         groupDoe.addMember(john);
         groupDoe.addMember(jane);
