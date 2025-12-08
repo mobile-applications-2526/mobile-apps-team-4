@@ -38,13 +38,6 @@ public class GroupService {
         Group group = new Group(createGroupDTO.name());
         group.setOwner(user);
         group.addMember(user);
-
-        List<Long> memberIds = createGroupDTO.members();
-        memberIds.remove(userId);
-
-        List<User> members = userRepository.findAllById(memberIds);
-        members.forEach(group::addMember);
-
         return groupRepository.save(group);
     }
 
