@@ -25,11 +25,39 @@ const create = async ({ name, members, description}: { name: string, members?: n
   return res.data;
 };
 
+const deleteGroup = async (id: number): Promise<void> => {
+  await api.delete<void>(`/groups/${id}`);
+};
+
+// invites
+
+const inviteUser = async ({ groupId, userId }: { groupId: number, userId: number }): Promise<Group> => {
+  const res = await api.put<Group>(`/groups/invite/${groupId}/${userId}`);
+  return res.data;
+};
+
+const declineInvite = async ({ groupId }: { groupId: number }): Promise<void> => {
+  await api.put<void>(`/groups/decline-invite/${groupId}`);
+};
+
+const acceptInvite = async ({ groupId }: { groupId: number }): Promise<void> => {
+  await api.put<void>(`/groups/accept-invite/${groupId}`);
+};
+
+const cancelInvite = async ({ groupId, userId }: { groupId: number, userId: number }): Promise<void> => {
+  await api.put<void>(`/groups/cancel-invite/${groupId}/${userId}`);
+};
+
 const GroupService = {
   getAll,
   get,
   getJoined,
   create,
+  deleteGroup,
+  inviteUser,
+  declineInvite,
+  acceptInvite,
+  cancelInvite,
 };
 
 export default GroupService;
