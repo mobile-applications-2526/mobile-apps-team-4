@@ -28,6 +28,7 @@ frontend/.cache/
 frontend/*.jks
 frontend/*.keystore
 frontend/expo-env.d.ts
+frontend/.gitignore
 
 # Android Studio
 frontend/captures/
