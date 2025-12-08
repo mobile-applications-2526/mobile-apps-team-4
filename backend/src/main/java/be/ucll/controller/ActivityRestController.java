@@ -1,14 +1,15 @@
 package be.ucll.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.dto.ActivityDTO;
 import be.ucll.dto.CreateActivityDTO;
+import be.ucll.model.Location;
 import be.ucll.service.ActivityService;
 import be.ucll.util.exceptions.DomainException;
 import be.ucll.util.exceptions.ServiceException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
+
 @RestController
 @RequestMapping("/activities")
 public class ActivityRestController {
@@ -38,9 +40,14 @@ public class ActivityRestController {
     }
 
     @GetMapping("/all")
-    public List<ActivityDTO> getAllActivities() {
-        return activityService.getAllActivities();
+    public List<ActivityDTO> getAllActivities(@RequestParam(required = false) Double latitude,@RequestParam(required = false) Double longitude) {
+    if (latitude != null && longitude != null) {
+        Location userLocation = new Location(latitude, longitude);
+        return activityService.getAllActivities(userLocation);
     }
+    return activityService.getAllActivities(null);
+    }
+
 
     @GetMapping("/{id}")
     public Optional<ActivityDTO> getActivityById(@PathVariable Long id) {

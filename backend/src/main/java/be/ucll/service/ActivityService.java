@@ -1,5 +1,4 @@
 package be.ucll.service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +11,7 @@ import be.ucll.dto.CreateActivityDTO;
 import be.ucll.model.Activity;
 import be.ucll.model.Group;
 import be.ucll.model.Icon;
+import be.ucll.model.Location;
 import be.ucll.model.User;
 import be.ucll.repository.ActivityRepository;
 import be.ucll.repository.GroupRepository;
@@ -30,15 +30,37 @@ public class ActivityService {
         this.groupRepository = groupRepository;
     }
 
-    public List<ActivityDTO> getAllActivities() {
-        List<Activity> activities = activityRepository.findAll();
-        List<ActivityDTO> activityDTOs = new ArrayList<>();
-
+    public List<ActivityDTO> getAllActivities(Location userLocation) {
+    List<Activity> activities = activityRepository.findAll();
+    List<ActivityDTO> activityDTOs = new ArrayList<>();
+    if (userLocation == null) {
         for (Activity activity : activities) {
             activityDTOs.add(new ActivityDTO(activity));
         }
-
         return activityDTOs;
+    }
+    double userLat = userLocation.getLatitude();
+    double userLng = userLocation.getLongitude();
+    final double EARTH_RADIUS_KM = 6371.0;
+
+    for (Activity activity : activities) {
+        if (activity.getLocation() == null) continue;
+        double actLat = activity.getLocation().getLatitude();
+        double actLng = activity.getLocation().getLongitude();
+        double dLat = Math.toRadians(actLat - userLat);
+        double dLng = Math.toRadians(actLng - userLng);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(userLat))
+                * Math.cos(Math.toRadians(actLat))
+                * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distanceKm = EARTH_RADIUS_KM * c;
+        if (distanceKm <= 10.0) {
+            activityDTOs.add(new ActivityDTO(activity));
+        }
+    }
+
+    return activityDTOs;
     }
 
     public List<ActivityDTO> getAllActivitiesFromGroup(Long groupId) {
