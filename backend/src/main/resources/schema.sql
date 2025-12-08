@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS activity_participants;
 DROP TABLE IF EXISTS user_groups;
+DROP TABLE IF EXISTS user_invites;
 DROP TABLE IF EXISTS activities;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS users;
@@ -32,8 +33,15 @@ CREATE TABLE activities (
     CONSTRAINT fk_activities_hosted_by FOREIGN KEY (hosted_by_group_id) REFERENCES groups(id) ON DELETE SET NULL
 );
 
-
 CREATE TABLE user_groups (
+    user_id BIGINT NOT NULL,
+    group_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, group_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_invites (
     user_id BIGINT NOT NULL,
     group_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, group_id),

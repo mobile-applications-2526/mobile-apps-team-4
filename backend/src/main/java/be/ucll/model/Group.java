@@ -3,6 +3,8 @@ package be.ucll.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,15 @@ public class Group {
     @JoinColumn(name = "group_leader_id")
     private User owner;
 
+    @ManyToMany
+    @JoinTable(
+        name = "user_invites",
+        joinColumns = @JoinColumn(name = "group_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @JsonManagedReference
+    private List<User> invitedMembers = new ArrayList<>();
+
     protected Group() {}
 
     public Group(String name) {
@@ -62,6 +73,10 @@ public class Group {
         return owner;
     }
 
+    public List<User> getInvitedMembers() {
+        return this.invitedMembers;
+    }
+
     // Setters
     public void setName(String name) {
         this.name = name;
@@ -83,5 +98,23 @@ public class Group {
     public void removeMember(User user) {
         this.members.remove(user);
         user.getGroups().remove(this);
+    }
+
+    public void setInvitedMembers(List<User> invitedMembers) {
+        this.invitedMembers = invitedMembers;
+    }
+
+    public void removeInvitedMember(User user) {
+        this.invitedMembers.remove(user);
+    }
+
+    public void inviteMember(User user) {
+        this.invitedMembers.add(user);
+        user.addInvite(this);
+    }
+
+    public void unInviteMembers(User user) {
+        this.invitedMembers.remove(user);
+        user.removeInvite(this);
     }
 }

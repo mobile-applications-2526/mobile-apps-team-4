@@ -22,8 +22,8 @@ public record ActivityDTO(
         Integer maxAmountOfParticipants,
 
         @Schema(example = "[0, 1]")
-        List<Long> participantIds,
-        Long hostedByGroupId
+        List<String> participant,
+        String hostedByGroup
 ) {
     public ActivityDTO(Activity activity) {
         this(
@@ -34,8 +34,8 @@ public record ActivityDTO(
                 activity.getStartDate(),
                 activity.getEndDate(),
                 activity.getMaxAmountOfParticipants(),
-                activity.getParticipants().stream().map(p -> p.getId()).toList(),
-                activity.getHostedBy() != null ? activity.getHostedBy().getId() : null
+                activity.getParticipants().stream().map(p -> p.getName()).toList(),
+                activity.getHostedBy() != null ? activity.getHostedBy().getName() : null
         );
     }
 

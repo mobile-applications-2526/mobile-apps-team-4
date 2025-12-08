@@ -58,21 +58,21 @@ public class ActivityRestController {
             return activityService.createActivity(groupId, userId, activity);
     }
 
-    @DeleteMapping("/{activityId}")
-    public String deleteActivity(@PathVariable Long activityId) {
-        return activityService.deleteActivityById(activityId);
+    @DeleteMapping("/{id}")
+    public String deleteActivity(@PathVariable Long id) {
+        return activityService.deleteActivityById(id);
     }
 
-    @PutMapping("/join/{activityId}")
-    public ActivityDTO joinActivityById(@PathVariable Long activityId) {
+    @PutMapping("/join/{id}")
+    public ActivityDTO joinActivityById(@PathVariable Long id) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return activityService.joinActivityById(activityId, userId);
+        return activityService.joinActivityById(id, userId);
     }
 
-    @PutMapping("/leave/{activityId}")
-    public void leaveActivityById(@PathVariable Long activityId) {
+    @PutMapping("/leave/{id}")
+    public void leaveActivityById(@PathVariable Long id) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        activityService.leaveActivityById(activityId, userId);
+        activityService.leaveActivityById(id, userId);
     }
 
     @GetMapping("/joined")
