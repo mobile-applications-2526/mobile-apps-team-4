@@ -22,7 +22,7 @@ public record ActivityDTO(
         Integer maxAmountOfParticipants,
 
         @Schema(example = "[0, 1]")
-        List<String> participant,
+        List<String> participants,
         String hostedByGroup
 ) {
     public ActivityDTO(Activity activity) {
