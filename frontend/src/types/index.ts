@@ -8,7 +8,7 @@ export type User = {
 };
 
 export type Invite = {
-  id: number,
+  id: number, // group id
   name: string,
 };
 

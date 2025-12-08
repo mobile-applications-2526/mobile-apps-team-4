@@ -10,6 +10,7 @@ type AuthContextType = {
   onLogin?: (authResponse: AuthResponse) => Promise<void>;
   onLogout?: () => Promise<void>;
   loadSession?: () => Promise<void>;
+  onUpdateUser?: (user: User) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({});
@@ -104,6 +105,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const onUpdateUser = async (updatedUser: User) => {
+    try {
+      // 1. Update the user state in the context
+      setUser(updatedUser);
+
+      // 2. Update the user data in persistent storage
+      // Note: We use AsyncStorage for the User object, and SecureStore for the token.
+      await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      console.log('User object updated successfully in state and AsyncStorage.');
+    } catch (error) {
+      console.error('Failed to update user object in storage', error);
+      // Depending on your error handling preference, you might throw or handle here
+      throw error; 
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -112,6 +130,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         onLogin,
         onLogout,
         loadSession,
+        onUpdateUser,
       }}
     >
       {children}
