@@ -67,8 +67,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const now = Math.floor(Date.now() / 1000);
     const delay = (decoded.exp - now) * 1000;
 
-    // console.log('logs out in:', delay / 1000 / 60, 'min')
-
     if (delay > 0) {
       const timeout = setTimeout(() => {
         onLogout();

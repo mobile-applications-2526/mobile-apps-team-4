@@ -39,7 +39,6 @@ export default function Index() {
 
   useEffect(() => {
     const getActivities = async () => {
-      console.log('getting activities')
 
       try {
         let res;
@@ -84,8 +83,6 @@ export default function Index() {
 
     getActivities();
   }, [onlyJoined, refreshing, location]); // TODO: right now will refresh on every position change
-
-  // console.log(activities)
 
   return (
     <SafeAreaView style={{ ...styles.container, paddingBottom: 0 }} edges={['top', 'left', 'right']}>

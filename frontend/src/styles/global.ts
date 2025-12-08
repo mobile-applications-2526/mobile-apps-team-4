@@ -82,6 +82,7 @@ export default function useGlobalStyles() {
       color,
       fontWeight: 'bold',
       marginBottom: 4,
+      marginTop: 12,
     },
     input: {
       color,
