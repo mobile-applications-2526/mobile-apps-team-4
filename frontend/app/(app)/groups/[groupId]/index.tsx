@@ -8,7 +8,7 @@ import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, RefreshControl, ScrollView, Text, TouchableOpacity } from "react-native";
 
 const GroupDetailPage = () => {
   const groupId = useLocalSearchParams().groupId;
@@ -45,6 +45,28 @@ const GroupDetailPage = () => {
     if (b.id === group.owner.id) return 1;
     return 0;
   });
+
+  const handleDelete = async () => {
+
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete this group?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            GroupService.deleteGroup(Number(groupId));
+            router.back();
+          },
+          style: 'destructive',
+        },
+      ],
+    );
+  };
 
   return (
     <ScrollView
@@ -109,10 +131,17 @@ const GroupDetailPage = () => {
       />
 
       {isGroupOwner && (
-        <Button
-          onPress={() => router.push(`/(modals)/inviteUser?groupId=${groupId}`)}
-          label="Invite a member"
-        />
+        <>
+          <Button
+            onPress={() => router.push(`/(modals)/inviteUser?groupId=${groupId}`)}
+            label="Invite a member"
+          />
+          <Button
+            onPress={handleDelete}
+            label="Delete group"
+            highlight={false}
+          />
+        </>
       )}
     </ScrollView>
   );
