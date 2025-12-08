@@ -8,7 +8,7 @@ import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 const GroupDetailPage = () => {
   const groupId = useLocalSearchParams().groupId;
@@ -17,22 +17,25 @@ const GroupDetailPage = () => {
 
   const [group, setGroup] = useState<Group | undefined>(undefined);
   const [activities, setActivities] = useState<Activity[] | undefined>(undefined);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const isGroupOwner = group?.owner.id === user?.id;
 
-  useEffect(() => {
-    const fetchGroup = async () => {
-      const res = await GroupService.get(Number(groupId));
-      setGroup(res);
-    };
-    const fetchActivities = async () => {
-      const res = await ActivityService.getByGroup(Number(groupId));
-      setActivities(res);
-    }
+  const fetchGroup = async () => {
+    const res = await GroupService.get(Number(groupId));
+    setGroup(res);
+    setRefreshing(false);
+  };
+  const fetchActivities = async () => {
+    const res = await ActivityService.getByGroup(Number(groupId));
+    setActivities(res);
+    setRefreshing(false);
+  };
 
+  useEffect(() => {
     fetchGroup();
     fetchActivities();
-  }, []);
+  }, [refreshing]);
 
   if (group === undefined) return <ActivityIndicator size={'large'} style={styles.containerCenter} />
   
@@ -44,7 +47,10 @@ const GroupDetailPage = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />}
+    >
 
       <Text style={styles.pageHeading}>
         {group.name}
@@ -108,7 +114,7 @@ const GroupDetailPage = () => {
           label="Invite a member"
         />
       )}
-    </View>
+    </ScrollView>
   );
 };
 

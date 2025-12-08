@@ -36,6 +36,11 @@ const create = async (activity: ActivityCreate): Promise<Activity | undefined> =
   return res.data;
 };
 
+const deleteActivity = async (id: number): Promise<void> => {
+  const res = await api.delete<void>(`/activities/${id}`);
+  return res.data;
+};
+
 const ActivityService = {
   getAll,
   get,
@@ -44,6 +49,7 @@ const ActivityService = {
   leave,
   getJoined,
   create,
+  deleteActivity,
 };
 
 export default ActivityService;

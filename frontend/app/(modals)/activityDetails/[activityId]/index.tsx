@@ -11,7 +11,7 @@ import pushWithHistory from "@/utils/pushWithHistory";
 import showErrorToast from "@/utils/showErrorToast";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from 'react-native-toast-message';
 
@@ -25,6 +25,7 @@ const JoinActivity = () => {
   const [group, setGroup] = useState<Group | undefined>(undefined);
 
   const joined = activity?.participants.includes(user!.name);
+  const activityOwner = group?.owner.id === user?.id;
 
   useEffect(() => {
     const getActivity = async () => {
@@ -73,6 +74,28 @@ const JoinActivity = () => {
     } catch (err) {
       showErrorToast(err);
     }
+  };
+
+  const handleDelete = async () => {
+
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete this activity?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            ActivityService.deleteActivity(Number(activityId));
+            router.back();
+          },
+          style: 'destructive',
+        },
+      ],
+    );
   };
 
   return (
@@ -146,6 +169,13 @@ const JoinActivity = () => {
         <ActivityDetailMap activity={activity} />
       </ScrollView>
 
+      {activityOwner && (
+        <Button
+          label="Delete activity"
+          onPress={handleDelete}
+          highlight={false}
+        />
+      )}
       <Button
         label={joined ? "Leave activity" : "Join activity"}
         onPress={handleJoinOrLeave}

@@ -64,7 +64,9 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />}>
+      <ScrollView
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />}
+      >
 
         <PageHeading
           name='Account'
@@ -130,7 +132,7 @@ export default function Index() {
                   style={{ width: '49.5%' }}
                 />
                 <Button
-                  label='Deny'
+                  label='Decline'
                   onPress={() => declineInvite(item)}
                   style={{ width: '49.5%' }}
                 />
