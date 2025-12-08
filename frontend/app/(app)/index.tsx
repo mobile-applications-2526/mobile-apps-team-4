@@ -45,7 +45,10 @@ export default function Index() {
         if (onlyJoined) {
           res = await ActivityService.getJoined() as ActivityWithDistance[];
         } else {
-          res = await ActivityService.getAll() as ActivityWithDistance[];
+          res = await ActivityService.getAll({
+            longitude: location?.coords.longitude,
+            latitude: location?.coords.latitude
+          }) as ActivityWithDistance[];
         }
 
         if (!res) return;

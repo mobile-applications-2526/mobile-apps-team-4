@@ -1,8 +1,16 @@
 import { Activity, ActivityCreate } from "@/types";
 import api from "./api";
 
-const getAll = async (): Promise<Activity[] | undefined> => {
-  const res = await api.get<Activity[]>('/activities/all');
+const getAll = async ({ latitude, longitude }: { latitude?: number, longitude?: number }): Promise<Activity[] | undefined> => {
+  const params = new URLSearchParams();
+
+  if (latitude) params.append('latitude', latitude.toString());
+  if (longitude) params.append('longitude', longitude.toString());
+
+  const queryString = params.toString();
+  const url = '/activities/all' + (queryString ? `?${queryString}` : '');
+
+  const res = await api.get<Activity[]>(url);
   return res.data;
 };
 
