@@ -28,7 +28,8 @@ export default function useGlobalStyles() {
       color,
       fontSize: 20,
       fontWeight: 'bold',
-      marginVertical: 8,
+      marginTop: 12,
+      marginBottom: 4,
     },
     pageHeading: {
       color,

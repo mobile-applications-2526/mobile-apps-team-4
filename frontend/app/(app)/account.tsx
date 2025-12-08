@@ -1,10 +1,10 @@
-import { ActivityIndicator, FlatList, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, useColorScheme, View } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
 import useGlobalStyles from '@/styles/global';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PageHeading from '@/components/ui/PageHeading';
 import { router } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Colors } from '@/constants/theme';
 import UserService from '@/services/UserService';
 import Button from '@/components/inputs/Button';
@@ -18,16 +18,19 @@ export default function Index() {
   const styles = useGlobalStyles();
   const isDark = useColorScheme() === 'dark';
 
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
   const updateUser = async () => {
     const res = await UserService.getMe();
     if (!res || !onUpdateUser) return;
 
     onUpdateUser(res);
+    setRefreshing(false);
   };
 
   useEffect(() => {
     updateUser();
-  }, []);
+  }, [refreshing]);
 
   const acceptInvite = async (invite: Invite) => {
     try {
@@ -61,7 +64,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />}>
 
         <PageHeading
           name='Account'

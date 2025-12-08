@@ -22,7 +22,7 @@ const ActivityDetailMap = ({ activity }: Props) => {
     <>
       {loading && <ActivityIndicator size="large" />}
 
-      <View style={{borderRadius: 12, overflow: 'hidden' }}>{/* otherwise android not rounded */}
+      <View style={{ borderRadius: 12, overflow: 'hidden' }}>{/* otherwise android not rounded */}
         <MapView
           style={{
             flex: 1,
@@ -67,7 +67,7 @@ const ActivityDetailMap = ({ activity }: Props) => {
                   style={StyleSheet.absoluteFill}
                 />
 
-                  <IconSymbol size={isAndroid ? 22 : 30} name={activity.icon.name} color={activity.icon.color} />
+                <IconSymbol size={isAndroid ? 22 : 30} name={activity.icon.name} color={activity.icon.color} />
               </View>
             )}
 

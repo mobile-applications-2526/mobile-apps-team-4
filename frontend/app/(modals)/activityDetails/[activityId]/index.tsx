@@ -6,6 +6,7 @@ import ActivityService from "@/services/ActivityService";
 import GroupService from "@/services/GroupService";
 import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
+import { formatDate } from "@/utils/dateUtils";
 import pushWithHistory from "@/utils/pushWithHistory";
 import showErrorToast from "@/utils/showErrorToast";
 import { router, useLocalSearchParams } from "expo-router";
@@ -24,7 +25,6 @@ const JoinActivity = () => {
   const [group, setGroup] = useState<Group | undefined>(undefined);
 
   const joined = activity?.participants.includes(user!.name);
-  const activityOwner = group?.owner.id === user?.id;
 
   useEffect(() => {
     const getActivity = async () => {
@@ -118,7 +118,31 @@ const JoinActivity = () => {
         </>
       )}
 
-      <ScrollView style={{ marginTop: 8 }}>
+      <Text style={styles.heading}>
+        Timeframe
+      </Text>
+      <View>
+        <Text style={styles.text}>
+          Starts at:{' '}
+          <Text style={{ fontWeight: 'bold' }}>
+            {formatDate(new Date(activity.startDate))}
+          </Text>
+        </Text>
+
+        {activity.endDate && (
+          <Text style={styles.text}>
+            Ends at:{' '}
+            <Text style={{ fontWeight: 'bold' }}>
+              {formatDate(new Date(activity.endDate))}
+            </Text>
+          </Text>
+        )}
+      </View>
+
+      <Text style={styles.heading}>
+        Location
+      </Text>
+      <ScrollView>
         <ActivityDetailMap activity={activity} />
       </ScrollView>
 
