@@ -1,19 +1,24 @@
+import Button from "@/components/inputs/Button";
 import ActivityList from "@/components/ui/ActivityList";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { useAuth } from "@/context/AuthContext";
 import ActivityService from "@/services/ActivityService";
 import GroupService from "@/services/GroupService";
 import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 const GroupDetailPage = () => {
   const groupId = useLocalSearchParams().groupId;
   const styles = useGlobalStyles();
+  const { user } = useAuth();
 
   const [group, setGroup] = useState<Group | undefined>(undefined);
   const [activities, setActivities] = useState<Activity[] | undefined>(undefined);
+
+  const isGroupOwner = group?.owner.id === user?.id;
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -96,6 +101,13 @@ const GroupDetailPage = () => {
           )
         }}
       />
+
+      {isGroupOwner && (
+        <Button
+          onPress={() => router.push(`/(modals)/inviteUser?groupId=${groupId}`)}
+          label="Invite a member"
+        />
+      )}
     </View>
   );
 };

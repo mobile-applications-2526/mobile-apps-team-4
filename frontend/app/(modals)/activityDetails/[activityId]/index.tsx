@@ -10,7 +10,7 @@ import pushWithHistory from "@/utils/pushWithHistory";
 import showErrorToast from "@/utils/showErrorToast";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, Text } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from 'react-native-toast-message';
 
@@ -23,7 +23,7 @@ const JoinActivity = () => {
   const [activity, setActivity] = useState<Activity | undefined>(undefined);
   const [group, setGroup] = useState<Group | undefined>(undefined);
 
-  const joined = activity?.participantIds.includes(user!.id);
+  const joined = activity?.participants.includes(user!.name);
   const activityOwner = group?.owner.id === user?.id;
 
   useEffect(() => {
@@ -101,26 +101,18 @@ const JoinActivity = () => {
           onPress={() => pushWithHistory('/(app)/groups', `/(app)/groups/${group.id}`)}
         />
   
-        {activity.participantIds && activity.participantIds.length > 0 && (
+        {activity.participants && activity.participants.length > 0 && (
           <>
             <Text style={styles.heading}>
               These people are going
             </Text>
-            <Text>{activity.participantIds.toString()}</Text>
-            {/* <FlatList
-              data={activity.participantIds}
-              keyExtractor={item => item.id.toString()}
-              scrollEnabled={false}
-              style={{ marginBottom: 8, ...styles.borderColor, borderTopWidth: 1 }}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.listItemSmall}
-                  onPress={() => {}} // later can go to profile page of user
-                >
-                  <Text style={{ fontSize: 14, ...styles.text }}>{item.name}</Text>
-                </TouchableOpacity>
-              )}
-            /> */}
+            <View>
+              {activity.participants.map(p => (
+                <Text key={p} style={styles.text}>
+                  {p}
+                </Text>
+              ))}
+            </View>
           </>
         )}
         </>

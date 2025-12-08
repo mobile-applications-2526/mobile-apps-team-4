@@ -4,6 +4,12 @@ export type User = {
   id: number,
   name: string,
   email: string,
+  invites: Invite[],
+};
+
+export type Invite = {
+  id: number,
+  name: string,
 };
 
 export type Activity = {
@@ -21,7 +27,7 @@ export type Activity = {
   startDate: string, // iso string
   endDate?: string,  // iso string
   hostedByGroupId: number,
-  participantIds: number[],
+  participants: string[],
   maxAmountOfParticipants?: number,
 };
 
@@ -50,6 +56,7 @@ export type Group = {
   name: string,
   owner: User,
   members: User[],
+  invitedMembers: User[],
   description?: string,
 };
 
