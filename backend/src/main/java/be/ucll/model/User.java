@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -22,16 +22,16 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name is required")
+    @NotBlank(message = "Name is required")
     @Schema(example = "Barack Obama")
     private String name;
 
     @Email
-    @NotNull(message = "User is required")
+    @NotBlank(message = "Email is required")
     @Schema(example = "barack@obama.com")
     private String email;
 
-    @NotNull(message = "Password is required")
+    @NotBlank(message = "Password is required")
     @JsonIgnore
     @Schema(example = "TheGoat123")
     private String password;
