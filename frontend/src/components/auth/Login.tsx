@@ -45,8 +45,6 @@ export default function Login() {
     // sign in api request
     try {
       const res = await UserService.login(email.trim(), password);
-
-      console.log(res)
       
       if (res) {
         onLogin?.(res);

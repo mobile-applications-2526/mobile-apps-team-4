@@ -21,7 +21,7 @@ const BackendStatus: React.FC = (): null => {
           text1: 'Server is offline',
           swipeable: false,
           autoHide: true, // will never auto hide since it will create another toast after the visibility time
-          visibilityTime: TOAST_VISIBILITY_TIME,
+          visibilityTime: TOAST_VISIBILITY_TIME * 1.1, // multiply by 1.1 so it doesnt hide and show again
           props: { toastId: 'server-offline' },
         });
       }
