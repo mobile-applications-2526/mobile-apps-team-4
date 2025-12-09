@@ -44,7 +44,19 @@ const CreateActivity = () => {
     };
 
     fetchGroups();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (ownedGroups && ownedGroups.length === 0) {
+      router.back();
+      Toast.show({
+        type: 'error',
+        text1: 'You own no groups',
+        text2: 'Please create a group before adding activities.',
+      });
+    }
+  }, [ownedGroups]);
+
 
   const handleCreateActivity = async () => {
     try {
@@ -98,15 +110,6 @@ const CreateActivity = () => {
       showErrorToast(err);
     }
   };
-
-  if (ownedGroups && ownedGroups.length === 0) {
-    router.back();
-    Toast.show({
-      type: 'error',
-      text1: 'You own no groups',
-      text2: 'Please create a group before adding activities.',
-    });
-  }
 
   return (
     <SafeAreaView style={styles.container}>
