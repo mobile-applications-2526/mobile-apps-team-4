@@ -7,6 +7,8 @@ import { useRouter } from "expo-router";
 import useGlobalStyles from "@/styles/global";
 import UserService from "@/services/UserService";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import showErrorToast from "@/utils/showErrorToast";
+import Toast from "react-native-toast-message";
 
 export default function Login() {
   const { onLogin } = useAuth();
@@ -18,19 +20,24 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const handleLogin = async () => {
     setLoading(true);
 
     if (!email?.includes('@')) {
-      setError('No valid email given');
+      Toast.show({
+        type: 'error',
+        text1: 'No valid email given',
+      });
       setLoading(false);
       return;
     }
 
     if (!password) {
-      setError('No password given');
+      Toast.show({
+        type: 'error',
+        text1: 'No password given',
+      });
       setLoading(false);
       return;
     }
@@ -38,11 +45,19 @@ export default function Login() {
     // sign in api request
     try {
       const res = await UserService.login(email.trim(), password);
+
+      console.log(res)
       
-      if (res) onLogin?.(res);
-      else setError('Email or password not correct');
+      if (res) {
+        onLogin?.(res);
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Email or password not correct',
+        });
+      }
     } catch (err) {
-      setError(String(err));
+      showErrorToast(err);
     } finally {
       setLoading(false);
     }
@@ -92,8 +107,6 @@ export default function Login() {
         onSubmitEditing={handleLogin}
         style={styles.input}
       />
-
-      {error ? <Text style={{ color: 'red', paddingBottom: 8 }}>{error}</Text> : null}
 
       {loading ? (
         <ActivityIndicator />
