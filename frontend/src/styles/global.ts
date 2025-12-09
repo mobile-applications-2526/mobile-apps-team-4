@@ -1,11 +1,12 @@
 import { Colors } from '@/constants/theme';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet, useColorScheme, useWindowDimensions } from 'react-native';
 import { baseButton } from './base';
 
 export default function useGlobalStyles() {
   const isDark = useColorScheme() === 'dark';
   const color = isDark ? Colors.dark.text : Colors.light.text;
   const isAndroid = process.env.EXPO_OS !== 'ios';
+  const { height } = useWindowDimensions();
 
   return StyleSheet.create({
     container: {
@@ -27,7 +28,8 @@ export default function useGlobalStyles() {
       color,
       fontSize: 20,
       fontWeight: 'bold',
-      marginVertical: 8,
+      marginTop: 12,
+      marginBottom: 4,
     },
     pageHeading: {
       color,
@@ -82,6 +84,7 @@ export default function useGlobalStyles() {
       color,
       fontWeight: 'bold',
       marginBottom: 4,
+      marginTop: 12,
     },
     input: {
       color,
@@ -118,7 +121,7 @@ export default function useGlobalStyles() {
     map: {
       flex: 1,
       borderRadius: 12,
-      height: 500,
+      height: height * 0.65,
     },
     toastSuccess: {
       borderLeftWidth: 0,

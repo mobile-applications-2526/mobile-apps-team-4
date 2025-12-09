@@ -13,19 +13,12 @@ export default function Groups() {
   const styles = useGlobalStyles();
 
   const [groups, setGroups] = useState<Group[] | undefined>(undefined);
-  const [showAllGroups, setShowAllGroups] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        let res
-
-        if (showAllGroups) {
-          res = await GroupService.getAll()
-        } else {
-          res = await GroupService.getJoined()
-        }
+        const res = await GroupService.getJoined()
         
         setGroups(res || []);
       } catch (err) {
@@ -36,7 +29,7 @@ export default function Groups() {
     };
 
     fetchGroups();
-  }, [refreshing, showAllGroups]);
+  }, [refreshing]);
 
   if (groups === undefined) return <ActivityIndicator size={'large'} style={styles.containerCenter} />
 
@@ -45,13 +38,6 @@ export default function Groups() {
       <PageHeading
         name='Groups'
         onAdd={() => router.push('/(modals)/createGroup')}
-        extraOptions={[
-          {
-            label: 'Show all groups',
-            onPress: () => setShowAllGroups(!showAllGroups),
-            icon: showAllGroups ? 'checkmark' : undefined,
-          }
-        ]}
       />
       
       <GroupsList groups={groups} refreshGroups={() => setRefreshing(true)} refreshing={refreshing} />

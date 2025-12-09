@@ -1,33 +1,41 @@
+import Button from "@/components/inputs/Button";
 import ActivityList from "@/components/ui/ActivityList";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { useAuth } from "@/context/AuthContext";
 import ActivityService from "@/services/ActivityService";
 import GroupService from "@/services/GroupService";
 import useGlobalStyles from "@/styles/global";
 import { Activity, Group } from "@/types";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, RefreshControl, ScrollView, Text, TouchableOpacity } from "react-native";
 
 const GroupDetailPage = () => {
   const groupId = useLocalSearchParams().groupId;
   const styles = useGlobalStyles();
+  const { user } = useAuth();
 
   const [group, setGroup] = useState<Group | undefined>(undefined);
   const [activities, setActivities] = useState<Activity[] | undefined>(undefined);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const isGroupOwner = group?.owner.id === user?.id;
+
+  const fetchGroup = async () => {
+    const res = await GroupService.get(Number(groupId));
+    setGroup(res);
+    setRefreshing(false);
+  };
+  const fetchActivities = async () => {
+    const res = await ActivityService.getByGroup(Number(groupId));
+    setActivities(res);
+    setRefreshing(false);
+  };
 
   useEffect(() => {
-    const fetchGroup = async () => {
-      const res = await GroupService.get(Number(groupId));
-      setGroup(res);
-    };
-    const fetchActivities = async () => {
-      const res = await ActivityService.getByGroup(Number(groupId));
-      setActivities(res);
-    }
-
     fetchGroup();
     fetchActivities();
-  }, []);
+  }, [refreshing]);
 
   if (group === undefined) return <ActivityIndicator size={'large'} style={styles.containerCenter} />
   
@@ -38,8 +46,33 @@ const GroupDetailPage = () => {
     return 0;
   });
 
+  const handleDelete = async () => {
+
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete this group?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            GroupService.deleteGroup(Number(groupId));
+            router.back();
+          },
+          style: 'destructive',
+        },
+      ],
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => setRefreshing(true)} />}
+    >
 
       <Text style={styles.pageHeading}>
         {group.name}
@@ -96,7 +129,21 @@ const GroupDetailPage = () => {
           )
         }}
       />
-    </View>
+
+      {isGroupOwner && (
+        <>
+          <Button
+            onPress={() => router.push(`/(modals)/inviteUser?groupId=${groupId}`)}
+            label="Invite a member"
+          />
+          <Button
+            onPress={handleDelete}
+            label="Delete group"
+            highlight={false}
+          />
+        </>
+      )}
+    </ScrollView>
   );
 };
 

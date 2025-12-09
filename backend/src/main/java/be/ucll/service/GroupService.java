@@ -35,16 +35,9 @@ public class GroupService {
             throw new ServiceException("Group with name: '" + createGroupDTO.name() + "' Already exists", HttpStatus.CONFLICT);
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
-        Group group = new Group(createGroupDTO.name());
+        Group group = new Group(createGroupDTO.name(), createGroupDTO.description());
         group.setOwner(user);
         group.addMember(user);
-
-        List<Long> memberIds = createGroupDTO.members();
-        memberIds.remove(userId);
-
-        List<User> members = userRepository.findAllById(memberIds);
-        members.forEach(group::addMember);
-
         return groupRepository.save(group);
     }
 
@@ -57,17 +50,6 @@ public class GroupService {
         }
         groupRepository.delete(group);
         return "Group: " + group.getName() + " has been deleted!";
-    }
-
-    public Group joinGroupById(Long groupId, Long userId) {
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new ServiceException("Group not found", HttpStatus.NOT_FOUND));
-        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
-
-        if (group.getMembers().contains(user)) {
-            throw new ServiceException("User is already in group : " + group.getName(), HttpStatus.CONFLICT);
-        }
-        group.addMember(user);
-        return groupRepository.save(group);
     }
 
     public void leaveGroupById(Long groupId,Long userId) {
@@ -89,6 +71,78 @@ public class GroupService {
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
         return user.getGroups();
     }
+
+    public Group inviteMember(Long groupId, Long userId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new ServiceException("Group not found", HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+
+        if (group.getOwner().getId() == userId) {
+            throw new ServiceException("Only the owner of the group can send an invite", HttpStatus.UNAUTHORIZED);
+        }
+
+        if (group.getMembers().contains(user)) {
+            throw new ServiceException("Cannot invite a member that is already part of the group",HttpStatus.CONFLICT);
+        }
+
+        if (group.getInvitedMembers().contains(user)) {
+            throw new ServiceException("This user is already invited!", HttpStatus.CONFLICT);
+            
+        }
+
+        group.inviteMember(user);
+        groupRepository.save(group);
+        userRepository.save(user);
+        return group;
+    }
+
+    public void cancelInviteMember(Long groupId, Long userId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new ServiceException("Group not found", HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+        
+        if (group.getOwner().getId() == userId) {
+            throw new ServiceException("Only the owner of the group can cancel an invite", HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!group.getInvitedMembers().contains(user)) {
+            throw new ServiceException("Can't cancel an invite if the user was not invited", HttpStatus.CONFLICT);
+        }
+        group.unInviteMembers(user);
+        groupRepository.save(group);
+        userRepository.save(user);
+    }
+
+    public void acceptInvite(Long groupId, Long userId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new ServiceException("Group not found", HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+        
+        if (!group.getInvitedMembers().contains(user)) {
+            throw new ServiceException("Can't accept an invite if you were not invited!", HttpStatus.CONFLICT);
+        }
+
+        if (group.getMembers().contains(user)) {
+            throw new ServiceException("Can't accept an invite to a group you are already part of!", HttpStatus.CONFLICT);
+        }
+        user.acceptInvite(group);
+        groupRepository.save(group);
+        userRepository.save(user);
+    }
+
+    public void declineInvite(Long groupId, Long userId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new ServiceException("Group not found", HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found", HttpStatus.NOT_FOUND));
+        
+        if (!group.getInvitedMembers().contains(user)) {
+            throw new ServiceException("Can't decline an invite if you were not invited!", HttpStatus.CONFLICT);
+        }
+
+        if (group.getMembers().contains(user)) {
+            throw new ServiceException("Can't decline an invite to a group you are part of!", HttpStatus.CONFLICT);
+        }
+
+        user.declineInvite(group);
+        groupRepository.save(group);
+        userRepository.save(user);
+    } 
 
 
 

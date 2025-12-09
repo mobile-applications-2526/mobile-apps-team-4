@@ -2,6 +2,8 @@ package be.ucll.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,6 +46,10 @@ public class User{
     @JsonIgnore
     private List<Activity> activities = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "invitedMembers")
+    @JsonBackReference
+    private List<Group> invites = new ArrayList<>();
+
     protected User() {}
 
     public User(String name, String email, String password) {
@@ -69,9 +75,41 @@ public class User{
         this.groups = groups;
     }
 
+    public void addGroup(Group group) {
+        this.groups.add(group);
+    }
+
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
+    }
+
     public void setActivities(List<Activity>activities) {
         this.activities = activities;
     }
+
+    public void setInvites(List<Group>invites) {
+        this.invites = invites;
+    }
+
+    public void addInvite(Group group) {
+        this.invites.add(group);
+    }
+
+    public void acceptInvite(Group group) {
+        this.invites.remove(group);
+        group.addMember(this);
+        group.removeInvitedMember(this);
+    }
+
+    public void declineInvite(Group group) {
+        this.invites.remove(group);
+        group.removeInvitedMember(this);
+    }
+    public void removeInvite(Group group) {
+        this.invites.remove(group);
+    }
+
+
 
     // Getters
     public Long getId() {
@@ -96,5 +134,9 @@ public class User{
 
     public List<Activity> getActivities() {
         return this.activities;
+    }
+
+    public List<Group> getInvites() {
+        return this.invites;
     }
 }

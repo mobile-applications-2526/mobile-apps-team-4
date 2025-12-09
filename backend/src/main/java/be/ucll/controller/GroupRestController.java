@@ -31,9 +31,9 @@ public class GroupRestController {
         this.groupService = groupService;
     }
 
-    @GetMapping("/{groupId}")
-    public Group getGroupById(@PathVariable Long groupId) {
-       return groupService.getGroupById(groupId);
+    @GetMapping("/{id}")
+    public Group getGroupById(@PathVariable Long id) {
+       return groupService.getGroupById(id);
     }
 
     @GetMapping("/all")
@@ -47,22 +47,16 @@ public class GroupRestController {
         return groupService.createGroup(createGroupDTO, userId);
     }
 
-    @DeleteMapping("/{groupId}")
-    public String deleteGroupById(@PathVariable Long groupId) {
+    @DeleteMapping("/{id}")
+    public String deleteGroupById(@PathVariable Long id) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return groupService.deleteGroupById(groupId,userId);
-    }
-    
-    @PutMapping("/join/{groupId}")
-    public Group joinGroupById(@PathVariable Long groupId) {
-        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return groupService.joinGroupById(groupId, userId);
+        return groupService.deleteGroupById(id,userId);
     }
 
-    @PutMapping("/leave/{groupId}")
-    public void leaveGroupById(@PathVariable Long groupId) {
+    @PutMapping("/leave/{id}")
+    public void leaveGroupById(@PathVariable Long id) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        groupService.leaveGroupById(groupId, userId);
+        groupService.leaveGroupById(id, userId);
     }
 
     @GetMapping("/joined")
@@ -70,8 +64,29 @@ public class GroupRestController {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return groupService.getJoinedGroupsByUserId(userId);
     }
-    
-    
+
+    @PutMapping("/invite/{id}/{userId}")
+    public Group inviteMember(@PathVariable Long id, @PathVariable Long userId) {
+        return groupService.inviteMember(id,userId);
+    }
+
+    @PutMapping("/cancel-invite/{id}/{userId}")
+    public void cancelInviteMember(@PathVariable Long id, @PathVariable Long userId) {
+        groupService.cancelInviteMember(id,userId);
+    }
+
+    @PutMapping("/accept-invite/{id}")
+    public void acceptInviteByGroupId(@PathVariable Long id) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        groupService.acceptInvite(id,userId);
+    }
+
+    @PutMapping("/decline-invite/{id}")
+    public void declineInviteByGroupId(@PathVariable Long id) {
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        groupService.declineInvite(id,userId);
+    }
+
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<Map<String, Object>> handleDomainException(DomainException ex) {
         Map<String, Object> errorResponse = new HashMap<>();

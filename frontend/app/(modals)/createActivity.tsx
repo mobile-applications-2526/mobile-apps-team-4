@@ -159,7 +159,7 @@ const CreateActivity = () => {
         <Text style={styles.label}>Choose a start date and time</Text>
         <PickerDateTime date={startDate} setDate={d => setStartDate(d)} />
 
-        <Text style={styles.label}>Choose an end date and time (optional)</Text>
+        <Text style={styles.label}>Choose an end date and time</Text>
         <PickerDateTime date={endDate} setDate={d => setEndDate(d)} />
 
         {error ? <Text style={{ color: 'red', paddingBottom: 8 }}>{error}</Text> : null}

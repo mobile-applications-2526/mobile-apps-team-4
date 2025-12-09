@@ -39,14 +39,16 @@ export default function Index() {
 
   useEffect(() => {
     const getActivities = async () => {
-      console.log('getting activities')
 
       try {
         let res;
         if (onlyJoined) {
           res = await ActivityService.getJoined() as ActivityWithDistance[];
         } else {
-          res = await ActivityService.getAll() as ActivityWithDistance[];
+          res = await ActivityService.getAll({
+            longitude: location?.coords.longitude,
+            latitude: location?.coords.latitude
+          }) as ActivityWithDistance[];
         }
 
         if (!res) return;
@@ -84,8 +86,6 @@ export default function Index() {
 
     getActivities();
   }, [onlyJoined, refreshing, location]); // TODO: right now will refresh on every position change
-
-  // console.log(activities)
 
   return (
     <SafeAreaView style={{ ...styles.container, paddingBottom: 0 }} edges={['top', 'left', 'right']}>
