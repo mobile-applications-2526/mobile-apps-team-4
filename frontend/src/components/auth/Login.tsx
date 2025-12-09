@@ -23,7 +23,7 @@ export default function Login() {
   const handleLogin = async () => {
     setLoading(true);
 
-    if (!email || !email.includes('@')) {
+    if (!email?.includes('@')) {
       setError('No valid email given');
       setLoading(false);
       return;
@@ -39,7 +39,7 @@ export default function Login() {
     try {
       const res = await UserService.login(email.trim(), password);
       
-      if (res) onLogin && onLogin(res);
+      if (res) onLogin?.(res);
       else setError('Email or password not correct');
     } catch (err) {
       setError(String(err));
