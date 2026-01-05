@@ -77,32 +77,36 @@ const ActivityMap = ({ activities, location }: Props) => {
           ref={mapRef}
         >
 
-          {activities && activities.map((a, i) => (
+          {activities?.map(a => (
             <Marker
-              key={i}
+              key={a.id}
               coordinate={{ latitude: a.location.latitude, longitude: a.location.longitude }}
-              // title={a.title} // otherwise shows pop up
+              // title={a.name} // otherwise shows pop up
               onPress={() => router.push(`/(modals)/activityDetails/${a.id}`)}
-              style={{ width: 40, height: 40}}
+              style={{ width: 40, height: 40 }}
             >
 
               {a.icon && (
-                <View style={{
-                  width: isAndroid ? 33 : 40,
-                  height: isAndroid ? 33 : 40,
-                  borderRadius: 50,
-                  overflow: 'hidden',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                  borderColor: a.icon.color,
-                }}>
+                <View style={[
+                  {
+                    width: isAndroid ? 33 : 40,
+                    height: isAndroid ? 33 : 40,
+                    borderRadius: 50,
+                    overflow: 'hidden',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: a.icon.color,
+                  },
+                  isAndroid && {
+                    backgroundColor: styles.container.backgroundColor,
+                  },
+                ]}>
                   <BlurView
                     intensity={50}
                     tint="light"
                     style={StyleSheet.absoluteFill}
                   />
-
                     <IconSymbol size={isAndroid ? 22 : 30} name={a.icon.name} color={a.icon.color} />
                 </View>
               )}
@@ -134,7 +138,7 @@ const ActivityMap = ({ activities, location }: Props) => {
             <IconSymbol
               name={isAtMyLocation ? "location.fill" : "location"}
               size={28}
-              color={isAtMyLocation 
+              color={isAtMyLocation
                 ? isDark ? Colors.dark.tint : Colors.light.tint
                 : (isDark ? Colors.dark.icon : Colors.light.icon)
               }

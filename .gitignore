@@ -8,6 +8,7 @@ backend/*.zip
 backend/*.tar.gz
 backend/*.rar
 backend/target
+
 ### FRONTEND ###
 frontend/.expo
 frontend/__generated__
@@ -27,6 +28,10 @@ frontend/.eslintcache
 frontend/.cache/
 frontend/*.jks
 frontend/*.keystore
+frontend/expo-env.d.ts
+frontend/.gitignore
+frontend/ios
+frontend/android
 
 # Android Studio
 frontend/captures/
@@ -46,4 +51,5 @@ frontend/*.xccheckout
 .DS_Store
 .AppleDouble
 .LSOverride
-.vscode
+*.vscode
+*.idea

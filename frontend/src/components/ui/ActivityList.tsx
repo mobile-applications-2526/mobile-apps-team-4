@@ -82,9 +82,9 @@ const ActivityList = ({ activities, user, showGrabber = true, emptyMessage = 'No
             )}
 
             <Button
-              label={user && item.participantIds.includes(user.id) ? 'Leave activity' : 'Join Activity'}
+              label={user && item.participants.includes(user.name) ? 'Leave activity' : 'Join Activity'}
               onPress={() => router.push(`/(modals)/activityDetails/${item.id}`)}
-              highlight={!(user && item.participantIds.includes(user.id))}
+              highlight={!(user && item.participants.includes(user.name))}
             />
           </TouchableOpacity>
 

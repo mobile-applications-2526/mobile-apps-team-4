@@ -27,7 +27,7 @@ const GroupsList = ({ groups, refreshGroups, refreshing }: Props) => {
           <Text style={styles.heading}>{item.name}</Text>
         </TouchableOpacity>
       )}
-      ListEmptyComponent={<Text>No groups available</Text>}
+      ListEmptyComponent={<Text>No groups joined</Text>}
     />
   );
 };

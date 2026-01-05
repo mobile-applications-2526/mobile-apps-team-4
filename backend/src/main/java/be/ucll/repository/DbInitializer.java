@@ -33,7 +33,7 @@ public class DbInitializer {
         // Users
         User barack = new User("Barack Obama", "barack@obama.com", passwordEncoder.encode("TheGoat123"));
         User joe = new User("Joe Biden", "joe@biden.com", passwordEncoder.encode("iForgotMyPassword"));
-        User john = new User("John Doe", "john.doe@example.com", passwordEncoder.encode("DOE"));
+        User john = new User("John Pork", "john.pork@is.calling", passwordEncoder.encode("OinkOink"));
         User jane = new User("Jane Doe", "jane.doe@example.com", passwordEncoder.encode("DOE"));
         User june = new User("June Doe", "june.doe@example.com", passwordEncoder.encode("DOE"));
         User jack = new User("Jack Doe", "jack.doe@example.com", passwordEncoder.encode("DOE"));
@@ -48,13 +48,13 @@ public class DbInitializer {
         userRepository.save(james);
 
         // Groups
-        Group groupPresidents = new Group("Presidents of the USA");
+        Group groupPresidents = new Group("Presidents of the USA", "Description yesyes");
         groupPresidents.addMember(barack);
         groupPresidents.addMember(joe);
         groupPresidents.setOwner(barack);
         groupRepository.save(groupPresidents);
 
-        Group groupDoe = new Group("John Doe's group");
+        Group groupDoe = new Group("John Doe's group", "John Does super cool group for his activities :)");
         groupDoe.setOwner(john);
         groupDoe.addMember(john);
         groupDoe.addMember(jane);

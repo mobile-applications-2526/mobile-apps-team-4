@@ -1,14 +1,15 @@
 package be.ucll.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.dto.ActivityDTO;
 import be.ucll.dto.CreateActivityDTO;
+import be.ucll.model.Location;
 import be.ucll.service.ActivityService;
 import be.ucll.util.exceptions.DomainException;
 import be.ucll.util.exceptions.ServiceException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
+
 @RestController
 @RequestMapping("/activities")
 public class ActivityRestController {
@@ -38,9 +40,14 @@ public class ActivityRestController {
     }
 
     @GetMapping("/all")
-    public List<ActivityDTO> getAllActivities() {
-        return activityService.getAllActivities();
+    public List<ActivityDTO> getAllActivities(@RequestParam(required = false) Double latitude,@RequestParam(required = false) Double longitude) {
+    if (latitude != null && longitude != null) {
+        Location userLocation = new Location(latitude, longitude);
+        return activityService.getAllActivities(userLocation);
     }
+    return activityService.getAllActivities(null);
+    }
+
 
     @GetMapping("/{id}")
     public Optional<ActivityDTO> getActivityById(@PathVariable Long id) {
@@ -58,21 +65,21 @@ public class ActivityRestController {
             return activityService.createActivity(groupId, userId, activity);
     }
 
-    @DeleteMapping("/{activityId}")
-    public String deleteActivity(@PathVariable Long activityId) {
-        return activityService.deleteActivityById(activityId);
+    @DeleteMapping("/{id}")
+    public String deleteActivity(@PathVariable Long id) {
+        return activityService.deleteActivityById(id);
     }
 
-    @PutMapping("/join/{activityId}")
-    public ActivityDTO joinActivityById(@PathVariable Long activityId) {
+    @PutMapping("/join/{id}")
+    public ActivityDTO joinActivityById(@PathVariable Long id) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return activityService.joinActivityById(activityId, userId);
+        return activityService.joinActivityById(id, userId);
     }
 
-    @PutMapping("/leave/{activityId}")
-    public void leaveActivityById(@PathVariable Long activityId) {
+    @PutMapping("/leave/{id}")
+    public void leaveActivityById(@PathVariable Long id) {
         Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        activityService.leaveActivityById(activityId, userId);
+        activityService.leaveActivityById(id, userId);
     }
 
     @GetMapping("/joined")
