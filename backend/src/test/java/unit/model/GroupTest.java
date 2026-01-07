@@ -33,15 +33,16 @@ public class GroupTest {
     }
     
     @Test
-    public void givenvalidName_whenCreatingGroup_thenGroupIsCreatedWithThatName() {
-        Group group = new Group("Presidents of the USA");
+    public void givenvalidNameAndDescription_whenCreatingGroup_thenGroupIsCreatedWithThatNameAndDescription() {
+        Group group = new Group("Presidents of the USA", "The great leaders of America united.");
 
         assertEquals("Presidents of the USA", group.getName());
+        assertEquals("The great leaders of America united.", group.getDescription());
     }
 
     @Test
     public void givenValidValuesForMembers_whenSettingMembers_ThenUsersAreAddedToTheGroup() {
-        Group group = new Group("Presidents of the USA");
+        Group group = new Group("Presidents of the USA", "The great leaders of America united.");
 
         group.addMember(user1);
         group.addMember(user2);
@@ -56,7 +57,7 @@ public class GroupTest {
 
     @Test
     public void givenValidValueForOwner_whenSetting_ThenOwnerIsAddedToTheGroup() {
-        Group group = new Group("Presidents of the USA");
+        Group group = new Group("Presidents of the USA", "The great leaders of America united.");
 
         group.setOwner(user1);
 
@@ -65,7 +66,7 @@ public class GroupTest {
 
     @Test
     public void givenInvalidName_whenCreating_thenErrorIsThrown() {
-        Group group = new Group("");
+        Group group = new Group("", "The great leaders of America united.");
 
         Set<ConstraintViolation<Group>> violations = validator.validate(group);
         Set<String> messages = violations.stream()
