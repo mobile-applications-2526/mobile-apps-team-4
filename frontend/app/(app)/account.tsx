@@ -75,11 +75,6 @@ export default function Index() {
               label: 'Logout',
               onPress: () => router.push('/(modals)/logout'),
               icon: 'rectangle.portrait.and.arrow.right'
-            },
-            {
-              label: 'Disabled',
-              onPress: () => {},
-              disabled: true,
             }
           ]}
         />
