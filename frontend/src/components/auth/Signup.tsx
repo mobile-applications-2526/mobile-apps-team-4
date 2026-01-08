@@ -65,7 +65,7 @@ export default function Signup() {
       try {
         const res = await UserService.register(email, password, name);
 
-        if (res) onLogin && onLogin(res);
+        if (res) onLogin?.(res);
         else setError(JSON.stringify(res));
       } catch (err) {
         setError(String(err));
@@ -96,7 +96,7 @@ export default function Signup() {
         />
       </View>
 
-      <Text style={{ fontWeight: 'bold' }}>Name</Text>
+      <Text style={styles.label}>Name</Text>
       <TextInput
         value={name}
         onChangeText={setName}
@@ -109,7 +109,7 @@ export default function Signup() {
         style={styles.input}
       />
 
-      <Text style={{ fontWeight: 'bold' }}>Email</Text>
+      <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
@@ -123,7 +123,7 @@ export default function Signup() {
         style={styles.input}
       />
 
-      <Text style={{ fontWeight: 'bold' }}>Password</Text>
+      <Text style={styles.label}>Password</Text>
       <TextInput
         value={password}
         onChangeText={setPassword}
@@ -137,7 +137,7 @@ export default function Signup() {
         style={styles.input}
       />
 
-      <Text style={{ fontWeight: 'bold' }}>Confirm password</Text>
+      <Text style={styles.label}>Confirm password</Text>
       <TextInput
         value={passwordConfirm}
         onChangeText={setPasswordConfirm}
