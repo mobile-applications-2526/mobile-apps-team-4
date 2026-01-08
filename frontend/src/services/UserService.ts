@@ -18,19 +18,12 @@ const login = async (email: string, password: string): Promise<AuthResponse | un
   return res.data;
 };
 
-const register = async (email: string, password: string, name: string): Promise<AuthResponse | undefined> => {
-  const res = await api.post<AuthResponse>('/users/register', {
+const register = async (email: string, password: string, name: string): Promise<User | undefined> => {
+  const res = await api.post<User>('/users/register', {
     email,
     password,
     name,
   });
-
-  const authResponse = res.data;
-  await AsyncStorage.setItem('user', JSON.stringify({
-    id: authResponse.user.id,
-    name: authResponse.user.name,
-    email: authResponse.user.email,
-  }));
 
   return res.data;
 };

@@ -1,4 +1,3 @@
-import { useAuth } from "../../context/AuthContext";
 import { useRef, useState } from "react";
 import { TextInput, Text, ActivityIndicator, View } from "react-native";
 import { Image } from 'expo-image';
@@ -9,9 +8,9 @@ import useGlobalStyles from "@/styles/global";
 import Button from "../inputs/Button";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UserService from "@/services/UserService";
+import Toast from "react-native-toast-message";
 
 export default function Signup() {
-  const { onLogin } = useAuth();
   const router = useRouter();
   const styles = useGlobalStyles();
 
@@ -65,10 +64,24 @@ export default function Signup() {
       try {
         const res = await UserService.register(email, password, name);
 
-        if (res) onLogin?.(res);
-        else setError(JSON.stringify(res));
+        if (res) {
+          Toast.show({
+            type: 'success',
+            text1: 'Created account',
+            text2: 'You can log in now',
+          });
+
+          router.back();
+        } else {
+          setError(JSON.stringify(res));
+        }
+
       } catch (err) {
-        setError(String(err));
+        if (err && typeof err === 'object' && 'message' in err) {
+          setError(String(err.message));
+        } else {
+          setError(JSON.stringify(err));
+        }
       } finally {
         setLoading(false);
       }
