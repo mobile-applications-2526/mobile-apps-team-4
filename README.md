@@ -70,3 +70,22 @@ eas build --platform android --profile production
 Download the ABB from the provided link.
 
 > **Note:** Create an account at https://expo.dev/signup and confirm your email before proceeding.
+
+### for APK do the following.
+
+Add this to your `eas.json`:
+
+```json
+"production": {
+    "autoIncrement": true,
+    "android": {
+        "buildType": "apk"
+    }
+}
+```
+
+And run this:
+
+```bash
+eas build --platform android --profile production
+```
