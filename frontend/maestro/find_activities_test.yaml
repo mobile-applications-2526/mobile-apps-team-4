@@ -1,0 +1,59 @@
+appId: host.exp.exponent   # Expo Go package name
+---
+- assertVisible: 'Log in'
+- assertVisible: 'Sign up'
+- assertVisible: 'Email'
+- assertVisible: 'Password'
+
+- tapOn: 
+    text: 'Email'
+    index: 1
+- inputText: barack@obama.com
+
+- tapOn: 
+    text: 'Password'
+    index: 1
+- inputText: TheGoat123
+
+- tapOn:
+    point: "50%,36%"
+
+- tapOn: 'Log in'
+
+- swipe:
+    start: 50%, 80%
+    end: 50%, 20%
+
+- assertVisible: "Eating some CHOCOLATE ice cream"
+- assertVisible: "Open-air concert at Ladeuzeplein"
+- assertVisible: "Study session at KU Leuven Library"
+- assertVisible: "Bowling with the presidents"
+
+- tapOn:
+    text: "Join activity"
+    index: 2
+
+- assertVisible: "Join activity"
+- assertVisible: "Study session at KU Leuven Library"
+- assertVisible: "Organized by"
+- assertVisible: "John Doe's group"
+- assertVisible: "These people are going"
+- assertVisible: "John Pork"
+- assertVisible: "Jane Doe"
+- assertVisible: "Timeframe"
+- assertVisible: "Starts at: 10:00 on Thursday 23rd, October"
+- assertVisible: "Ends at: 13:00 on Thursday 23rd, October"
+- assertVisible: "Location"
+
+- tapOn:
+    text: "Join activity"
+    index: 1
+
+- tapOn: 'Account'
+
+- tapOn:
+    point: "6%,5%"
+
+- tapOn: 'Logout'
+
+- tapOn: 'Sign out'

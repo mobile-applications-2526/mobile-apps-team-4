@@ -1,0 +1,37 @@
+appId: host.exp.exponent   # Expo Go package name
+---
+- assertVisible: 'Log in'
+- assertVisible: 'Sign up'
+- assertVisible: 'Email'
+- assertVisible: 'Password'
+
+- tapOn: 'Email'
+- inputText: john.pork@is.calling
+
+- tapOn: 'Password'
+- inputText: OinkOink
+
+- tapOn:
+    point: "50%,36%"
+
+- tapOn: 'Log in'
+
+- tapOn: 'Groups'
+
+- assertNotVisible: 'Presidents of the USA'
+
+- tapOn: 'Account'
+
+- assertVisible: 'You have been invited to'
+- assertVisible: 'Presidents of the USA'
+- assertVisible: 'Accept'
+- assertVisible: 'Decline'
+
+- tapOn: 'Accept'
+
+- tapOn:
+    point: "6%,5%"
+
+- tapOn: 'Logout'
+
+- tapOn: 'Sign out'
