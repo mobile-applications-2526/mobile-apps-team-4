@@ -27,12 +27,7 @@ export default {
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.anonymous.frontend",
-      "config": {
-        "googleMaps": {
-          "apiKey": process.env.ANDROID_GOOGLE_MAPS_API_KEY
-        }
-      }
+      "package": "com.sneko_sneaky.frontend"
     },
     "web": {
       "output": "static",
@@ -62,6 +57,12 @@ export default {
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "25d26d3e-a063-4907-a29c-001b38639bed"
+      }
     }
   }
 }
