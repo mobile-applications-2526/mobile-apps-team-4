@@ -1,0 +1,117 @@
+appId: host.exp.exponent   # Expo Go package name
+---
+- assertVisible: 'Log in'
+- assertVisible: 'Sign up'
+- assertVisible: 'Email'
+- assertVisible: 'Password'
+
+- tapOn: 
+    text: 'Email'
+    index: 1
+- inputText: barack@obama.com
+
+- tapOn: 
+    text: 'Password'
+    index: 1
+- inputText: TheGoat123
+
+- tapOn:
+    point: "50%,36%"
+
+- tapOn: 'Log in'
+
+- tapOn:
+    point: "94%,5%"
+
+- assertVisible: "Create a new activity"
+- assertVisible: "Name"
+- assertVisible: "Choose a group for the activity"
+- assertVisible: "Select a group"
+- assertVisible: "Select a location"
+- assertVisible: "Choose an icon"
+
+- tapOn:
+    text: "name"
+    index: 1
+
+- inputText: "walking the dogs"
+
+- tapOn: "Select a group"
+- tapOn: "Select a group"
+
+- assertVisible: "Presidents of the USA"
+- tapOn: "Presidents of the USA"
+- assertVisible: "Presidents of the USA"
+
+- doubleTapOn: 
+    point: "50%,48%" 
+    delay: 100
+
+- tapOn:
+    point: "42%,44%"
+
+- assertVisible: "Confirm Location"
+- tapOn: "Confirm Location"
+
+- tapOn:
+    point: "38%,68%"
+
+- swipe:
+    start: 50%, 80%
+    end: 50%, 20%
+
+- assertVisible: "Choose a color"
+- assertVisible: "Choose a start date and time"
+- assertVisible: "Choose an end date and time"
+- assertVisible: "Create activity"
+
+- tapOn:
+    point: "76%,68%"
+
+- tapOn:
+    point: "27%,78%"
+- tapOn: "13"
+- tapOn: "OK"
+
+- tapOn:
+    point: "73%,78%"
+- tapOn: "PM"
+- tapOn: "2"
+- tapOn:  "15"
+- tapOn: "OK"
+
+- assertVisible: "2:15 PM"
+
+- tapOn:
+    point: "27%,88%"
+- tapOn: "13"
+- tapOn: "OK"
+
+- tapOn:
+    point: "73%,88%"
+- tapOn: "PM"
+- tapOn: "2"
+- tapOn:  "55"
+- tapOn: "OK"
+- assertVisible: "2:55 PM"
+
+- tapOn: "Create activity"
+
+- swipe:
+    start: 50%, 80%
+    end: 50%, 10%
+
+- swipe:
+    start: 50%, 80%
+    end: 50%, 50%
+
+- assertVisible: "Walking the dogs"
+
+- tapOn: 'Account'
+
+- tapOn:
+    point: "6%,5%"
+
+- tapOn: 'Logout'
+
+- tapOn: 'Sign out'

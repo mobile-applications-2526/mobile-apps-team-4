@@ -11,6 +11,9 @@ appId: host.exp.exponent   # Expo Go package name
 - tapOn: 'Password'
 - inputText: TheGoat123
 
+- tapOn:
+    point: "50%,36%"
+
 - tapOn: 'Log in'
 
 - assertVisible: 'Home'

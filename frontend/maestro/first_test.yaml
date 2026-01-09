@@ -1,9 +1,0 @@
-appId: host.exp.exponent   # Expo Go package name
----
-- launchApp
-# Wait for the Expo Go home/project list screen
-- assertVisible: "Recently opened"
-# Tap your project name exactly as shown in Expo Go
-- tapOn: "frontend"
-# Wait for metro bundle to load & app to render
-- assertVisible: 'Log in'

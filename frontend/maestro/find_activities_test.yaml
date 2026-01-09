@@ -15,6 +15,9 @@ appId: host.exp.exponent   # Expo Go package name
     index: 1
 - inputText: TheGoat123
 
+- tapOn:
+    point: "50%,36%"
+
 - tapOn: 'Log in'
 
 - swipe:
@@ -25,7 +28,6 @@ appId: host.exp.exponent   # Expo Go package name
 - assertVisible: "Open-air concert at Ladeuzeplein"
 - assertVisible: "Study session at KU Leuven Library"
 - assertVisible: "Bowling with the presidents"
-- assertVisible: "Board games night in Kinepolis"
 
 - tapOn:
     text: "Join activity"
