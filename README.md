@@ -40,12 +40,33 @@ npx expo start
 
 Then set `EXPO_PUBLIC_API_URL=http://<device_ip>:8080`
 
-### Development Dependencies
+### Building the AAB (not APK)
 
-Update project dependencies:
+1. Update dependencies:
 
 ```bash
+cd frontend
 npm install expo@^54.0.0
 npx expo install --fix
 npx expo-doctor
 ```
+
+2. Configure environment variables in `.env` with production settings (both `NEXT_` and `EXPO_` prefixed variables).
+
+3. Set up EAS:
+
+```bash
+npm install -g eas-cli
+eas login
+eas build:configure
+```
+
+4. Build the AAB:
+
+```bash
+eas build --platform android --profile production
+```
+
+Download the ABB from the provided link.
+
+> **Note:** Create an account at https://expo.dev/signup and confirm your email before proceeding.
