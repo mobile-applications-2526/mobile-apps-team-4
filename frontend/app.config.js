@@ -27,7 +27,12 @@ export default {
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.sneko_sneaky.frontend"
+      "package": "com.sneko_sneaky.frontend",
+      "config": {
+        "googleMaps": {
+          "apiKey": process.env.ANDROID_GOOGLE_MAPS_API_KEY
+        }
+      }
     },
     "web": {
       "output": "static",
