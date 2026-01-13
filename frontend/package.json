@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "android": "expo start --android",
+    "android:build": "expo prebuild && expo run:android",
+    "ios": "expo start --ios",
+    "ios:build": "expo prebuild && expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint"
   },
